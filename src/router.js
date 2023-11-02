@@ -11,12 +11,12 @@ export const router = createBrowserRouter([
         errorElement: <ErrorElement />,
         loader: rootLoader,
         children: [
-            {
-                index: true,
-                element: <Summary />,
-                loader: summaryLoader,
-                // action: summaryAction,
-            },
+            // {
+            //     index: true,
+            //     element: <Summary />,
+            //     loader: summaryLoader,
+            //     // action: summaryAction,
+            // },
             // {
             //     path: "/about",
             //     element: <About />,

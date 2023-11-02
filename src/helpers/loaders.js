@@ -62,7 +62,7 @@ export async function getSummaryTrends() {
     return { data, isLoading, isError }
 }
 
-function groupData(array_to_group) {
+export function groupData(array_to_group) {
     // You can pass in a dict as an argument, e.g., data as an argument
     // const data = { /* your data object here */ };
 

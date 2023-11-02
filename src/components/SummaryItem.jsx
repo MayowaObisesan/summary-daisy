@@ -1,18 +1,28 @@
+import Markdown from "react-markdown";
+import { ConvertToList } from "../helpers";
+
 export const SummaryItem = (props) => {
+    const summaryText = props.content ?? props.text ?? props.summary_text ?? props.snippet;
+
     return (
         <>
             {
-                props.summarized
-                && <span className="absolute right-6 text-gray-600 font-medium text-xs">Summary</span>
+                props.summary_text
+                && <span className="absolute right-6 text-gray-600 font-bold text-xs bg-inherit">Summary</span>
             }
-            < a href={props.link} className="text-xs text-gray-500" > {props.title}</a >
-            <div className="py-4">
-                {props.content ?? props.text ?? props.summary_text ?? props.snippet}
+            <a href={props.link} className="text-xs text-gray-500" > {props.title}</a>
+            <div className="summary-list py-4 list-disc">
+                {/* <pre>{props.content ?? props.text ?? props.summary_text ?? props.snippet}</pre> */}
+                <Markdown>
+                    {summaryText}
+                </Markdown>
+                {/* {ConvertToList(props.content ?? props.text ?? props.summary_text ?? props.snippet)} */}
+                {/* <ConvertToList str={summaryText} /> */}
             </div>
             <a href={props.link} className="text-sm hover:bg-base-100">
                 <div className="flex">
                     <img src={props.src || props.icon} alt="" className="w-5 h-5 rounded-full" />
-                    <span className="px-2">{props.link}</span>
+                    <span className="w-full px-2 truncate">{props.link}</span>
                 </div>
             </a>
         </>
@@ -22,7 +32,7 @@ export const SummaryItem = (props) => {
 export const SummarySingleItem = (props) => {
     return (
         <div className="relative w-full px-2 pt-2 pb-2 my-2 rounded-lg bg-neutral-200/30 dark:bg-base-100">
-            <div className="bg-white shadow rounded-md px-4 pt-3 pb-3 dark:bg-inherit">
+            <div className="bg-white shadow rounded-md px-4 pt-3 pb-3 dark:bg-inherit dark:shadow-none">
                 <SummaryItem {...props} />
             </div>
         </div>

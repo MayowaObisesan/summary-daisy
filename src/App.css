@@ -32,7 +32,27 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+
+/* SUMMARY LIST STYLING */
+.summary-list {
+  position: relative;
+  display: block;
+}
+
+.summary-list ul {
+  display: block;
+  list-style-type: disc;
+  padding: 0 1.6rem;
+  /* background-color: purple; */
+}
+
+.summary-list ul li {
+  /* background: #000; */
+  margin: .4rem 0;
 }

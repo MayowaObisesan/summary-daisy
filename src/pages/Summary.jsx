@@ -1,4 +1,4 @@
-import { Form, useLoaderData } from "react-router-dom";
+import { Form, useLoaderData, useSearchParams } from "react-router-dom";
 // import { dummySummary, getSummary } from "./loaders";
 import { useEffect, useRef, useState } from "react";
 import localforage from "localforage";
@@ -6,8 +6,9 @@ import localforage from "localforage";
 // import { MobileSummaryFormComponent } from "./components/SummaryForm";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { deviceWidthEnum } from "../helpers";
-import { dummySummary, getSummary } from "../helpers/loaders";
+import { dummySummary, getSummary, groupData } from "../helpers/loaders";
 import { SummaryGroup, SummaryGroupItem, SummarySingleItem } from "../components/SummaryItem";
+import { useSummaryContext } from "../context";
 
 export async function loader({ request }) {
     const url = new URL(request.url);
@@ -15,8 +16,8 @@ export async function loader({ request }) {
     if (!searchQuery) {
         return {};
     }
-    const summary = await getSummary(searchQuery);
-    // const summary = await dummySummary();
+    // const summary = await getSummary(searchQuery);
+    const summary = await dummySummary();
     return { summary };
 }
 
@@ -78,6 +79,7 @@ const SummaryItem = ({ itemType, groupedResult, hostName }) => {
 
 const SummaryList = (props) => {
     const data = props.data;
+    // const data = props;
     const isStreaming = props.isStreaming;
     const isError = props.isError;
     if (data.length < 1) {
@@ -139,15 +141,42 @@ const SummaryList = (props) => {
     console.log("Finished processing summary list");
 }
 
-const Summary = () => {
-    const { summary } = useLoaderData();
+const Summary = ({ summary }) => {
+    // const { summary } = useLoaderData();
+    // const url = new URL(request.url);
+    // const searchQuery = url.searchParams.get("search_query");
+    // const { summary } = getSummary();
     const offlineSummary = localforage.getItem()
     const fetchMoreData = false;
     const [nextPageData, setNextPageData] = useState(summary?.nextPageData);
     const [moreSummary, setMoreSummary] = useState(null);
     const size = useWindowSize();
+    // const searchQuery = useSearchParams();
+    // const searchParams = new URLSearchParams(window.location.search);
+    // const searchQuery = searchParams.get('search_query');
+    // const [data, setData] = useState({});
+    // const [eventData, setEventData] = useState(null);
+    // const { eventData, data } = summary(searchQuery);
+    const { eventData, data, mainQuery } = useSummaryContext();
 
-    useEffect(() => { }, [summary?.data]);
+    console.log(eventData);
+    console.log("SUMMARY FILE");
+    console.log(mainQuery);
+
+    useEffect(() => { }, [mainQuery]);
+
+    /*
+    useEffect(() => {
+        console.log("SUMMARY LOADER DATA");
+        console.log(summary);
+    }, [summary?.data]);
+
+    useEffect(() => {
+        console.log(eventData);
+        console.log("Each event Data");
+    }, eventData);
+    */
+
     // useEffect(() => {
     //     const fetch_config = {
     //         method: 'GET',
@@ -172,6 +201,177 @@ const Summary = () => {
     //         });
     //     return () => { }
     // }, [fetchMoreData]);
+
+    // let data = {};
+
+    // useEffect(() => {
+    //     let isLoading = true;
+    //     let isError = false;
+    //     let nextPageData = null;
+
+    //     const fetchConfig = {
+    //         method: 'GET',
+    //         headers: {
+    //             'Accept': 'application/json',
+    //             // 'Origin': '*',
+    //             // 'Authorization': `Bearer ${window.localStorage.getItem('nine_login')}`
+    //         },
+    //         modes: 'cors',  // options: cors, no-cors, same-origin
+    //         withCredentials: false,
+    //         cache: 'default',   // options: default, no-store, reload, no-cache, force-cache, only-if-cached
+    //         params: {
+    //             search_input: searchQuery
+    //         }
+    //     }
+
+    //     // Create a result dict and a result array to store the offline data from the streamed summary response
+    //     let group_data;
+    //     let resultArray = [];
+    //     let resultGroupArray = [];
+    //     let resultDict = { data: resultGroupArray };
+    //     console.log(resultDict);
+
+    //     if (!searchQuery) return;
+
+    //     const eventSource = new EventSource(`${process.env.REACT_APP_BASE_URL}/summary?search_input=${searchQuery}`, { fetchConfig });
+    //     eventSource.onopen = (event) => {
+    //         console.log("Opened Event stream");
+    //     }
+    //     if (eventSource.readyState === 1 || EventSource.CLOSED) {
+    //         eventSource.close();
+    //     }
+    //     eventSource.onmessage = (event) => {
+    //         console.log("On message");
+    //         if (event.data['summary_error']?.toString() !== undefined || event.data['error']?.toString() !== undefined) {
+    //             data.error = true;
+    //             data.success = false;
+    //         } else {
+    //             data.error = false;
+    //             data.success = true;
+    //         }
+
+    //         // Update the result dict, the offline data.
+    //         resultDict.isLoading = data.isLoading;
+    //         resultDict.error = data.error;
+    //         resultDict.success = data.success;
+    //         resultDict.searchInput = searchQuery;
+
+    //         resultDict.searchInformation = data.searchInformation;
+    //         console.log(data);
+    //         // console.log(result_dict);
+    //         let event_data = JSON.parse(event.data);
+    //         data.streaming = event_data.streaming;
+    //         data.streamed_count = event_data.streamed_count;
+    //         data.searchInformation = event_data.searchInformation;
+    //         data.currentStartIndex = event_data.queries?.request[0]?.startIndex;
+    //         data.nextStartIndex = event_data.queries?.nextPage[0]?.startIndex;
+    //         resultDict.searchInformation = data.searchInformation;
+    //         resultDict.currentStartIndex = data.currentStartIndex;
+    //         resultDict.nextStartIndex = data.nextStartIndex;
+    //         resultArray.push(event_data);
+    //         // let grouped_resultArray = nestedGroupBy(resultArray, 'host');
+    //         // console.log(grouped_resultArray)
+    //         group_data = groupData(resultArray);
+    //         // console.log(group_data);
+    //         resultGroupArray.splice(0, resultGroupArray.length);
+    //         resultGroupArray.push(group_data);
+    //         // console.log(resultGroupArray[0]);
+    //         // resultArray = Array.from(group_data);
+    //         // let summarySearchLocalData = writeLocalStore('summary-search', resultDict);
+    //         // summarySearchLocalData?.set(resultDict);
+    //         // summaryStore.setItem(searchQuery, resultDict);
+
+    //         // Stop pinging the server if there's no more streaming from the server
+    //         if (!event_data.streaming) {
+    //             eventSource.close();
+    //             console.log("Closed event source - event streaming");
+    //         }
+    //     }
+    //     data.data = resultGroupArray;
+    //     setData(data);
+
+    //     return () => {
+    //         eventSource.close();
+    //         console.log("Closed event source - event streaming");
+    //     }
+    // }, []);
+
+    /*
+    useEffect(() => {
+        let isLoading = true;
+        let isError = false;
+        let nextPageData = null;
+
+        const fetchConfig = {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                // 'Origin': '*',
+                // 'Authorization': `Bearer ${window.localStorage.getItem('nine_login')}`
+            },
+            modes: 'cors',  // options: cors, no-cors, same-origin
+            withCredentials: false,
+            cache: 'default',   // options: default, no-store, reload, no-cache, force-cache, only-if-cached
+            params: {
+                search_input: searchQuery
+            }
+        }
+
+        // Create a result dict and a result array to store the offline data from the streamed summary response
+        let group_data;
+        let resultArray = [];
+        let resultGroupArray = [];
+        let resultDict = { data: resultGroupArray };
+        console.log(resultDict);
+
+        if (!searchQuery) return;
+        console.log(searchQuery);
+
+        const eventSource = new EventSource(`${process.env.REACT_APP_BASE_URL}/summary?search_input=${searchQuery}`, { fetchConfig });
+        eventSource.onopen = (event) => {
+            console.log("Opened Event stream");
+        }
+        if (eventSource.readyState === 1 || EventSource.CLOSED) {
+            eventSource.close();
+        }
+
+        eventSource.onmessage = (event) => {
+            console.log(event.data);
+            setEventData(event.data);
+        }
+
+        return () => {
+            eventSource.close();
+            console.log("Closed event source - event streaming");
+        }
+    }, []);
+
+    useEffect(() => {
+        setData(data);
+        console.log(data);
+    }, [eventData]);
+    */
+
+    // const [summaryData, setSummaryData] = useState('');
+    // let resultArray = [];
+    // let resultGroupArray = [];
+    // let groupedData = useRef(null);
+
+    // useEffect(() => {
+    //     if (summary) {
+    //         summary.currentStartIndex = summary.queries?.request[0]?.startIndex;
+    //         summary.nextStartIndex = summary.queries?.nextPage[0]?.startIndex;
+    //         resultArray.push(summary);
+    //         groupedData.current = groupData(resultArray);
+    //         resultGroupArray.splice(0, resultGroupArray.length);
+    //         resultGroupArray.push(groupedData);
+    //         // setData((res) => { })
+    //         summary.data = resultGroupArray;
+    //     }
+    //     console.log(summaryData);
+    //     return () => setSummaryData(summary);
+    // }, [summary]);
+
     return (
         <section className={"block w-full px-2 mx-auto lg:px-5 lg:w-9/12 dark:bg-base-300"}>
             {
@@ -215,24 +415,27 @@ const Summary = () => {
                         } */}
                     </section>
                     : <section className={"flex flex-row justify-start items-start mg-x-auto w-10/12 lg:w-1440 bg-green-invers"}>
+                        {eventData}
                         {/* 70% of the container width. i.e., 65% of 1280 == 832 */}
                         <section className={"bg-pin p-6 w-7/12 lg:pct:w-56"}>
+                            {/* {JSON.stringify(summary?.data)} */}
                             <section className={"text-xs py-4 leading-6"}>
                                 {
-                                    summary?.data &&
+                                    summary &&
                                     <div>
-                                        {summary?.data.searchInformation?.formattedTotalResults} results in {summary?.data.searchInformation?.formattedSearchTime} seconds
+                                        {summary.searchInformation?.formattedTotalResults} results in {summary.searchInformation?.formattedSearchTime} seconds
                                     </div>
                                 }
-                                {summary?.data && <div className={"font-10 color-gray lh-3"}>Powered by Google search</div>}
+                                {summary && <div className={"font-10 color-gray lh-3"}>Powered by Google search</div>}
                                 {/* <div>8,490,000,000 results in 0.34 seconds</div>
                                 <div>Powered by Google search</div> */}
                             </section>
                             <section className={"pad-y4 font-11 color-E2E2E2 every:color-454545"}>
                             </section>
+                            {/* {JSON.stringify(summary)} */}
                             {
-                                summary?.data
-                                    ? <SummaryList {...summary?.data}>
+                                summary
+                                    ? <SummaryList {...summary}>
                                         {moreSummary}
                                     </SummaryList>
                                     : <NoSearchResult />

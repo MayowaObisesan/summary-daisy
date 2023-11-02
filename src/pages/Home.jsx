@@ -1,5 +1,6 @@
 import { useWindowSize } from "@uidotdev/usehooks";
 import { SummarySingleItem, SummaryGroup, SummaryGroupItem } from "../components/SummaryItem";
+import Summary from "./Summary";
 
 export const Home = () => {
     const size = useWindowSize();
@@ -7,6 +8,7 @@ export const Home = () => {
     return (
         <div className="App font-sans">
             <section className={"w-10/12 bg-green-600 mx-auto text-left"}>
+                {/* <Summary /> */}
                 {/* <section className={"bg-purple-600 text-xs"}>
                     <div>8,490,000,000 results in 0.34 seconds</div>
                     <div>Powered by Google search</div>

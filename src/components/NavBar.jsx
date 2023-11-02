@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { DesktopSummaryFormComponent } from "./Form";
 
-export const DesktopNavBar = () => {
+export const DesktopNavBar = ({ setData }) => {
     return (
         <div className="drawer">
             <input id="my-drawer" type="checkbox" className="drawer-toggle" />
@@ -18,7 +18,7 @@ export const DesktopNavBar = () => {
                     <div className="flex-1 items-start px-24">
                         <Link to="/" className="btn btn-ghost normal-case text-xl">Summary</Link>
                         {/* <input type="text" placeholder="What should I search and summarize?" className="input input-lg input-bordered w-full max-w-2xl text-sm" /> */}
-                        <DesktopSummaryFormComponent />
+                        <DesktopSummaryFormComponent setData={setData} />
                     </div>
                     <div className="flex-none">
                         <button className="btn btn-square btn-ghost">
