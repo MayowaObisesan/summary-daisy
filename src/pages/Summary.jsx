@@ -39,9 +39,39 @@ const NoSearchResult = () => {
 
 const SummaryItemLoading = () => {
     return (
-        <section className={"search-result-pulse-container relative flex flex-column justify-end align-items-end pct:w-100 h-160 radius-sm shadow:0px-0px-8px-2px-E4E4E4 mg-t2 bg-inherit lg:mg-x-auto|h-240 dark:bg-121714 dark:shadow-unset dark:border:1px_solid_444444"}>
-            <div className={"d-block pct:w-100 h-48 border:0px_solid_D4D4D4 em:border-t-0.04 dark:border:0px_solid_222222 dark:em:border-t-0.05"}></div>
-        </section>
+        <>
+            <section class="bg-base-100 animate-pulse shadow rounded-lg px-2 py-4 w-full mx-auto">
+                <div class="animate-pulse flex-col space-x-4">
+                    <div class="h-3 bg-slate-700/80 rounded w-8/12 mx-6 my-3"></div>
+                    <div class="flex-1">
+                        {/* <div class="h-2 bg-slate-700 rounded w-96 mt-5"></div> */}
+                        <div className="flex items-start px-3 my-6">
+                            <div className="rounded-full bg-slate-700/80 h-2 w-2"></div>
+                            <section className="w-full space-y-2">
+                                <div className="rounded-full bg-slate-700/80 h-2 flex-1 mx-2"></div>
+                                <div className="rounded-full bg-slate-700/80 w-10/12 h-2 flex-1 mx-2"></div>
+                            </section>
+                        </div>
+                        <div className="flex items-start px-3 my-6">
+                            <div className="rounded-full bg-slate-700/80 h-2 w-2"></div>
+                            <section className="w-full space-y-2">
+                                <div className="rounded-full bg-slate-700/80 h-2 flex-1 mx-2"></div>
+                                <div className="rounded-full bg-slate-700/80 w-96 h-2 flex-1 mx-2"></div>
+                                <div className="rounded-full bg-slate-700/80 w-10/12 h-2 flex-1 mx-2"></div>
+                            </section>
+                        </div>
+                        {/* <div class="h-2 bg-slate-700/80 rounded"></div> */}
+                    </div>
+                    <section className="flex items-center">
+                        <div class="rounded-full bg-slate-700/80 h-5 w-5"></div>
+                        <div class="rounded-full bg-slate-700/80 w-96 h-3 flex-1 mx-2"></div>
+                    </section>
+                </div>
+            </section>
+            {/* <section className={"search-result-pulse-container relative flex flex-column justify-end align-items-end pct:w-100 h-160 radius-sm shadow:0px-0px-8px-2px-E4E4E4 mg-t2 bg-inherit lg:mg-x-auto|h-240 dark:bg-121714 dark:shadow-unset dark:border:1px_solid_444444"}>
+                <div className={"d-block pct:w-100 h-48 border:0px_solid_D4D4D4 em:border-t-0.04 dark:border:0px_solid_222222 dark:em:border-t-0.05"}></div>
+            </section> */}
+        </>
     )
 }
 
@@ -439,6 +469,11 @@ const Summary = ({ summary }) => {
                                         {moreSummary}
                                     </SummaryList>
                                     : <NoSearchResult />
+                            }
+                            {
+                                summary?.streaming
+                                    ? <SummaryItemLoading />
+                                    : null
                             }
                             {
                                 summary?.isStreaming
