@@ -1,4 +1,4 @@
-import { Outlet, ScrollRestoration } from "react-router-dom"
+import { Link, Outlet, ScrollRestoration } from "react-router-dom"
 // import { getSummaryTrends } from "./loaders"
 // import { DesktopNavBar, MobileNavBar } from "./NavBar";
 // import { useDeviceWidth } from "./useDeviceWidth";
@@ -58,13 +58,51 @@ export const Root = () => {
     // }, [summaryData]);
 
     return (
-        <div className={"relative flex flex-col h-screen overflow-y-auto dark:bg-base-300 font-sans"}>
+        <div className={"relative flex flex-col h-full overflow-y-auto dark:bg-base-300 font-sans"}>
             {
+                size?.width <= deviceWidthEnum.laptop
+                    ? <div className="drawer bg-base-100 flex flex-col justify-start">
+                        <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+                        <div className="drawer-content h-screen overflow-y-auto z-[1]">
+                            {/* Page content here */}
+                            <MobileNavBar setData={setData} />
+                            <Summary summary={data} />
+                        </div>
+
+                        <div className="drawer-side z-10">
+                            <label htmlFor="my-drawer" className="drawer-overlay"></label>
+                            <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+                                {/* Sidebar content here */}
+                                <div className="px-3 py-6">Menu</div>
+                                <li><a>Sidebar Item 1</a></li>
+                                <li><a>Sidebar Item 2</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    : <div className="drawer">
+                        <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+                        <div className="drawer-content h-screen overflow-y-auto dark:bg-base-300">
+                            {/* Page content here */}
+                            <DesktopNavBar setData={setData} />
+                            <Summary summary={data} />
+                        </div>
+
+                        <div className="drawer-side z-10">
+                            <label htmlFor="my-drawer" className="drawer-overlay"></label>
+                            <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+                                {/* Sidebar content here */}
+                                <li><a>Sidebar Item 1</a></li>
+                                <li><a>Sidebar Item 2</a></li>
+                            </ul>
+                        </div>
+                    </div>
+            }
+            {/* {
                 size?.width < deviceWidthEnum.laptop
                     ? <MobileNavBar />
                     : <DesktopNavBar setData={setData} />
-            }
-            <Summary summary={data} />
+            } */}
+            {/* <Summary summary={data} /> */}
             <Home />
             <Outlet />
             <ScrollRestoration

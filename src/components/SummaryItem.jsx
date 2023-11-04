@@ -8,16 +8,13 @@ export const SummaryItem = (props) => {
         <>
             {
                 props.summary_text
-                && <span className="absolute right-6 text-gray-600 font-bold text-xs bg-inherit">Summary</span>
+                && <span className="absolute h-6 leading-6 right-6 text-gray-700 font-semibold text-xs bg-inherit">Summarized</span>
             }
             <a href={props.link} className="text-xs text-gray-500" > {props.title}</a>
             <div className="summary-list py-4 list-disc">
-                {/* <pre>{props.content ?? props.text ?? props.summary_text ?? props.snippet}</pre> */}
                 <Markdown>
                     {summaryText}
                 </Markdown>
-                {/* {ConvertToList(props.content ?? props.text ?? props.summary_text ?? props.snippet)} */}
-                {/* <ConvertToList str={summaryText} /> */}
             </div>
             <a href={props.link} className="text-sm hover:bg-base-100">
                 <div className="flex">

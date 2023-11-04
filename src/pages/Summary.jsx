@@ -9,6 +9,7 @@ import { deviceWidthEnum } from "../helpers";
 import { dummySummary, getSummary, groupData } from "../helpers/loaders";
 import { SummaryGroup, SummaryGroupItem, SummarySingleItem } from "../components/SummaryItem";
 import { useSummaryContext } from "../context";
+import Footer from "../components/Footer";
 
 export async function loader({ request }) {
     const url = new URL(request.url);
@@ -31,7 +32,7 @@ export async function action({ request }) {
 
 const NoSearchResult = () => {
     return (
-        <section className={"relative flex flex-column justify-center align-items-center pct:h-100 font-14 font-medium text-center"}>
+        <section className={"relative flex flex-col justify-center items-center h-96 font-14 font-medium text-center"}>
             <span>No search results</span>
         </section>
     )
@@ -39,9 +40,39 @@ const NoSearchResult = () => {
 
 const SummaryItemLoading = () => {
     return (
-        <section className={"search-result-pulse-container relative flex flex-column justify-end align-items-end pct:w-100 h-160 radius-sm shadow:0px-0px-8px-2px-E4E4E4 mg-t2 bg-inherit lg:mg-x-auto|h-240 dark:bg-121714 dark:shadow-unset dark:border:1px_solid_444444"}>
-            <div className={"d-block pct:w-100 h-48 border:0px_solid_D4D4D4 em:border-t-0.04 dark:border:0px_solid_222222 dark:em:border-t-0.05"}></div>
-        </section>
+        <>
+            <section class="bg-base-100 animate-pulse shadow rounded-lg px-2 py-4 w-full mx-auto">
+                <div class="animate-pulse flex-col space-x-4 w-full">
+                    <div class="h-3 bg-base-300 dark:bg-slate-700/80 rounded w-8/12 mx-6 my-3"></div>
+                    <div class="flex-1 w-full">
+                        {/* <div class="h-2 bg-slate-700 rounded w-96 mt-5"></div> */}
+                        <div className="flex items-start px-3 my-6">
+                            <div className="rounded-full bg-neutral-400 lg:bg-slate-700/80 h-2 w-2"></div>
+                            <section className="w-full space-y-2">
+                                <div className="rounded-full bg-neutral-300 lg:bg-slate-700/80 h-2 flex-1 mx-2"></div>
+                                <div className="rounded-full bg-neutral-300 lg:bg-slate-700/80 w-10/12 h-2 flex-1 mx-2"></div>
+                            </section>
+                        </div>
+                        <div className="flex items-start px-3 my-6 w-10/12">
+                            <div className="rounded-full bg-neutral-400 lg:bg-slate-700/80 h-2 w-2"></div>
+                            <section className="w-full space-y-2">
+                                <div className="rounded-full bg-neutral-300 lg:bg-slate-700/80 h-2 flex-1 mx-2"></div>
+                                <div className="rounded-full bg-neutral-300 lg:bg-slate-700/80 h-2 flex-1 mx-2"></div>
+                                <div className="rounded-full bg-neutral-300 lg:bg-slate-700/80 w-10/12 h-2 flex-1 mx-2"></div>
+                            </section>
+                        </div>
+                        {/* <div class="h-2 bg-neutral-300 lg:bg-slate-700/80 rounded"></div> */}
+                    </div>
+                    <section className="flex items-center">
+                        <div class="rounded-full bg-neutral-300 lg:bg-slate-700/80 h-5 w-5"></div>
+                        <div class="rounded-full bg-neutral-300 lg:bg-slate-700/80 w-96 h-3 flex-1 mx-2"></div>
+                    </section>
+                </div>
+            </section>
+            {/* <section className={"search-result-pulse-container relative flex flex-column justify-end align-items-end pct:w-100 h-160 radius-sm shadow:0px-0px-8px-2px-E4E4E4 mg-t2 bg-inherit lg:mg-x-auto|h-240 dark:bg-121714 dark:shadow-unset dark:border:1px_solid_444444"}>
+                <div className={"d-block pct:w-100 h-48 border:0px_solid_D4D4D4 em:border-t-0.04 dark:border:0px_solid_222222 dark:em:border-t-0.05"}></div>
+            </section> */}
+        </>
     )
 }
 
@@ -373,91 +404,108 @@ const Summary = ({ summary }) => {
     // }, [summary]);
 
     return (
-        <section className={"block w-full px-2 mx-auto lg:px-5 lg:w-9/12 dark:bg-base-300"}>
-            {
-                size.width < deviceWidthEnum.laptop
-                    ? <section className={"relative flex flex-column flex-basis flex-grow every:color-454545 dark:every:color-lightgray"}>
-                        <section className={"overflow-y-auto pct:w-100 pct:h-100 pad-x1 pad-y2 bg-white color-E2E2E2 every:color-454545 lg:overflow-y-unset dark:bg-070C09"}>
-                            App secured
-                            {
-                                summary?.data &&
-                                <div>
-                                    {summary?.data.searchInformation?.formattedTotalResults} results in {summary?.data.searchInformation?.formattedSearchTime}s
-                                </div>
-                            }
-                            {summary?.data && <div>Powered by Google search</div>}
-                            {
-                                summary?.data
-                                    ? <SummaryList {...summary?.data}>
-                                        {moreSummary}
-                                    </SummaryList>
-                                    : <NoSearchResult />
-                            }
-                            {
-                                summary?.nextPageData?.hasNextPage
-                                    ? <button type={"button"} className={"d-block mg-x-auto h-5 lh-5 font-9 font-bold border-0 bg-green-inverse color-green-dark pad-x2 radius"}>Load more apps</button>
-                                    : null
-                            }
-                            {
-                                summary?.isStreaming
-                                    ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(() => {
-                                        return (
-                                            <SummaryItemLoading />
-                                        )
-                                    })
-                                    : null
-                            }
-                            Ok
-                        </section>
-                        {/* {
+        <>
+            <section className={"block w-full px-2 mx-auto lg:px-5 lg:w-9/12 dark:bg-base-300"}>
+                {
+                    size.width < deviceWidthEnum.laptop
+                        ? <section className={"relative flex flex-col h-full flex-basis flex-grow every:color-454545 dark:every:color-lightgray"}>
+                            <section className={"text-sm w-full h-full color-E2E2E2 lg:overflow-y-unset"}>
+                                <section className={"italic text-xs py-3 neutral-content"}>
+                                    {
+                                        summary &&
+                                        <div>
+                                            {summary.searchInformation?.formattedTotalResults} results in {summary.searchInformation?.formattedSearchTime}s
+                                        </div>
+                                    }
+                                    {summary && <div>Powered by Google search</div>}
+                                </section>
+                                {
+                                    summary
+                                        ? <SummaryList {...summary}>
+                                            {moreSummary}
+                                        </SummaryList>
+                                        : <NoSearchResult />
+                                }
+                                {
+                                    summary?.streaming
+                                        ? <SummaryItemLoading />
+                                        : null
+                                }
+                                {
+                                    summary?.hasNextPage
+                                        ? <button type={"button"} className={"block mx-auto my-8 btn btn-wide bg-base-300 dark:bg-base-100 capitalize"}>More Summary</button>
+                                        : null
+                                }
+                                {
+                                    summary?.isStreaming
+                                        ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(() => {
+                                            return (
+                                                <SummaryItemLoading />
+                                            )
+                                        })
+                                        : null
+                                }
+                            </section>
+                            {/* {
                             size.width < deviceWidthEnum.laptop
                             && <MobileSummaryFormComponent />
                         } */}
-                    </section>
-                    : <section className={"flex flex-row justify-start items-start mg-x-auto w-10/12 lg:w-1440 bg-green-invers"}>
-                        {eventData}
-                        {/* 70% of the container width. i.e., 65% of 1280 == 832 */}
-                        <section className={"bg-pin p-6 w-7/12 lg:pct:w-56"}>
-                            {/* {JSON.stringify(summary?.data)} */}
-                            <section className={"text-xs py-4 leading-6"}>
-                                {
-                                    summary &&
-                                    <div>
-                                        {summary.searchInformation?.formattedTotalResults} results in {summary.searchInformation?.formattedSearchTime} seconds
-                                    </div>
-                                }
-                                {summary && <div className={"font-10 color-gray lh-3"}>Powered by Google search</div>}
-                                {/* <div>8,490,000,000 results in 0.34 seconds</div>
+                        </section>
+                        : <section className={"flex flex-row justify-start items-start mg-x-auto w-10/12 lg:w-1440 bg-green-invers"}>
+                            {/* 70% of the container width. i.e., 65% of 1280 == 832 */}
+                            <section className={"bg-pin p-6 w-7/12 lg:pct:w-56"}>
+                                {/* {JSON.stringify(summary?.data)} */}
+                                <section className={"text-xs py-4 leading-6"}>
+                                    {
+                                        summary &&
+                                        <div>
+                                            {summary.searchInformation?.formattedTotalResults} results in {summary.searchInformation?.formattedSearchTime} seconds
+                                        </div>
+                                    }
+                                    {summary && <div className={"font-10 color-gray lh-3"}>Powered by Google search</div>}
+                                    {/* <div>8,490,000,000 results in 0.34 seconds</div>
                                 <div>Powered by Google search</div> */}
+                                </section>
+                                <section className={"pad-y4 font-11 color-E2E2E2 every:color-454545"}>
+                                </section>
+                                {/* {JSON.stringify(summary)} */}
+                                {
+                                    summary
+                                        ? <SummaryList {...summary}>
+                                            {moreSummary}
+                                        </SummaryList>
+                                        : <NoSearchResult />
+                                }
+                                {
+                                    summary?.streaming
+                                        ? <SummaryItemLoading />
+                                        : null
+                                }
+                                {
+                                    summary?.hasNextPage
+                                        ? <button type={"button"} className={"block mx-auto my-4 btn btn-wide capitalize"}>More Summary</button>
+                                        : null
+                                }
+                                {
+                                    summary?.isStreaming
+                                        ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(() => {
+                                            return (
+                                                <SummaryItemLoading />
+                                            )
+                                        })
+                                        : null
+                                }
                             </section>
-                            <section className={"pad-y4 font-11 color-E2E2E2 every:color-454545"}>
+                            {/* 30% of the container width. i.e., 35% of 1280 == 448 */}
+                            <section className={"border:0px_solid_lightgray w-5/12 lg:pct:w-30 h-[400] px-8"}>
+                                <div className={"bg-base-100 w-88 h-80 rounded-md my-2 dark:bg-27CE8E1A"}></div>
+                                <div className={"bg-base-200 w-88 h-64 rounded my-2"}></div>
                             </section>
-                            {/* {JSON.stringify(summary)} */}
-                            {
-                                summary
-                                    ? <SummaryList {...summary}>
-                                        {moreSummary}
-                                    </SummaryList>
-                                    : <NoSearchResult />
-                            }
-                            {
-                                summary?.isStreaming
-                                    ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(() => {
-                                        return (
-                                            <SummaryItemLoading />
-                                        )
-                                    })
-                                    : null
-                            }
                         </section>
-                        {/* 30% of the container width. i.e., 35% of 1280 == 448 */}
-                        <section className={"border:0px_solid_lightgray w-5/12 lg:pct:w-30 h-[400] px-8"}>
-                            <div className={"bg-base-100 w-88 h-80 rounded-md my-2 dark:bg-27CE8E1A"}></div>
-                            <div className={"bg-base-200 w-88 h-64 rounded my-2"}></div>
-                        </section>
-                    </section>
-            }
-        </section>
+                }
+            </section>
+            <Footer />
+        </>
     )
 }
 
