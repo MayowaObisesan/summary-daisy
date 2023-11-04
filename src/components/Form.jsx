@@ -4,7 +4,71 @@ import { useSummaryContext } from "../context";
 import useSummary from "../hooks/useSummary";
 import { groupData } from "../helpers/loaders";
 
-export const MobileSummaryFormComponent = () => {
+const handleSummaryStream = (searchQuery, setData) => {
+    const fetchConfig = {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            // 'Origin': '*',
+            // 'Authorization': `Bearer ${window.localStorage.getItem('nine_login')}`
+        },
+        modes: 'cors',  // options: cors, no-cors, same-origin
+        withCredentials: false,
+        cache: 'default',   // options: default, no-store, reload, no-cache, force-cache, only-if-cached
+        params: {
+            search_input: searchQuery
+        }
+    }
+
+    let groupedData;
+    let resultArray = [];
+    let resultGroupArray = [];
+
+    const eventSource = new EventSource(`${process.env.REACT_APP_BASE_URL}/summary?search_input=${"open"}`, { fetchConfig });
+    eventSource.onopen = (event) => {
+        console.log("Opened Event stream");
+    }
+    eventSource.onmessage = (event) => {
+        let eventData = JSON.parse(event.data);
+        let data = {};
+
+        eventData.currentStartIndex = eventData.queries?.request[0]?.startIndex;
+        eventData.nextStartIndex = eventData.queries?.nextPage[0]?.startIndex;
+        eventData.hasNextPage = eventData.queries?.nextPage.length > 0;
+        eventData.searchQuery = eventData.queries?.request[0].searchTerms;
+        resultArray.push(eventData);
+        groupedData = groupData(resultArray);
+        resultGroupArray.splice(0, resultGroupArray.length);
+        resultGroupArray.push(groupedData);
+        console.log(resultGroupArray);
+        // eventData.data = resultGroupArray;
+
+        // We need the data because the eventData is still being used for grouping the results,
+        // and so, eventData.data = resultGroupArray will give nested results. Which is not the intended result.
+        data.currentStartIndex = eventData.currentStartIndex;
+        data.nextStartIndex = eventData.nextStartIndex;
+        data.searchInformation = eventData.searchInformation;
+        data.queries = eventData.queries;
+        data.data = resultGroupArray;
+        data.event = eventData.event;
+        data.id = eventData.id;
+        data.streaming = eventData.streaming;
+        data.streamed_count = eventData.streamed_count;
+        data.hasNextPage = eventData.hasNextPage;
+        data.searchQuery = eventData.searchQuery;
+
+        setData(data);
+        if (!eventData.streaming) {
+            eventSource.close();
+            console.log("Closed event source");
+        }
+    }
+    eventSource.onclose = () => {
+        console.log("Event stream closed");
+    }
+}
+
+export const MobileSummaryFormComponent = ({ setData }) => {
     const { searchQuery, summary } = useSummaryContext();
     const searchInputElement = useRef(null);
     const searchFormSubmitButton = useRef(null);
@@ -15,25 +79,28 @@ export const MobileSummaryFormComponent = () => {
             : searchFormSubmitButton.current?.setAttribute("disabled", "disabled")
     }
 
-    const handleSummary = () => {
-        summary(searchQuery);
+    const handleSummary = (e) => {
+        e.preventDefault();
+        // summary(searchQuery);
+        handleSummaryStream(searchInputElement.current?.value.trim(), setData);
     }
 
     return (
-        <form method="GET" className="sticky bottom-0 bg-white-transparent pad-x-4 pad-y-5 bg-27CE6234 bg-mica z-1000 radius-top-left-sm radius-top-right-sm radius focus-within:bg-27CE8E transition:background_200ms_ease_200ms lg:w-768 lg:max-w-768 lg:mg-x-auto" onSubmit={handleSummary}>
-            <div className={"relative flex flex-row justify-center align-items-center pct:w-100 outline:0px_solid_lightgray pad-x2 border-0 bg-white dark:bg-black-transparent radius"}>
+        <form method="GET" className="form-control sticky top-0 flex flex-col justify-center align-items-center bg-base-100 z-[1] shadow" onSubmit={handleSummary}>
+            <div className={"relative flex-1 flex flex-row justify-center items-center w-96 mx-auto my-1 px-2 rounded-md ring-neutral-300 ring-1 transition-all duration-150 ease-out delay-200 focus-within:w-full focus-within:bg-base-200 focus-within:ring-1 focus-within:mt-0 focus-within:rounded-none dark:ring-neutral dark:focus-within:bg-neutral-focus"}>
                 <input
                     type="text"
                     name="search_query"
                     placeholder="What should I search and summarize?"
                     id=""
-                    className={"outline-none border-0 pct:w-96 h-8 md:h-8 lg:h-8 font-regular font-14 lg:font-15 md:pad-x2 lg:pad-x2 radius-round bg-EE bg-transparent dark:color-lightgray focus:shadow:0px-0px-0px-0px-white transition:width_400ms_ease|border-radius_200ms_ease|box-shadow_200ms_ease-in_200ms|background_200ms_ease_200ms|all_200ms_ease placeholder:color-989898"}
+                    className="input input-lg input-ghost w-full px-2 text-sm bg-transparent focus:outline-0 placeholder:text-neutral-500"
+                    // className={"outline-none border-0 pct:w-96 h-8 md:h-8 lg:h-8 font-regular font-14 lg:font-15 md:pad-x2 lg:pad-x2 radius-round bg-EE bg-transparent dark:color-lightgray focus:shadow:0px-0px-0px-0px-white transition:width_400ms_ease|border-radius_200ms_ease|box-shadow_200ms_ease-in_200ms|background_200ms_ease_200ms|all_200ms_ease placeholder:color-989898"}
                     onFocus={focusSearchInput}
                     onInput={handleSearchInput}
                     ref={searchInputElement} />
                 <button
                     type="submit"
-                    className="border-0 outline-0 focus:shadow:0px-0px-8px-1px-gray|0px-0px-16px-8px-green h-40 w-56 bg-27CE8E radius-round cursor-pointer disabled:bg-green-inverse"
+                    className="btn btn-success border-0 outline-0 h-5 w-12 bg-27CE8E cursor-pointer disabled:bg-green-inverse"
                     data-summary_submit_type="search"
                     disabled="disabled"
                     ref={searchFormSubmitButton}>
@@ -118,73 +185,7 @@ export const DesktopSummaryFormComponent = ({ setData }) => {
     const handleSummary = (e) => {
         e.preventDefault();
         // handleGenSummary();
-        query("alpha");
-
-        const fetchConfig = {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                // 'Origin': '*',
-                // 'Authorization': `Bearer ${window.localStorage.getItem('nine_login')}`
-            },
-            modes: 'cors',  // options: cors, no-cors, same-origin
-            withCredentials: false,
-            cache: 'default',   // options: default, no-store, reload, no-cache, force-cache, only-if-cached
-            params: {
-                search_input: searchQuery
-            }
-        }
-
-        let groupedData;
-        let resultArray = [];
-        let resultGroupArray = [];
-
-        const eventSource = new EventSource(`${process.env.REACT_APP_BASE_URL}/summary?search_input=${"open"}`, { fetchConfig });
-        eventSource.onopen = (event) => {
-            console.log("Opened Event stream");
-        }
-        eventSource.onmessage = (event) => {
-            let eventData = JSON.parse(event.data);
-            let data = {};
-
-            eventData.currentStartIndex = eventData.queries?.request[0]?.startIndex;
-            eventData.nextStartIndex = eventData.queries?.nextPage[0]?.startIndex;
-            resultArray.push(eventData);
-            // setResultArray((prev) => [...prev, eventData]);
-            groupedData = groupData(resultArray);
-            resultGroupArray.splice(0, resultGroupArray.length);
-            // console.log(resultArray);
-            // console.log(groupedData);
-            // setResultGroupArray((v) => [...v, groupedData]);
-            // setData((res) => { })
-            resultGroupArray.push(groupedData);
-            console.log(resultGroupArray);
-            // eventData.data = resultGroupArray;
-
-            // We need the data because the eventData is still being used for grouping the results,
-            // and so, eventData.data = resultGroupArray will give nested results. Which is not the intended result.
-            data.currentStartIndex = eventData.currentStartIndex;
-            data.nextStartIndex = eventData.nextStartIndex;
-            data.searchInformation = eventData.searchInformation;
-            data.queries = eventData.queries;
-            data.data = resultGroupArray;
-            data.event = eventData.event;
-            data.id = eventData.id;
-            data.streaming = eventData.streaming;
-            data.streamed_count = eventData.streamed_count;
-            // console.log(data);
-
-            // console.log(eventData);
-            setData(data);
-            // if (eventSource.readyState === 1 || EventSource.CLOSED) {
-            if (!eventData.streaming) {
-                eventSource.close();
-                console.log("Closed event source");
-            }
-        }
-        eventSource.onclose = () => {
-            console.log("Event stream closed");
-        }
+        handleSummaryStream(searchInputElement.current?.value.trim(), setData);
     }
 
     return (
@@ -205,7 +206,7 @@ export const DesktopSummaryFormComponent = ({ setData }) => {
                     type="submit"
                     className="btn btn-success border-0 outline-0 focus:shadow:0px-0px-8px-1px-gray|0px-0px-16px-8px-green h-5 w-12 bg-27CE8E rounded-xl cursor-pointer disabled:bg-green-inverse"
                     data-summary_submit_type="search"
-                    // disabled="disabled"
+                    disabled="disabled"
                     ref={searchFormSubmitButton}>
                     <span className="fa fa-search color-white"></span>
                 </button>
