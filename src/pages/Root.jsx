@@ -61,7 +61,7 @@ export const Root = () => {
         <div className={"relative flex flex-col h-full overflow-y-auto dark:bg-base-300 font-sans"}>
             {
                 size?.width <= deviceWidthEnum.laptop
-                    ? <div className="drawer bg-base-100 flex flex-col justify-start">
+                    ? <div className="drawer flex flex-col justify-start">
                         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
                         <div className="drawer-content h-screen overflow-y-auto z-[1]">
                             {/* Page content here */}
