@@ -4,7 +4,7 @@ import { useSummaryContext } from "../context";
 import useSummary from "../hooks/useSummary";
 import { groupData } from "../helpers/loaders";
 
-const handleSummaryStream = (searchQuery, setData) => {
+export const handleSummaryStream = (searchQuery, setData) => {
     const fetchConfig = {
         method: 'GET',
         headers: {

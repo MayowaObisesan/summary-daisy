@@ -10,6 +10,7 @@ import { dummySummary, getSummary, groupData } from "../helpers/loaders";
 import { SummaryGroup, SummaryGroupItem, SummarySingleItem } from "../components/SummaryItem";
 import { useSummaryContext } from "../context";
 import Footer from "../components/Footer";
+import { handleSummaryStream } from "../components/Form";
 
 export async function loader({ request }) {
     const url = new URL(request.url);
@@ -41,11 +42,11 @@ const NoSearchResult = () => {
 const SummaryItemLoading = () => {
     return (
         <>
-            <section class="bg-base-100 animate-pulse shadow rounded-lg px-2 py-4 w-full mx-auto">
-                <div class="animate-pulse flex-col space-x-4 w-full">
-                    <div class="h-3 bg-base-300 dark:bg-slate-700/80 dark:bg-neutral rounded w-8/12 mx-6 my-3"></div>
-                    <div class="flex-1 w-full">
-                        {/* <div class="h-2 bg-slate-700 rounded w-96 mt-5"></div> */}
+            <section className="bg-base-100 animate-pulse shadow rounded-lg px-2 py-4 w-full mx-auto">
+                <div className="animate-pulse flex-col space-x-4 w-full">
+                    <div className="h-3 bg-base-300 dark:bg-slate-700/80 dark:bg-neutral rounded w-8/12 mx-6 my-3"></div>
+                    <div className="flex-1 w-full">
+                        {/* <div className="h-2 bg-slate-700 rounded w-96 mt-5"></div> */}
                         <div className="flex items-start px-3 my-6">
                             <div className="rounded-full bg-neutral-400 lg:bg-slate-700/80 dark:bg-neutral h-2 w-2"></div>
                             <section className="w-full space-y-2">
@@ -61,11 +62,11 @@ const SummaryItemLoading = () => {
                                 <div className="rounded-full bg-neutral-300 lg:bg-slate-700/80 dark:bg-neutral w-10/12 h-2 flex-1 mx-2"></div>
                             </section>
                         </div>
-                        {/* <div class="h-2 bg-neutral-300 lg:bg-slate-700/80 dark:bg-neutral rounded"></div> */}
+                        {/* <div className="h-2 bg-neutral-300 lg:bg-slate-700/80 dark:bg-neutral rounded"></div> */}
                     </div>
                     <section className="flex items-center">
-                        <div class="rounded-full bg-neutral-300 lg:bg-slate-700/80 dark:bg-neutral h-5 w-5"></div>
-                        <div class="rounded-full bg-neutral-300 lg:bg-slate-700/80 dark:bg-neutral w-96 h-3 flex-1 mx-2"></div>
+                        <div className="rounded-full bg-neutral-300 lg:bg-slate-700/80 dark:bg-neutral h-5 w-5"></div>
+                        <div className="rounded-full bg-neutral-300 lg:bg-slate-700/80 dark:bg-neutral w-96 h-3 flex-1 mx-2"></div>
                     </section>
                 </div>
             </section>
@@ -110,63 +111,111 @@ const SummaryItem = ({ itemType, groupedResult, hostName }) => {
 
 const SummaryList = (props) => {
     const data = props.data;
+    // console.log([data].concat(props.children.data[0]));
+    // console.log(props.children.data.length);
+    // console.log(data);
     // const data = props;
-    const isStreaming = props.isStreaming;
-    const isError = props.isError;
+    // const isStreaming = props.isStreaming;
+    // const isError = props.isError;
     if (data.length < 1) {
         return (
             <section>No search results to display</section>
         )
     } else if (data?.length >= 1) {
         return (
-            data?.map((eachSummary, index) => {
-                const pageNumber = ((props.currentStartIndex - 1) / 10) + (index + 1)
-                return (
-                    <>
-                        {
-                            pageNumber > 1
-                            && <div className={"relative block font-bold pad-x1 pad-t4"}>
-                                Page {pageNumber}
-                            </div>
-                        }
-                        {Object.keys(eachSummary).map((grouper, index) => {
-                            let hostName = grouper;
-                            const grouperData = eachSummary[grouper];
-                            if (grouperData.length === 1) {
-                                // For single summary response
-                                return (
-                                    // <SummaryItem key={index} groupedResult={grouperData[0]} hostName={grouper} />
-                                    <SummarySingleItem key={index} {...grouperData[0]} hostName={grouper} />
-                                )
-                            } else if (grouperData.length > 1) {
-                                // For grouped summary response
-                                return (
-                                    // <section key={index} className={"block pad-t4 pad-b2"}>
-                                    //     <section class="relative block h-4 lh-4 w-full font-13 px-1 color-454545 dark:color-lightgray">
-                                    //         Results from <span className={"font-semibold"}>{hostName}</span>
-                                    //         <span class="abs right-2 square-4 lh-4 radius-circle text-center bg-lighter dark:bg-27CE6234">{grouperData.length}</span>
-                                    //     </section>
-                                    //     <section key={index} className={"relative flex flex-row flex-nowrap overflow-x-auto every:mg-x1|pct:w-90 lg:every:pct:w-56"}>
-                                    //         {
-                                    //             grouperData.map((groupedResult, index) => {
-                                    //                 <SummaryItem key={index} itemType={"group"} groupedResult={groupedResult} hostName={grouper} />
-                                    //             })
-                                    //         }
-                                    //     </section>
-                                    // </section>
-                                    <SummaryGroup hostName={grouper}>
-                                        {
-                                            grouperData.map((groupedResult, index) => (
-                                                <SummaryGroupItem key={index} {...groupedResult} hostName={grouper} />
-                                            ))
-                                        }
-                                    </SummaryGroup>
-                                )
+            <>
+                {data?.map((eachSummary, index) => {
+                    const pageNumber = ((props.currentStartIndex - 1) / 10) + (index + 1)
+                    return (
+                        <>
+                            {
+                                pageNumber > 1
+                                && <div className={"relative block font-bold pad-x1 pad-t4"}>
+                                    Page {pageNumber}
+                                </div>
                             }
-                        })}
-                    </>
-                )
-            })
+                            {Object.keys(eachSummary).map((grouper, index) => {
+                                let hostName = grouper;
+                                const grouperData = eachSummary[grouper];
+                                if (grouperData.length === 1) {
+                                    // For single summary response
+                                    return (
+                                        // <SummaryItem key={index} groupedResult={grouperData[0]} hostName={grouper} />
+                                        <SummarySingleItem key={index} {...grouperData[0]} hostName={grouper} />
+                                    )
+                                } else if (grouperData.length > 1) {
+                                    // For grouped summary response
+                                    return (
+                                        // <section key={index} className={"block pad-t4 pad-b2"}>
+                                        //     <section class="relative block h-4 lh-4 w-full font-13 px-1 color-454545 dark:color-lightgray">
+                                        //         Results from <span className={"font-semibold"}>{hostName}</span>
+                                        //         <span class="abs right-2 square-4 lh-4 radius-circle text-center bg-lighter dark:bg-27CE6234">{grouperData.length}</span>
+                                        //     </section>
+                                        //     <section key={index} className={"relative flex flex-row flex-nowrap overflow-x-auto every:mg-x1|pct:w-90 lg:every:pct:w-56"}>
+                                        //         {
+                                        //             grouperData.map((groupedResult, index) => {
+                                        //                 <SummaryItem key={index} itemType={"group"} groupedResult={groupedResult} hostName={grouper} />
+                                        //             })
+                                        //         }
+                                        //     </section>
+                                        // </section>
+                                        <SummaryGroup hostName={grouper}>
+                                            {
+                                                grouperData.map((groupedResult, index) => (
+                                                    <SummaryGroupItem key={index} {...groupedResult} hostName={grouper} />
+                                                ))
+                                            }
+                                        </SummaryGroup>
+                                    )
+                                }
+                            })}
+                            {
+                                props.children?.length
+                            }
+                        </>
+                    )
+                })}
+                {
+                    props.children?.data?.length > 0 ? props.children?.data?.map((eachSummary, index) => {
+                        const pageNumber = ((props.currentStartIndex - 1) / 10) + (index + 1)
+                        return (
+                            <>
+                                {
+                                    pageNumber > 1
+                                    && <div className={"relative block font-bold pad-x1 pad-t4"}>
+                                        Page {pageNumber}
+                                    </div>
+                                }
+                                {Object.keys(eachSummary).map((grouper, index) => {
+                                    let hostName = grouper;
+                                    const grouperData = eachSummary[grouper];
+                                    if (grouperData.length === 1) {
+                                        // For single summary response
+                                        return (
+                                            // <SummaryItem key={index} groupedResult={grouperData[0]} hostName={grouper} />
+                                            <SummarySingleItem key={index} {...grouperData[0]} hostName={grouper} />
+                                        )
+                                    } else if (grouperData.length > 1) {
+                                        // For grouped summary response
+                                        return (
+                                            <SummaryGroup hostName={grouper}>
+                                                {
+                                                    grouperData.map((groupedResult, index) => (
+                                                        <SummaryGroupItem key={index} {...groupedResult} hostName={grouper} />
+                                                    ))
+                                                }
+                                            </SummaryGroup>
+                                        )
+                                    }
+                                })}
+                                {
+                                    props.children?.length
+                                }
+                            </>
+                        )
+                    }) : null
+                }
+            </>
         )
     }
     console.log("Finished processing summary list");
@@ -180,7 +229,7 @@ const Summary = ({ summary }) => {
     const offlineSummary = localforage.getItem()
     const fetchMoreData = false;
     const [nextPageData, setNextPageData] = useState(summary?.nextPageData);
-    const [moreSummary, setMoreSummary] = useState(null);
+    const [moreSummary, setMoreSummary] = useState(summary);
     const size = useWindowSize();
     // const searchQuery = useSearchParams();
     // const searchParams = new URLSearchParams(window.location.search);
@@ -188,13 +237,13 @@ const Summary = ({ summary }) => {
     // const [data, setData] = useState({});
     // const [eventData, setEventData] = useState(null);
     // const { eventData, data } = summary(searchQuery);
-    const { eventData, data, mainQuery } = useSummaryContext();
+    // const { eventData, data, mainQuery } = useSummaryContext();
 
-    console.log(eventData);
-    console.log("SUMMARY FILE");
-    console.log(mainQuery);
+    // console.log(eventData);
+    // console.log("SUMMARY FILE");
+    // console.log(mainQuery);
 
-    useEffect(() => { }, [mainQuery]);
+    // useEffect(() => { }, [mainQuery]);
 
     /*
     useEffect(() => {
@@ -403,6 +452,13 @@ const Summary = ({ summary }) => {
     //     return () => setSummaryData(summary);
     // }, [summary]);
 
+    const loadMoreSummary = () => {
+        handleSummaryStream(summary?.searchQuery, setMoreSummary);
+        console.log("Clicked load more");
+        console.log(moreSummary);
+        setMoreSummary(summary);
+    }
+
     return (
         <>
             <section className={"block w-full px-2 mx-auto lg:px-5 lg:w-9/12 dark:bg-base-300 dark:lg:bg-base-300"}>
@@ -427,13 +483,13 @@ const Summary = ({ summary }) => {
                                         : <NoSearchResult />
                                 }
                                 {
-                                    summary?.streaming
+                                    summary?.streaming || moreSummary?.streaming
                                         ? <SummaryItemLoading />
                                         : null
                                 }
                                 {
-                                    !summary?.streaming && summary?.hasNextPage
-                                        ? <button type={"button"} className={"block mx-auto my-8 btn btn-wide bg-base-300 dark:bg-base-100 capitalize"}>More Summary</button>
+                                    !(summary?.streaming || moreSummary?.streaming) && summary?.hasNextPage
+                                        ? <button type={"button"} className={"block mx-auto my-8 btn btn-wide bg-base-300 dark:bg-base-100 capitalize"} onClick={loadMoreSummary}>More Summary</button>
                                         : null
                                 }
                                 {
@@ -477,13 +533,13 @@ const Summary = ({ summary }) => {
                                         : <NoSearchResult />
                                 }
                                 {
-                                    summary?.streaming
+                                    summary?.streaming || moreSummary?.streaming
                                         ? <SummaryItemLoading />
                                         : null
                                 }
                                 {
-                                    !summary?.streaming && summary?.hasNextPage
-                                        ? <button type={"button"} className={"block mx-auto my-4 btn btn-wide capitalize"}>More Summary</button>
+                                    !(summary?.streaming || moreSummary?.streaming) && summary?.hasNextPage
+                                        ? <button type={"button"} className={"block mx-auto my-4 btn btn-wide capitalize"} onClick={loadMoreSummary}>More Summary</button>
                                         : null
                                 }
                                 {
