@@ -24,7 +24,8 @@ const handleSummaryStream = (searchQuery, setData) => {
     let resultArray = [];
     let resultGroupArray = [];
 
-    const eventSource = new EventSource(`${process.env.REACT_APP_BASE_URL}/summary?search_input=${"open"}`, { fetchConfig });
+    // const eventSource = new EventSource(`${process.env.REACT_APP_BASE_URL}/summary?search_input=${"open"}`, { fetchConfig });
+    const eventSource = new EventSource(`${process.env.REACT_APP_BASE_URL}/summary?search_input=${searchQuery}`, { fetchConfig });
     eventSource.onopen = (event) => {
         console.log("Opened Event stream");
     }

@@ -32,7 +32,7 @@ export async function action({ request }) {
 
 const NoSearchResult = () => {
     return (
-        <section className={"relative flex flex-col justify-center items-center h-96 font-14 font-medium text-center"}>
+        <section className={"relative flex flex-col justify-center items-center font-14 font-medium text-center"}>
             <span>No search results</span>
         </section>
     )
@@ -43,29 +43,29 @@ const SummaryItemLoading = () => {
         <>
             <section class="bg-base-100 animate-pulse shadow rounded-lg px-2 py-4 w-full mx-auto">
                 <div class="animate-pulse flex-col space-x-4 w-full">
-                    <div class="h-3 bg-base-300 dark:bg-slate-700/80 rounded w-8/12 mx-6 my-3"></div>
+                    <div class="h-3 bg-base-300 dark:bg-slate-700/80 dark:bg-neutral rounded w-8/12 mx-6 my-3"></div>
                     <div class="flex-1 w-full">
                         {/* <div class="h-2 bg-slate-700 rounded w-96 mt-5"></div> */}
                         <div className="flex items-start px-3 my-6">
-                            <div className="rounded-full bg-neutral-400 lg:bg-slate-700/80 h-2 w-2"></div>
+                            <div className="rounded-full bg-neutral-400 lg:bg-slate-700/80 dark:bg-neutral h-2 w-2"></div>
                             <section className="w-full space-y-2">
-                                <div className="rounded-full bg-neutral-300 lg:bg-slate-700/80 h-2 flex-1 mx-2"></div>
-                                <div className="rounded-full bg-neutral-300 lg:bg-slate-700/80 w-10/12 h-2 flex-1 mx-2"></div>
+                                <div className="rounded-full bg-neutral-300 lg:bg-slate-700/80 dark:bg-neutral h-2 flex-1 mx-2"></div>
+                                <div className="rounded-full bg-neutral-300 lg:bg-slate-700/80 dark:bg-neutral w-10/12 h-2 flex-1 mx-2"></div>
                             </section>
                         </div>
                         <div className="flex items-start px-3 my-6 w-10/12">
-                            <div className="rounded-full bg-neutral-400 lg:bg-slate-700/80 h-2 w-2"></div>
+                            <div className="rounded-full bg-neutral-400 lg:bg-slate-700/80 dark:bg-neutral h-2 w-2"></div>
                             <section className="w-full space-y-2">
-                                <div className="rounded-full bg-neutral-300 lg:bg-slate-700/80 h-2 flex-1 mx-2"></div>
-                                <div className="rounded-full bg-neutral-300 lg:bg-slate-700/80 h-2 flex-1 mx-2"></div>
-                                <div className="rounded-full bg-neutral-300 lg:bg-slate-700/80 w-10/12 h-2 flex-1 mx-2"></div>
+                                <div className="rounded-full bg-neutral-300 lg:bg-slate-700/80 dark:bg-neutral h-2 flex-1 mx-2"></div>
+                                <div className="rounded-full bg-neutral-300 lg:bg-slate-700/80 dark:bg-neutral h-2 flex-1 mx-2"></div>
+                                <div className="rounded-full bg-neutral-300 lg:bg-slate-700/80 dark:bg-neutral w-10/12 h-2 flex-1 mx-2"></div>
                             </section>
                         </div>
-                        {/* <div class="h-2 bg-neutral-300 lg:bg-slate-700/80 rounded"></div> */}
+                        {/* <div class="h-2 bg-neutral-300 lg:bg-slate-700/80 dark:bg-neutral rounded"></div> */}
                     </div>
                     <section className="flex items-center">
-                        <div class="rounded-full bg-neutral-300 lg:bg-slate-700/80 h-5 w-5"></div>
-                        <div class="rounded-full bg-neutral-300 lg:bg-slate-700/80 w-96 h-3 flex-1 mx-2"></div>
+                        <div class="rounded-full bg-neutral-300 lg:bg-slate-700/80 dark:bg-neutral h-5 w-5"></div>
+                        <div class="rounded-full bg-neutral-300 lg:bg-slate-700/80 dark:bg-neutral w-96 h-3 flex-1 mx-2"></div>
                     </section>
                 </div>
             </section>
@@ -405,7 +405,7 @@ const Summary = ({ summary }) => {
 
     return (
         <>
-            <section className={"block w-full px-2 mx-auto lg:px-5 lg:w-9/12 dark:bg-base-300"}>
+            <section className={"block w-full px-2 mx-auto lg:px-5 lg:w-9/12 dark:bg-base-300 dark:lg:bg-base-300"}>
                 {
                     size.width < deviceWidthEnum.laptop
                         ? <section className={"relative flex flex-col h-full flex-basis flex-grow every:color-454545 dark:every:color-lightgray"}>
@@ -432,7 +432,7 @@ const Summary = ({ summary }) => {
                                         : null
                                 }
                                 {
-                                    summary?.hasNextPage
+                                    !summary?.streaming && summary?.hasNextPage
                                         ? <button type={"button"} className={"block mx-auto my-8 btn btn-wide bg-base-300 dark:bg-base-100 capitalize"}>More Summary</button>
                                         : null
                                 }
@@ -451,7 +451,7 @@ const Summary = ({ summary }) => {
                             && <MobileSummaryFormComponent />
                         } */}
                         </section>
-                        : <section className={"flex flex-row justify-start items-start mg-x-auto w-10/12 lg:w-1440 bg-green-invers"}>
+                        : <section className={"flex flex-row justify-start items-start mg-x-auto w-10/12 lg:w-1440 bg-green-invers space-x-10"}>
                             {/* 70% of the container width. i.e., 65% of 1280 == 832 */}
                             <section className={"bg-pin p-6 w-7/12 lg:pct:w-56"}>
                                 {/* {JSON.stringify(summary?.data)} */}
@@ -482,7 +482,7 @@ const Summary = ({ summary }) => {
                                         : null
                                 }
                                 {
-                                    summary?.hasNextPage
+                                    !summary?.streaming && summary?.hasNextPage
                                         ? <button type={"button"} className={"block mx-auto my-4 btn btn-wide capitalize"}>More Summary</button>
                                         : null
                                 }
@@ -497,14 +497,14 @@ const Summary = ({ summary }) => {
                                 }
                             </section>
                             {/* 30% of the container width. i.e., 35% of 1280 == 448 */}
-                            <section className={"border:0px_solid_lightgray w-5/12 lg:pct:w-30 h-[400] px-8"}>
+                            <section className={"border:0px_solid_lightgray w-5/12 h-[400] px-8 pt-32"}>
                                 <div className={"bg-base-100 w-88 h-80 rounded-md my-2 dark:bg-27CE8E1A"}></div>
                                 <div className={"bg-base-200 w-88 h-64 rounded my-2"}></div>
                             </section>
                         </section>
                 }
             </section>
-            <Footer />
+            {summary.length >= 10 && <Footer />}
         </>
     )
 }
