@@ -4,7 +4,7 @@ import { useSummaryContext } from "../context";
 import useSummary from "../hooks/useSummary";
 import { groupData } from "../helpers/loaders";
 
-export const handleSummaryStream = (searchQuery, setData) => {
+export const handleSummaryStream = (searchQuery, setData, currentData, updater, nextPage, setEventOpened, setIsFetchingSummary) => {
     const fetchConfig = {
         method: 'GET',
         headers: {
@@ -25,9 +25,10 @@ export const handleSummaryStream = (searchQuery, setData) => {
     let resultGroupArray = [];
 
     // const eventSource = new EventSource(`${process.env.REACT_APP_BASE_URL}/summary?search_input=${"open"}`, { fetchConfig });
-    const eventSource = new EventSource(`${process.env.REACT_APP_BASE_URL}/summary?search_input=${searchQuery}`, { fetchConfig });
+    const eventSource = new EventSource(`${process.env.REACT_APP_BASE_URL}/summary?search_input=${searchQuery}&next_page=${nextPage}`, { fetchConfig });
     eventSource.onopen = (event) => {
         console.log("Opened Event stream");
+        setEventOpened(true);
     }
     eventSource.onmessage = (event) => {
         let eventData = JSON.parse(event.data);
@@ -50,7 +51,7 @@ export const handleSummaryStream = (searchQuery, setData) => {
         data.nextStartIndex = eventData.nextStartIndex;
         data.searchInformation = eventData.searchInformation;
         data.queries = eventData.queries;
-        data.data = resultGroupArray;
+        data.data = currentData?.concat(resultGroupArray);
         data.event = eventData.event;
         data.id = eventData.id;
         data.streaming = eventData.streaming;
@@ -59,18 +60,23 @@ export const handleSummaryStream = (searchQuery, setData) => {
         data.searchQuery = eventData.searchQuery;
 
         setData(data);
+        updater(data);
+        console.log(data);
         if (!eventData.streaming) {
             eventSource.close();
+            setEventOpened(false);
+            setIsFetchingSummary(false);
             console.log("Closed event source");
         }
     }
     eventSource.onclose = () => {
         console.log("Event stream closed");
+        setEventOpened(false);
     }
 }
 
 export const MobileSummaryFormComponent = ({ setData }) => {
-    const { searchQuery, summary } = useSummaryContext();
+    const { searchQuery, summary, baseData, updateSummaryBaseData, setEventOpened, setIsFetchingSummary } = useSummaryContext();
     const searchInputElement = useRef(null);
     const searchFormSubmitButton = useRef(null);
     const focusSearchInput = () => { }
@@ -83,12 +89,13 @@ export const MobileSummaryFormComponent = ({ setData }) => {
     const handleSummary = (e) => {
         e.preventDefault();
         // summary(searchQuery);
-        handleSummaryStream(searchInputElement.current?.value.trim(), setData);
+        handleSummaryStream(searchInputElement.current?.value.trim(), setData, [], updateSummaryBaseData, false, setEventOpened, setIsFetchingSummary);
+        setIsFetchingSummary(true);
     }
 
     return (
         <form method="GET" className="form-control sticky top-0 flex flex-col justify-center align-items-center bg-base-100 z-[1] shadow" onSubmit={handleSummary}>
-            <div className={"relative flex-1 flex flex-row justify-center items-center w-96 mx-auto my-1 px-2 rounded-md ring-neutral-300 ring-1 transition-all duration-150 ease-out delay-200 focus-within:w-full focus-within:bg-base-200 focus-within:ring-1 focus-within:mt-0 focus-within:rounded-none dark:ring-neutral dark:focus-within:bg-neutral-focus"}>
+            <div className={"relative flex-1 flex flex-row justify-center items-center w-[96%] mx-auto my-1 px-2 rounded-md ring-neutral-300 ring-1 transition-all duration-150 ease-out delay-200 focus-within:w-full focus-within:bg-base-200 focus-within:ring-1 focus-within:mt-0 focus-within:rounded-none dark:ring-neutral dark:focus-within:bg-neutral-focus"}>
                 <input
                     type="text"
                     name="search_query"
@@ -113,12 +120,11 @@ export const MobileSummaryFormComponent = ({ setData }) => {
 }
 
 export const DesktopSummaryFormComponent = ({ setData }) => {
-    const { data, query } = useSummaryContext();
+    const { data, query, baseData, updateSummaryBaseData, setEventOpened, setIsFetchingSummary } = useSummaryContext();
     const searchParams = new URLSearchParams(window.location.search);
     const searchQuery = searchParams.get('search_query');
     const searchInputElement = useRef(null);
     const searchFormSubmitButton = useRef(null);
-    const summary = useSummary();
     const focusSearchInput = () => { }
     const handleSearchInput = () => {
         searchInputElement.current?.value.trim().length > 0
@@ -186,7 +192,8 @@ export const DesktopSummaryFormComponent = ({ setData }) => {
     const handleSummary = (e) => {
         e.preventDefault();
         // handleGenSummary();
-        handleSummaryStream(searchInputElement.current?.value.trim(), setData);
+        handleSummaryStream(searchInputElement.current?.value.trim(), setData, [], updateSummaryBaseData, false, setEventOpened, setIsFetchingSummary);
+        setIsFetchingSummary(true);
     }
 
     return (

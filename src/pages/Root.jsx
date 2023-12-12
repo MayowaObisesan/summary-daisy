@@ -19,7 +19,7 @@ export async function loader() {
 export const Root = () => {
     // const deviceWidth = useDeviceWidth();
     const size = useWindowSize();
-    const [data, setData] = useState('');
+    const [data, setData] = useState([]);
     const [summaryData, setSummaryData] = useState([]);
     const [resultArray, setResultArray] = useState([]);
     const [resultGroupArray, setResultGroupArray] = useState([]);
@@ -57,6 +57,12 @@ export const Root = () => {
     //     setSummaryData(data);
     // }, [summaryData]);
 
+    useEffect(() => {
+        setData(data);
+        console.log("Updating summaryData");
+        console.log(data);
+    }, [data]);
+
     return (
         <div className={"relative flex flex-col h-full overflow-y-auto dark:bg-base-300 font-sans"}>
             {
@@ -74,8 +80,8 @@ export const Root = () => {
                             <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
                                 {/* Sidebar content here */}
                                 <div className="px-3 py-6">Menu</div>
-                                <li><a>Sidebar Item 1</a></li>
-                                <li><a>Sidebar Item 2</a></li>
+                                <li><a>Bookmarks</a></li>
+                                <li><a>Saved</a></li>
                             </ul>
                         </div>
                     </div>

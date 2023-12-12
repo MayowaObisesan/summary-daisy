@@ -1,16 +1,13 @@
-import { Form, useLoaderData, useSearchParams } from "react-router-dom";
-// import { dummySummary, getSummary } from "./loaders";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useState } from "react";
 import localforage from "localforage";
-// import { useDeviceWidth } from "./useDeviceWidth";
-// import { MobileSummaryFormComponent } from "./components/SummaryForm";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { deviceWidthEnum } from "../helpers";
-import { dummySummary, getSummary, groupData } from "../helpers/loaders";
+import { dummySummary, getSummary } from "../helpers/loaders";
 import { SummaryGroup, SummaryGroupItem, SummarySingleItem } from "../components/SummaryItem";
-import { useSummaryContext } from "../context";
 import Footer from "../components/Footer";
 import { handleSummaryStream } from "../components/Form";
+import { useSummaryContext } from "../context";
+import EmptySummaryUI from "../components/EmptySummaryUI";
 
 export async function loader({ request }) {
     const url = new URL(request.url);
@@ -42,7 +39,7 @@ const NoSearchResult = () => {
 const SummaryItemLoading = () => {
     return (
         <>
-            <section className="bg-base-100 animate-pulse shadow rounded-lg px-2 py-4 w-full mx-auto">
+            <section className="bg-base-100 animate-pulse shadow rounded-lg px-2 py-4 w-full my-6 mx-auto">
                 <div className="animate-pulse flex-col space-x-4 w-full">
                     <div className="h-3 bg-base-300 dark:bg-slate-700/80 dark:bg-neutral rounded w-8/12 mx-6 my-3"></div>
                     <div className="flex-1 w-full">
@@ -77,49 +74,65 @@ const SummaryItemLoading = () => {
     )
 }
 
-const SummaryItem = ({ itemType, groupedResult, hostName }) => {
-    console.log("Inside summary item")
-    const SummaryItemCommon = () => {
-        return (
-            <>
-                <div className={"relative w-full font-12 font-medium h-3 lh-3 px-2 color-rebeccapurple color-191E30 text-ellipsis hover:underline-offset-3 hover:underline hover:decoration-3 dark:color-gray dark:h-5|lh-5|color-lightgray"}>{groupedResult?.title}</div>
-                <a href={groupedResult?.link} target="_blank" rel="noreferrer" data-href="/summary/url" className={"block decoration-none w-full cursor-pointer text-ellipsis px-2 py-1 border:0px_solid_D4D4D4 em:border-t-0.04 hover:bg-lighter lg:border-0 dark:border:0px_solid_222222 dark:em:border-t-0.05 dark:hover:bg-4444"}>
-                    <div className={"relative flex flex-row align-items font-11 font-medium color-gray dark:font-regular dark:color-gray"}>
-                        <img src="{pageThumbnailData?.src || groupedResult?.icon}" alt="" width="" className={"relative square-3 lh-3 radius-circle font-12 font-medium dark:font-semibold color-gray dark:color-lightgray bg-light dark:bg-lighter mg-r1 object-contain object-center"} />
-                        {groupedResult?.displayLink || hostName}
-                    </div>
-                </a>
-                <div className={"relative lh-3 font-12 font-medium pad-x2 pad-y2 break-word color-565656 dark:color-A4A4A4|pad-t-1|pad-b2"}>
-                    {groupedResult?.summary_text ?? groupedResult?.summary ?? groupedResult?.text}
-                </div>
-            </>
-        )
-    }
-
-    return (
-        itemType === "group"
-            ? <section className="relative flex-grow flex-noshrink flex flex-col justify-between align-items-start pct:w-100 radius-sm shadow:0px-0px-8px-1px-E4E4E4 mg-y2 bg-inherit lg:shadow:0px-0px-8px-1px-D8D8D8 dark:bg-121714 dark:shadow-unset dark:border:1px_solid_444444">
-                {/* For grouped items */}
-                <SummaryItemCommon />
-            </section>
-            : <section className={"relative flex flex-col justify-start align-items-start pct:w-100 radius-sm shadow:0px-0px-8px-1px-D8D8D8 mg-b4 bg-inherit lg:mg-x-auto|shadow:0px-0px-0px-1px-transparent dark:bg-121714 dark:shadow-unset dark:border:0px_solid_444444"}>
-                {/* For single items */}
-                <SummaryItemCommon />
-            </section>
-    )
-}
-
 const SummaryList = (props) => {
     const data = props.data;
+    const children = props.children;
     // console.log([data].concat(props.children.data[0]));
     // console.log(props.children.data.length);
     // console.log(data);
     // const data = props;
     // const isStreaming = props.isStreaming;
     // const isError = props.isError;
-    if (data.length < 1) {
+    if (data?.length < 1) {
         return (
             <section>No search results to display</section>
+        )
+    } else if (children?.data?.length > 0) {
+        return (
+            <>
+                {
+                    children?.data?.map((eachSummary, index) => {
+                        const pageNumber = ((props.currentStartIndex - 1) / 10) + (index + 1)
+                        return (
+                            <>
+                                {
+                                    pageNumber > 1
+                                    && <div className={"sticky top-[72px] block font-bold px-1 pt-6 pb-2 bg-base-100/60 backdrop-blur-sm z-10"}>
+                                        Page {pageNumber}
+                                    </div>
+                                }
+                                <section className="border-b-2 pb-4">
+                                    {Object.keys(eachSummary).map((grouper, index) => {
+                                        // let hostName = grouper;
+                                        const grouperData = eachSummary[grouper];
+                                        if (grouperData.length === 1) {
+                                            // For single summary response
+                                            return (
+                                                // <SummaryItem key={index} groupedResult={grouperData[0]} hostName={grouper} />
+                                                <SummarySingleItem key={index} {...grouperData[0]} hostName={grouper} />
+                                            )
+                                        } else if (grouperData.length > 1) {
+                                            // For grouped summary response
+                                            return (
+                                                <SummaryGroup hostName={grouper}>
+                                                    {
+                                                        grouperData.map((groupedResult, index) => (
+                                                            <SummaryGroupItem key={index} {...groupedResult} hostName={grouper} />
+                                                        ))
+                                                    }
+                                                </SummaryGroup>
+                                            )
+                                        }
+                                    })}
+                                    {
+                                        props.children?.length
+                                    }
+                                </section>
+                            </>
+                        )
+                    })
+                }
+            </>
         )
     } else if (data?.length >= 1) {
         return (
@@ -134,48 +147,50 @@ const SummaryList = (props) => {
                                     Page {pageNumber}
                                 </div>
                             }
-                            {Object.keys(eachSummary).map((grouper, index) => {
-                                let hostName = grouper;
-                                const grouperData = eachSummary[grouper];
-                                if (grouperData.length === 1) {
-                                    // For single summary response
-                                    return (
-                                        // <SummaryItem key={index} groupedResult={grouperData[0]} hostName={grouper} />
-                                        <SummarySingleItem key={index} {...grouperData[0]} hostName={grouper} />
-                                    )
-                                } else if (grouperData.length > 1) {
-                                    // For grouped summary response
-                                    return (
-                                        // <section key={index} className={"block pad-t4 pad-b2"}>
-                                        //     <section class="relative block h-4 lh-4 w-full font-13 px-1 color-454545 dark:color-lightgray">
-                                        //         Results from <span className={"font-semibold"}>{hostName}</span>
-                                        //         <span class="abs right-2 square-4 lh-4 radius-circle text-center bg-lighter dark:bg-27CE6234">{grouperData.length}</span>
-                                        //     </section>
-                                        //     <section key={index} className={"relative flex flex-row flex-nowrap overflow-x-auto every:mg-x1|pct:w-90 lg:every:pct:w-56"}>
-                                        //         {
-                                        //             grouperData.map((groupedResult, index) => {
-                                        //                 <SummaryItem key={index} itemType={"group"} groupedResult={groupedResult} hostName={grouper} />
-                                        //             })
-                                        //         }
-                                        //     </section>
-                                        // </section>
-                                        <SummaryGroup hostName={grouper}>
-                                            {
-                                                grouperData.map((groupedResult, index) => (
-                                                    <SummaryGroupItem key={index} {...groupedResult} hostName={grouper} />
-                                                ))
-                                            }
-                                        </SummaryGroup>
-                                    )
-                                }
-                            })}
+                            <section className={""}>
+                                {Object.keys(eachSummary).map((grouper, index) => {
+                                    // let hostName = grouper;
+                                    const grouperData = eachSummary[grouper];
+                                    if (grouperData.length === 1) {
+                                        // For single summary response
+                                        return (
+                                            // <SummaryItem key={index} groupedResult={grouperData[0]} hostName={grouper} />
+                                            <SummarySingleItem key={index} {...grouperData[0]} hostName={grouper} />
+                                        )
+                                    } else if (grouperData.length > 1) {
+                                        // For grouped summary response
+                                        return (
+                                            // <section key={index} className={"block pad-t4 pad-b2"}>
+                                            //     <section class="relative block h-4 lh-4 w-full font-13 px-1 color-454545 dark:color-lightgray">
+                                            //         Results from <span className={"font-semibold"}>{hostName}</span>
+                                            //         <span class="abs right-2 square-4 lh-4 radius-circle text-center bg-lighter dark:bg-27CE6234">{grouperData.length}</span>
+                                            //     </section>
+                                            //     <section key={index} className={"relative flex flex-row flex-nowrap overflow-x-auto every:mg-x1|pct:w-90 lg:every:pct:w-56"}>
+                                            //         {
+                                            //             grouperData.map((groupedResult, index) => {
+                                            //                 <SummaryItem key={index} itemType={"group"} groupedResult={groupedResult} hostName={grouper} />
+                                            //             })
+                                            //         }
+                                            //     </section>
+                                            // </section>
+                                            <SummaryGroup hostName={grouper}>
+                                                {
+                                                    grouperData.map((groupedResult, index) => (
+                                                        <SummaryGroupItem key={index} {...groupedResult} hostName={grouper} />
+                                                    ))
+                                                }
+                                            </SummaryGroup>
+                                        )
+                                    }
+                                })}
+                            </section>
                             {
                                 props.children?.length
                             }
                         </>
                     )
                 })}
-                {
+                {/* {
                     props.children?.data?.length > 0 ? props.children?.data?.map((eachSummary, index) => {
                         const pageNumber = ((props.currentStartIndex - 1) / 10) + (index + 1)
                         return (
@@ -187,7 +202,7 @@ const SummaryList = (props) => {
                                     </div>
                                 }
                                 {Object.keys(eachSummary).map((grouper, index) => {
-                                    let hostName = grouper;
+                                    // let hostName = grouper;
                                     const grouperData = eachSummary[grouper];
                                     if (grouperData.length === 1) {
                                         // For single summary response
@@ -214,7 +229,7 @@ const SummaryList = (props) => {
                             </>
                         )
                     }) : null
-                }
+                } */}
             </>
         )
     }
@@ -222,14 +237,18 @@ const SummaryList = (props) => {
 }
 
 const Summary = ({ summary }) => {
+    console.log("SUMMARY IS: ", summary);
     // const { summary } = useLoaderData();
     // const url = new URL(request.url);
     // const searchQuery = url.searchParams.get("search_query");
     // const { summary } = getSummary();
-    const offlineSummary = localforage.getItem()
-    const fetchMoreData = false;
-    const [nextPageData, setNextPageData] = useState(summary?.nextPageData);
-    const [moreSummary, setMoreSummary] = useState(summary);
+    // const offlineSummary = localforage.getItem()
+    // const fetchMoreData = false;
+    // const [nextPageData, setNextPageData] = useState(summary?.nextPageData);
+    const { baseData, updateSummaryBaseData, eventOpened, setEventOpened, isFetchingSummary, setIsFetchingSummary } = useSummaryContext();
+    const [moreSummary, setMoreSummary] = useState(baseData);
+    console.log("BASE DATA:", baseData);
+
     const size = useWindowSize();
     // const searchQuery = useSearchParams();
     // const searchParams = new URLSearchParams(window.location.search);
@@ -453,10 +472,21 @@ const Summary = ({ summary }) => {
     // }, [summary]);
 
     const loadMoreSummary = () => {
-        handleSummaryStream(summary?.searchQuery, setMoreSummary);
+        console.log(moreSummary);
+        handleSummaryStream(summary?.searchQuery, setMoreSummary, baseData?.data, updateSummaryBaseData, true, setEventOpened, setIsFetchingSummary);
         console.log("Clicked load more");
         console.log(moreSummary);
-        setMoreSummary(summary);
+        setMoreSummary(baseData);
+    }
+
+    // useEffect(() => {
+    //     setData(data);
+    //     console.log("Updating summaryData");
+    //     console.log(data);
+    // }, [data]);
+
+    if (baseData.length < 1 && !eventOpened) {
+        return <EmptySummaryUI />
     }
 
     return (
@@ -466,15 +496,18 @@ const Summary = ({ summary }) => {
                     size.width < deviceWidthEnum.laptop
                         ? <section className={"relative flex flex-col h-full flex-basis flex-grow every:color-454545 dark:every:color-lightgray"}>
                             <section className={"text-sm w-full h-full color-E2E2E2 lg:overflow-y-unset"}>
-                                <section className={"italic text-xs py-3 neutral-content"}>
-                                    {
-                                        summary &&
-                                        <div>
-                                            {summary.searchInformation?.formattedTotalResults} results in {summary.searchInformation?.formattedSearchTime}s
-                                        </div>
-                                    }
-                                    {summary && <div>Powered by Google search</div>}
-                                </section>
+                                {
+                                    summary?.data?.length > 0 &&
+                                    <section className={"italic text-xs py-3 neutral-content"}>
+                                        {
+                                            summary &&
+                                            <div>
+                                                {summary.searchInformation?.formattedTotalResults} results in {summary.searchInformation?.formattedSearchTime}s
+                                            </div>
+                                        }
+                                        {summary && <div>Powered by Google search</div>}
+                                    </section>
+                                }
                                 {
                                     summary
                                         ? <SummaryList {...summary}>
@@ -483,12 +516,12 @@ const Summary = ({ summary }) => {
                                         : <NoSearchResult />
                                 }
                                 {
-                                    summary?.streaming || moreSummary?.streaming
+                                    summary?.streaming || moreSummary?.streaming || eventOpened || isFetchingSummary
                                         ? <SummaryItemLoading />
                                         : null
                                 }
                                 {
-                                    !(summary?.streaming || moreSummary?.streaming) && summary?.hasNextPage
+                                    !(summary?.streaming || moreSummary?.streaming || isFetchingSummary || eventOpened) && summary?.hasNextPage
                                         ? <button type={"button"} className={"block mx-auto my-8 btn btn-wide bg-base-300 dark:bg-base-100 capitalize"} onClick={loadMoreSummary}>More Summary</button>
                                         : null
                                 }
@@ -533,7 +566,7 @@ const Summary = ({ summary }) => {
                                         : <NoSearchResult />
                                 }
                                 {
-                                    summary?.streaming || moreSummary?.streaming
+                                    summary?.streaming || moreSummary?.streaming || isFetchingSummary
                                         ? <SummaryItemLoading />
                                         : null
                                 }
