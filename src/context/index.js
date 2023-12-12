@@ -5,16 +5,22 @@ const SummaryContext = createContext();
 const SummaryProvider = ({ children }) => {
     const searchParams = new URLSearchParams(window.location.search);
     const searchQuery = searchParams.get('search_query');
-    const [data, setData] = useState({});
+    const [baseData, setBaseData] = useState([]);
     const [eventData, setEventData] = useState(null);
     const [mainQuery, setMainQuery] = useState("");
+    const [eventOpened, setEventOpened] = useState(false);
+    const [isFetchingSummary, setIsFetchingSummary] = useState(false);
 
     const query = useCallback((searchInput) => {
         setMainQuery(searchInput);
     }, []);
 
+    const updateSummaryBaseData = (newSummaryData) => {
+        setBaseData(newSummaryData);
+    }
+
     const summaryData = useCallback((res) => {
-        setData(res);
+        setBaseData(res);
     }, [mainQuery]);
 
     const summary = useCallback((searchQuery) => {
@@ -75,14 +81,14 @@ const SummaryProvider = ({ children }) => {
         //     console.log("Closed event source - event streaming");
         // }
 
-        return { eventData, data };
+        return { eventData, baseData };
     }, [searchQuery]);
 
 
-    useEffect(() => {
-        setData(data);
-        console.log(data);
-    }, [eventData, data]);
+    // useEffect(() => {
+    //     setBaseData(baseData);
+    //     console.log(baseData);
+    // }, [baseData]);
 
     return (
         <SummaryContext.Provider
@@ -90,10 +96,15 @@ const SummaryProvider = ({ children }) => {
                 searchQuery,
                 summary,
                 eventData,
-                data,
+                baseData,
+                updateSummaryBaseData,
                 mainQuery,
                 query,
-                summaryData
+                summaryData,
+                eventOpened,
+                setEventOpened,
+                isFetchingSummary,
+                setIsFetchingSummary
             }}
         >
             {children}
