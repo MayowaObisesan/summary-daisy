@@ -4,7 +4,7 @@ import { useSummaryContext } from "../context";
 import useSummary from "../hooks/useSummary";
 import { groupData } from "../helpers/loaders";
 
-export const handleSummaryStream = (searchQuery, setData, currentData, updater, nextPage, setEventOpened, setIsFetchingSummary) => {
+export const handleSummaryStream = (searchQuery, setData, currentData, updater, nextPage, startIndex, setEventOpened, setIsFetchingSummary) => {
     const fetchConfig = {
         method: 'GET',
         headers: {
@@ -25,7 +25,7 @@ export const handleSummaryStream = (searchQuery, setData, currentData, updater, 
     let resultGroupArray = [];
 
     // const eventSource = new EventSource(`${process.env.REACT_APP_BASE_URL}/summary?search_input=${"open"}`, { fetchConfig });
-    const eventSource = new EventSource(`${process.env.REACT_APP_BASE_URL}/summary?search_input=${searchQuery}&next_page=${nextPage}`, { fetchConfig });
+    const eventSource = new EventSource(`${process.env.REACT_APP_BASE_URL}/summary?search_input=${searchQuery}&next_page=${nextPage}&start_index=${startIndex}`, { fetchConfig });
     eventSource.onopen = (event) => {
         console.log("Opened Event stream");
         setEventOpened(true);
@@ -89,13 +89,13 @@ export const MobileSummaryFormComponent = ({ setData }) => {
     const handleSummary = (e) => {
         e.preventDefault();
         // summary(searchQuery);
-        handleSummaryStream(searchInputElement.current?.value.trim(), setData, [], updateSummaryBaseData, false, setEventOpened, setIsFetchingSummary);
+        handleSummaryStream(searchInputElement.current?.value.trim(), setData, [], updateSummaryBaseData, false, 1, setEventOpened, setIsFetchingSummary);
         setIsFetchingSummary(true);
     }
 
     return (
-        <form method="GET" className="form-control sticky top-0 flex flex-col justify-center align-items-center bg-gray-100/80 dark:bg-base-200 z-[1] shadow" onSubmit={handleSummary}>
-            <div className={"relative flex-1 flex flex-row justify-center items-center w-[96%] mx-auto my-1 px-2 rounded-md dark:bg-base-100 ring-gray-300 ring-1 transition-all duration-150 ease-out delay-200 focus-within:w-full focus-within:bg-gray-200/40 focus-within:ring-1 focus-within:mt-0 focus-within:rounded-none dark:ring-neutral dark:focus-within:bg-base-200"}>
+        <form method="GET" className="form-control sticky top-0 flex flex-col justify-center align-items-center bg-gray-100/80 backdrop-blur dark:bg-base-200 z-[1] shadow" onSubmit={handleSummary}>
+            <div className={"relative flex-1 flex flex-row justify-center items-center w-[96%] mx-auto my-1 px-2 rounded-md dark:bg-base-100 ring-gray-300 ring-1 transition-all duration-150 ease-out delay-200 focus-within:w-full focus-within:bg-gray-100 focus-within:ring-1 focus-within:mt-0 focus-within:rounded-none dark:ring-neutral dark:focus-within:bg-base-200"}>
                 <input
                     type="text"
                     name="search_query"
@@ -192,7 +192,7 @@ export const DesktopSummaryFormComponent = ({ setData }) => {
     const handleSummary = (e) => {
         e.preventDefault();
         // handleGenSummary();
-        handleSummaryStream(searchInputElement.current?.value.trim(), setData, [], updateSummaryBaseData, false, setEventOpened, setIsFetchingSummary);
+        handleSummaryStream(searchInputElement.current?.value.trim(), setData, [], updateSummaryBaseData, false, 1, setEventOpened, setIsFetchingSummary);
         setIsFetchingSummary(true);
     }
 
