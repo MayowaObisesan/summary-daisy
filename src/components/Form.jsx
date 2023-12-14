@@ -95,7 +95,7 @@ export const MobileSummaryFormComponent = ({ setData }) => {
 
     return (
         <form method="GET" className="form-control sticky top-0 flex flex-col justify-center align-items-center bg-base-100 z-[1] shadow" onSubmit={handleSummary}>
-            <div className={"relative flex-1 flex flex-row justify-center items-center w-[96%] mx-auto my-1 px-2 rounded-md ring-neutral-300 ring-1 transition-all duration-150 ease-out delay-200 focus-within:w-full focus-within:bg-base-200 focus-within:ring-1 focus-within:mt-0 focus-within:rounded-none dark:ring-neutral dark:focus-within:bg-neutral-focus"}>
+            <div className={"relative flex-1 flex flex-row justify-center items-center w-[96%] mx-auto my-1 px-2 rounded-md ring-gray-300 ring-1 transition-all duration-150 ease-out delay-200 focus-within:w-full focus-within:bg-gray-100 focus-within:ring-1 focus-within:mt-0 focus-within:rounded-none dark:ring-neutral dark:focus-within:bg-neutral-focus"}>
                 <input
                     type="text"
                     name="search_query"
@@ -108,7 +108,7 @@ export const MobileSummaryFormComponent = ({ setData }) => {
                     ref={searchInputElement} />
                 <button
                     type="submit"
-                    className="btn btn-success border-0 outline-0 h-5 w-12 bg-27CE8E cursor-pointer disabled:bg-green-inverse"
+                    className="btn btn-success border-0 outline-0 h-5 w-12 bg-27CE8E cursor-pointer disabled:bg-gra-300 dark:disabled:bg-green-inverse"
                     data-summary_submit_type="search"
                     disabled="disabled"
                     ref={searchFormSubmitButton}>
@@ -198,7 +198,7 @@ export const DesktopSummaryFormComponent = ({ setData }) => {
 
     return (
         <form method="GET" className="form-control relative flex flex-col justify-center align-items-center w-full max-w-2xl bg-white-transparent pad-x-4 pad-y-5 bg-mica z-1000 radius focus-withi:bg-27CE8E transition:background_200ms_ease_200ms dark:bg-transparent" onSubmit={handleSummary}>
-            <div className={"input flex-1 flex flex-row items-center rounded-xl ring-neutral-300 ring-2 dark:ring-neutral-700"}>
+            <div className={"input flex-1 flex flex-row items-center rounded-xl ring-gray-300 ring-2 dark:ring-base-100"}>
                 <input
                     type="text"
                     name="search_query"
@@ -219,7 +219,7 @@ export const DesktopSummaryFormComponent = ({ setData }) => {
                     <span className="fa fa-search color-white"></span>
                 </button>
             </div>
-            <div className={"flex flex-row flex-nowrap justify-start align-items-center mt-4 mb-1 w-full overflow-x-auto"}>
+            {/* <div className={"flex flex-row flex-nowrap justify-start align-items-center mt-4 mb-1 w-full overflow-x-auto"}>
                 {
                     summaryLanguages.map((eachLanguage, index) => {
                         return (
@@ -227,7 +227,7 @@ export const DesktopSummaryFormComponent = ({ setData }) => {
                         )
                     })
                 }
-            </div>
+            </div> */}
         </form>
     )
 }
