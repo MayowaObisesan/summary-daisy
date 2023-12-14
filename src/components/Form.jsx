@@ -95,7 +95,7 @@ export const MobileSummaryFormComponent = ({ setData }) => {
 
     return (
         <form method="GET" className="form-control sticky top-0 flex flex-col justify-center align-items-center bg-base-100 z-[1] shadow" onSubmit={handleSummary}>
-            <div className={"relative flex-1 flex flex-row justify-center items-center w-[96%] mx-auto my-1 px-2 rounded-md ring-gray-300 ring-1 transition-all duration-150 ease-out delay-200 focus-within:w-full focus-within:bg-gray-100 focus-within:ring-1 focus-within:mt-0 focus-within:rounded-none dark:ring-neutral dark:focus-within:bg-neutral-focus"}>
+            <div className={"relative flex-1 flex flex-row justify-center items-center w-[96%] mx-auto my-1 px-2 rounded-md ring-gray-300 ring-1 transition-all duration-150 ease-out delay-200 focus-within:w-full focus-within:bg-gray-100 focus-within:ring-1 focus-within:mt-0 focus-within:rounded-none dark:ring-neutral dark:focus-within:bg-base-200"}>
                 <input
                     type="text"
                     name="search_query"

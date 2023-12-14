@@ -2,10 +2,17 @@ import { Link } from "react-router-dom";
 import { DesktopSummaryFormComponent, MobileSummaryFormComponent } from "./Form";
 import { NewsImage } from "../assets/images";
 import { SummaryGradientText } from "./SummaryText";
+import { useSummaryContext } from "../context";
 
 export const DesktopNavBar = ({ setData }) => {
+    const { baseData } = useSummaryContext();
+
     return (
         <div className="sticky top-0 z-20 navbar items-start bg-[#FFFFFFBB] backdrop-blur-sm shadow dark:bg-base-200">
+            {
+                baseData?.data?.length > 0
+                && <div className={"absolute top-0 right-0 -z-10 bg-green-400 md:bg-green-300 w-24 md:w-48 h-24 blur-3xl dark:bg-green-900 dark:md:bg-green-800"}></div>
+            }
             {/* <label htmlFor="my-drawer" className="btn btn-primary drawer-button">Open drawer</label> */}
             {/*<input id="drawer" type="checkbox" className={"drawer-toggle"} />*/}
             {/* <label htmlFor="my-drawer" className="drawer-button btn btn-square btn-ghost">
@@ -68,8 +75,14 @@ export const DesktopNavBar = ({ setData }) => {
 }
 
 export const LaptopNavBar = ({ setData }) => {
+    const { baseData } = useSummaryContext();
+
     return (
         <div className="sticky top-0 z-20 navbar items-start bg-[#FFFFFFBB] backdrop-blur-sm shadow-sm transition-all dark:bg-base-200">
+            {
+                baseData?.data?.length > 0
+                && <div className={"absolute top-0 right-0 -z-10 bg-green-400 md:bg-green-300 w-24 md:w-48 h-24 blur-3xl dark:bg-green-900 dark:md:bg-green-800"}></div>
+            }
             {/* <label htmlFor="my-drawer" className="btn btn-primary drawer-button">Open drawer</label> */}
             {/*<input id="drawer" type="checkbox" className={"drawer-toggle"} />*/}
             {/* <label htmlFor="my-drawer" className="drawer-button btn btn-square btn-ghost">
@@ -132,10 +145,15 @@ export const LaptopNavBar = ({ setData }) => {
 }
 
 export const MobileNavBar = ({ setData }) => {
+    const { baseData } = useSummaryContext();
+
     return (
         <>
-            <div className="navbar relative items-start bg-gray-100/60 dark:bg-inherit">
-                <div className={"absolute top-0 right-0 -z-10 bg-green-400 md:bg-green-300 w-24 md:w-48 h-24 blur-3xl dark:bg-green-900 dark:md:bg-green-800"}></div>
+            <div className="navbar relative items-start bg-gray-100/60 dark:bg-base-200">
+                {
+                    baseData?.data?.length > 0
+                    && <div className={"absolute top-0 right-0 -z-10 bg-green-400 md:bg-green-300 w-24 md:w-48 h-24 blur-3xl dark:bg-green-900 dark:md:bg-green-800"}></div>
+                }
                 {/* <label htmlFor="my-drawer" className="btn btn-primary drawer-button">Open drawer</label> */}
                 {/*<input id="drawer" type="checkbox" className={"drawer-toggle"} />*/}
                 <label htmlFor="my-drawer" className="drawer-button btn btn-square btn-ghost">
