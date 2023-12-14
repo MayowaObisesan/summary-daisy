@@ -1,5 +1,7 @@
 export const deviceWidthEnum = {
+    "desktopLarge": 1440,
     "desktop": 1200,
+    "laptopLarge": 1024,
     "laptop": 992,
     "tablet": 768,
     "phone": 600
