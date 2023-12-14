@@ -97,11 +97,11 @@ const SummaryList = (props) => {
                             <>
                                 {
                                     pageNumber > 1
-                                    && <div className={"sticky top-[72px] block font-bold px-1 pt-6 pb-2 bg-base-100/60 backdrop-blur-sm z-10"}>
+                                    && <div className={"sticky top-[72px] lg:relative lg:top-0 block font-bold px-1 pt-6 pb-2 bg-base-100/60 backdrop-blur-sm z-10"}>
                                         Page {pageNumber}
                                     </div>
                                 }
-                                <section className="border-b-2 pb-4">
+                                <section className="border-b-2 pb-4 border-base-100">
                                     {Object.keys(eachSummary).map((grouper, index) => {
                                         // let hostName = grouper;
                                         const grouperData = eachSummary[grouper];
@@ -491,21 +491,21 @@ const Summary = ({ summary }) => {
 
     return (
         <>
-            <section className={"block w-full px-2 mx-auto lg:px-5 lg:w-9/12 dark:bg-base-300 dark:lg:bg-base-300"}>
+            <section className={"block w-full px-2 mx-auto md:px-4 lg:px-5 lg:w-9/12 lg:w-[100vw] dark:bg-base-300 dark:lg:bg-base-300"}>
                 {
-                    size.width < deviceWidthEnum.laptop
+                    size.width < deviceWidthEnum.desktop
                         ? <section className={"relative flex flex-col h-full flex-basis flex-grow every:color-454545 dark:every:color-lightgray"}>
                             <section className={"text-sm w-full h-full color-E2E2E2 lg:overflow-y-unset"}>
                                 {
                                     summary?.data?.length > 0 &&
-                                    <section className={"italic text-xs py-3 neutral-content"}>
+                                    <section className={"italic text-xs py-3 neutral-content lg:not-italic"}>
                                         {
                                             summary &&
                                             <div>
                                                 {summary.searchInformation?.formattedTotalResults} results in {summary.searchInformation?.formattedSearchTime}s
                                             </div>
                                         }
-                                        {summary && <div>Powered by Google search</div>}
+                                        {/* {summary && <div>Powered by Google search</div>} */}
                                     </section>
                                 }
                                 {
@@ -522,7 +522,7 @@ const Summary = ({ summary }) => {
                                 }
                                 {
                                     !(summary?.streaming || moreSummary?.streaming || isFetchingSummary || eventOpened) && summary?.hasNextPage
-                                        ? <button type={"button"} className={"block mx-auto my-8 btn btn-wide bg-base-300 dark:bg-base-100 capitalize"} onClick={loadMoreSummary}>More Summary</button>
+                                        ? <button type={"button"} className={"block mx-auto my-8 btn btn-wide bg-gray-200 dark:bg-base-100 capitalize"} onClick={loadMoreSummary}>More Summary</button>
                                         : null
                                 }
                                 {
@@ -540,7 +540,7 @@ const Summary = ({ summary }) => {
                             && <MobileSummaryFormComponent />
                         } */}
                         </section>
-                        : <section className={"flex flex-row justify-start items-start mg-x-auto w-10/12 lg:w-1440 bg-green-invers space-x-10"}>
+                        : <section className={"flex flex-row justify-start items-start mx-auto w-11/12 lg:w-1440 bg-green-inverse space-x-10"}>
                             {/* 70% of the container width. i.e., 65% of 1280 == 832 */}
                             <section className={"bg-pin p-6 w-7/12 lg:pct:w-56"}>
                                 {/* {JSON.stringify(summary?.data)} */}
@@ -551,7 +551,7 @@ const Summary = ({ summary }) => {
                                             {summary.searchInformation?.formattedTotalResults} results in {summary.searchInformation?.formattedSearchTime} seconds
                                         </div>
                                     }
-                                    {summary && <div className={"font-10 color-gray lh-3"}>Powered by Google search</div>}
+                                    {/* {summary && <div className={"font-10 color-gray lh-3"}>Powered by Google search</div>} */}
                                     {/* <div>8,490,000,000 results in 0.34 seconds</div>
                                 <div>Powered by Google search</div> */}
                                 </section>
@@ -572,7 +572,7 @@ const Summary = ({ summary }) => {
                                 }
                                 {
                                     !(summary?.streaming || moreSummary?.streaming) && summary?.hasNextPage
-                                        ? <button type={"button"} className={"block mx-auto my-4 btn btn-wide capitalize"} onClick={loadMoreSummary}>More Summary</button>
+                                        ? <button type={"button"} className={"block mx-auto my-4 btn btn-wide bg-gray-200 capitalize"} onClick={loadMoreSummary}>More Summary</button>
                                         : null
                                 }
                                 {
@@ -586,7 +586,7 @@ const Summary = ({ summary }) => {
                                 }
                             </section>
                             {/* 30% of the container width. i.e., 35% of 1280 == 448 */}
-                            <section className={"border:0px_solid_lightgray w-5/12 h-[400] px-8 pt-32"}>
+                            <section className={"border:0px_solid_lightgray w-[400px] h-[400] px-8 pt-32"}>
                                 <div className={"bg-base-100 w-88 h-80 rounded-md my-2 dark:bg-27CE8E1A"}></div>
                                 <div className={"bg-base-200 w-88 h-64 rounded my-2"}></div>
                             </section>
