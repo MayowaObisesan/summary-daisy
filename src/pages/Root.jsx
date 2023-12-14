@@ -3,12 +3,13 @@ import { Link, Outlet, ScrollRestoration } from "react-router-dom"
 // import { DesktopNavBar, MobileNavBar } from "./NavBar";
 // import { useDeviceWidth } from "./useDeviceWidth";
 import { deviceWidthEnum } from "../helpers";
-import { DesktopNavBar, MobileNavBar } from "../components/NavBar";
+import { DesktopNavBar, LaptopNavBar, MobileNavBar } from "../components/NavBar";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { Home } from "./Home";
 import { useEffect, useRef, useState } from "react";
 import Summary from "./Summary";
 import { groupData } from "../helpers/loaders";
+import Footer from "../components/Footer";
 
 export async function loader() {
     // const { trends } = await getSummaryTrends();
@@ -73,6 +74,7 @@ export const Root = () => {
                             {/* Page content here */}
                             <MobileNavBar setData={setData} />
                             <Summary summary={data} />
+                            <Footer />
                         </div>
 
                         <div className="drawer-side z-10">
@@ -89,8 +91,13 @@ export const Root = () => {
                         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
                         <div className="drawer-content h-screen overflow-y-auto dark:bg-base-300">
                             {/* Page content here */}
-                            <DesktopNavBar setData={setData} />
+                            {
+                                size?.width <= deviceWidthEnum.desktop
+                                    ? <LaptopNavBar setData={setData} />
+                                    : <DesktopNavBar setData={setData} />
+                            }
                             <Summary summary={data} />
+                            <Footer />
                         </div>
 
                         <div className="drawer-side z-10">
