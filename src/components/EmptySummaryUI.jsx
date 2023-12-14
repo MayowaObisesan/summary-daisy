@@ -4,7 +4,7 @@ import { EmptyPageFooter } from "./Footer";
 const EmptySummaryUI = () => {
     return (
         <section className={"flex flex-col fixed w-full h-[80%] lg:h-full"}>
-            <section className={"flex-1 flex flex-col justify-center items-center gap-6 bg-base-200 lg:bg-base-100"}>
+            <section className={"flex-1 flex flex-col justify-center items-center gap-6 bg-gray-100/60 dark:bg-base-200 lg:bg-base-100"}>
                 <div>
                     {/* <label className="swap text-6xl">
                     <div className="swap-on"><CloudSearchIcon /></div>

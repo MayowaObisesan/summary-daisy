@@ -94,21 +94,21 @@ export const MobileSummaryFormComponent = ({ setData }) => {
     }
 
     return (
-        <form method="GET" className="form-control sticky top-0 flex flex-col justify-center align-items-center bg-base-100 z-[1] shadow" onSubmit={handleSummary}>
-            <div className={"relative flex-1 flex flex-row justify-center items-center w-[96%] mx-auto my-1 px-2 rounded-md ring-gray-300 ring-1 transition-all duration-150 ease-out delay-200 focus-within:w-full focus-within:bg-gray-100 focus-within:ring-1 focus-within:mt-0 focus-within:rounded-none dark:ring-neutral dark:focus-within:bg-base-200"}>
+        <form method="GET" className="form-control sticky top-0 flex flex-col justify-center align-items-center bg-gray-100/80 dark:bg-base-200 z-[1] shadow" onSubmit={handleSummary}>
+            <div className={"relative flex-1 flex flex-row justify-center items-center w-[96%] mx-auto my-1 px-2 rounded-md dark:bg-base-100 ring-gray-300 ring-1 transition-all duration-150 ease-out delay-200 focus-within:w-full focus-within:bg-gray-200/40 focus-within:ring-1 focus-within:mt-0 focus-within:rounded-none dark:ring-neutral dark:focus-within:bg-base-200"}>
                 <input
                     type="text"
                     name="search_query"
                     placeholder="What should I search and summarize?"
                     id=""
-                    className="input input-lg input-ghost w-full px-2 text-sm bg-transparent focus:outline-0 placeholder:text-neutral-500"
+                    className="input input-lg input-ghost w-full px-2 text-sm bg-transparent focus:outline-0 placeholder:text-gray-600"
                     // className={"outline-none border-0 pct:w-96 h-8 md:h-8 lg:h-8 font-regular font-14 lg:font-15 md:pad-x2 lg:pad-x2 radius-round bg-EE bg-transparent dark:color-lightgray focus:shadow:0px-0px-0px-0px-white transition:width_400ms_ease|border-radius_200ms_ease|box-shadow_200ms_ease-in_200ms|background_200ms_ease_200ms|all_200ms_ease placeholder:color-989898"}
                     onFocus={focusSearchInput}
                     onInput={handleSearchInput}
                     ref={searchInputElement} />
                 <button
                     type="submit"
-                    className="btn btn-success border-0 outline-0 h-5 w-12 bg-27CE8E cursor-pointer disabled:bg-gra-300 dark:disabled:bg-green-inverse"
+                    className="btn btn-success border-0 outline-0 h-5 w-12 bg-[#27CE8E] cursor-pointer disabled:bg-gra-300 dark:disabled:bg-green-inverse"
                     data-summary_submit_type="search"
                     disabled="disabled"
                     ref={searchFormSubmitButton}>
@@ -212,7 +212,7 @@ export const DesktopSummaryFormComponent = ({ setData }) => {
                 {/* <input type="text" placeholder="What should I search and summarize?" className="input input-lg input-bordered w-full max-w-2xl text-sm" /> */}
                 <button
                     type="submit"
-                    className="btn btn-success border-0 outline-0 focus:shadow:0px-0px-8px-1px-gray|0px-0px-16px-8px-green h-5 w-12 bg-27CE8E rounded-xl cursor-pointer disabled:bg-green-inverse"
+                    className="btn btn-success border-0 outline-0 focus:shadow:0px-0px-8px-1px-gray|0px-0px-16px-8px-green h-5 w-12 bg-[#27CE8E] rounded-xl cursor-pointer disabled:bg-green-inverse"
                     data-summary_submit_type="search"
                     disabled="disabled"
                     ref={searchFormSubmitButton}>

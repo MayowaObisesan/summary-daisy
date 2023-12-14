@@ -162,8 +162,8 @@ export const MobileNavBar = ({ setData }) => {
                     {/* </button> */}
                 </label>
                 <div className="flex-1 flex-col items-start">
-                    {/* <SummaryGradientText classes="btn btn-ghost normal-case text-xl" /> */}
-                    <Link to={"/"} className="btn btn-ghost normal-case text-xl">Summary</Link>
+                    <SummaryGradientText classes="btn btn-ghost normal-case text-xl" />
+                    {/* <Link to={"/"} className="btn btn-ghost normal-case text-xl">Summary</Link> */}
                     {/* <input type="text" placeholder="What should I search and summarize?" className="input input-lg input-bordered w-full max-w-2xl text-sm" /> */}
                 </div>
                 <div className="flex-none">
