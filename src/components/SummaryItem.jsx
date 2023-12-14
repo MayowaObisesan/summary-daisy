@@ -2,6 +2,23 @@ import Markdown from "react-markdown";
 import { ConvertToList } from "../helpers";
 import { ChecksIcon } from "../assets/icons";
 
+const processSummaryDataIcon = (props) => {
+    const url = props.url || props.icon;
+    const fromPageMapImage = props.pagemap?.cse_image ? props.pagemap?.cse_image[0]?.src : "";
+    const fromPageMapThumbnail = props.pagemap?.cse_thumbnail ? props.pagemap?.cse_thumbnail[0]?.src : "";
+    const fromPageMapMetatagsOg = props.pagemap?.metatags ? props.pagemap?.metatags[0]["og:image"] : "";
+    const fromPageMapMetatagsTwitter = props.pagemap?.metatags ? props.pagemap?.metatags[0]["twitter:image"] : "";
+    // console.log([url, fromPageMapImage, fromPageMapThumbnail, fromPageMapMetatagsTwitter, fromPageMapMetatagsOg])
+    const validIconUrl = [url, fromPageMapImage, fromPageMapThumbnail, fromPageMapMetatagsTwitter, fromPageMapMetatagsOg].filter((it) => it !== "" && it !== undefined && it !== null).filter(it => !(it?.startsWith("/")));
+    // console.log(validIconUrl);
+    // .map((eachIcon) => !(eachIcon?.startsWith("/")))
+    // if (url.startsWith("/")) {
+    //     // return `${props.hostName}`
+    // }
+    // return validIconUrl.join("|");
+    return validIconUrl[0];
+}
+
 export const SummaryItem = (props) => {
     const summaryText = props.content ?? props.text ?? props.summary_text ?? props.snippet;
 
@@ -20,8 +37,12 @@ export const SummaryItem = (props) => {
                 </Markdown>
             </div>
             <a href={props.link} className="text-sm hover:bg-base-100" target="_blank" rel="noreferrer">
-                <div className="flex">
-                    <img src={props.src || props.icon} alt="" className="w-5 h-5 rounded-full" />
+                <div className="flex items-center">
+                    {
+                        processSummaryDataIcon(props)
+                            ? <img srcSet="" src={processSummaryDataIcon(props)} alt="a" className="w-6 h-6 rounded-full" />
+                            : <div className={"w-6 h-6 leading-6 rounded-full bg-green-200 text-center"}></div>
+                    }
                     <span className="w-full px-2 truncate">{props.link}</span>
                 </div>
             </a>
