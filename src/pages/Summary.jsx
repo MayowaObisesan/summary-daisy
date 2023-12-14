@@ -124,9 +124,9 @@ const SummaryList = (props) => {
                                             )
                                         }
                                     })}
-                                    {
+                                    {/* {
                                         props.children?.length
-                                    }
+                                    } */}
                                 </section>
                             </>
                         )
@@ -184,9 +184,9 @@ const SummaryList = (props) => {
                                     }
                                 })}
                             </section>
-                            {
+                            {/* {
                                 props.children?.length
-                            }
+                            } */}
                         </>
                     )
                 })}
@@ -473,7 +473,7 @@ const Summary = ({ summary }) => {
 
     const loadMoreSummary = () => {
         console.log(moreSummary);
-        handleSummaryStream(summary?.searchQuery, setMoreSummary, baseData?.data, updateSummaryBaseData, true, setEventOpened, setIsFetchingSummary);
+        handleSummaryStream(summary?.searchQuery, setMoreSummary, baseData?.data, updateSummaryBaseData, true, baseData?.nextStartIndex, setEventOpened, setIsFetchingSummary);
         console.log("Clicked load more");
         console.log(moreSummary);
         setMoreSummary(baseData);
@@ -491,7 +491,7 @@ const Summary = ({ summary }) => {
 
     return (
         <>
-            <section className={"block w-full px-2 mx-auto md:px-4 lg:px-5 lg:w-9/12 lg:w-[100vw] dark:bg-base-300 dark:lg:bg-base-300"}>
+            <section className={"block w-full px-2 mx-auto md:px-4 lg:px-5 lg:w-[100vw] dark:bg-base-300 dark:lg:bg-base-300"}>
                 {
                     size.width < deviceWidthEnum.desktop
                         ? <section className={"relative flex flex-col h-full flex-basis flex-grow every:color-454545 dark:every:color-lightgray"}>
@@ -566,12 +566,12 @@ const Summary = ({ summary }) => {
                                         : <NoSearchResult />
                                 }
                                 {
-                                    summary?.streaming || moreSummary?.streaming || isFetchingSummary
+                                    summary?.streaming || moreSummary?.streaming || eventOpened || isFetchingSummary
                                         ? <SummaryItemLoading />
                                         : null
                                 }
                                 {
-                                    !(summary?.streaming || moreSummary?.streaming) && summary?.hasNextPage
+                                    !(summary?.streaming || moreSummary?.streaming || isFetchingSummary || eventOpened) && summary?.hasNextPage
                                         ? <button type={"button"} className={"block mx-auto my-4 btn btn-wide bg-gray-200 capitalize"} onClick={loadMoreSummary}>More Summary</button>
                                         : null
                                 }
