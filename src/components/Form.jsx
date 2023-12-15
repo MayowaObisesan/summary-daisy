@@ -91,7 +91,6 @@ export const MobileSummaryFormComponent = ({ setData }) => {
         e.preventDefault();
         // summary(searchQuery);
         if (searchInputElement.current?.value.trim() !== baseData?.searchQuery) {
-            console.log("search Query are not the same", baseData?.searchQuery);
             setData([]);
             updateSummaryBaseData([]);
             updateMoreSummary([]);
@@ -200,7 +199,6 @@ export const DesktopSummaryFormComponent = ({ setData }) => {
         e.preventDefault();
         // handleGenSummary();
         if (searchInputElement.current?.value.trim() !== baseData?.searchQuery) {
-            console.log("search Query are not the same", baseData?.searchQuery);
             setData([]);
             updateSummaryBaseData([]);
             updateMoreSummary([]);

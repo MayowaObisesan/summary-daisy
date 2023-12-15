@@ -38,37 +38,39 @@ const NoSearchResult = () => {
 
 const SummarySkeleton = () => {
     return (
-        <section className="bg-base-100 animate-pulse shadow rounded-lg px-2 py-4 w-full my-6 mx-auto">
-            <section className="space-y-5">
-                <div className="skeleton h-3 w-8/12"></div>
-                <div className="flex gap-4 items-start px-4">
-                    <div className="skeleton w-2 h-2 rounded-full shrink-0"></div>
-                    <div className="flex-1 flex flex-col gap-2">
-                        <div className="skeleton h-2 w-full"></div>
-                        <div className="skeleton h-2 w-10/12"></div>
+        <section className="relative w-full px-2 pt-2 pb-2 my-6 rounded-lg bg-gray-100/60 dark:bg-base-200">
+            <section className="bg-base-100 animate-pulse shadow rounded-lg px-2 py-4 w-full mx-auto">
+                <section className="space-y-5">
+                    <div className="skeleton bg-gray-300/60 dark:bg-base-300 h-3 w-8/12"></div>
+                    <div className="flex gap-4 items-start px-4">
+                        <div className="skeleton bg-gray-300/60 dark:bg-base-300 w-2 h-2 rounded-full shrink-0"></div>
+                        <div className="flex-1 flex flex-col gap-2">
+                            <div className="skeleton bg-gray-300/60 dark:bg-base-300 h-2 w-full"></div>
+                            <div className="skeleton bg-gray-300/60 dark:bg-base-300 h-2 w-10/12"></div>
+                        </div>
                     </div>
-                </div>
-                <div className="flex gap-4 items-start px-4">
-                    <div className="skeleton w-2 h-2 rounded-full shrink-0"></div>
-                    <div className="flex-1 flex flex-col gap-2">
-                        <div className="skeleton h-2 w-8/12"></div>
-                        <div className="skeleton h-2 w-full"></div>
-                        <div className="skeleton h-2 w-10/12"></div>
+                    <div className="flex gap-4 items-start px-4">
+                        <div className="skeleton bg-gray-300/60 dark:bg-base-300 w-2 h-2 rounded-full shrink-0"></div>
+                        <div className="flex-1 flex flex-col gap-2">
+                            <div className="skeleton bg-gray-300/60 dark:bg-base-300 h-2 w-8/12"></div>
+                            <div className="skeleton bg-gray-300/60 dark:bg-base-300 h-2 w-full"></div>
+                            <div className="skeleton bg-gray-300/60 dark:bg-base-300 h-2 w-10/12"></div>
+                        </div>
                     </div>
-                </div>
-                <div className="flex gap-4 items-start px-4">
-                    <div className="skeleton w-2 h-2 rounded-full shrink-0"></div>
-                    <div className="flex-1 flex flex-col gap-2">
-                        <div className="skeleton h-2 w-9/12"></div>
+                    <div className="flex gap-4 items-start px-4">
+                        <div className="skeleton bg-gray-300/60 dark:bg-base-300 w-2 h-2 rounded-full shrink-0"></div>
+                        <div className="flex-1 flex flex-col gap-2">
+                            <div className="skeleton bg-gray-300/60 dark:bg-base-300 h-2 w-9/12"></div>
+                        </div>
                     </div>
-                </div>
-                <div className="flex gap-4 items-center">
-                    <div className="skeleton w-6 h-6 rounded-full shrink-0"></div>
-                    <div className="flex-1 flex flex-col gap-2">
-                        {/* <div className="skeleton h-4 w-20"></div> */}
-                        <div className="skeleton h-4 w-full"></div>
+                    <div className="flex gap-4 items-center">
+                        <div className="skeleton bg-gray-300/60 dark:bg-base-300 w-6 h-6 rounded-full shrink-0"></div>
+                        <div className="flex-1 flex flex-col gap-2">
+                            {/* <div className="skeleton bg-gray-300/60 dark:bg-base-300 h-4 w-20"></div> */}
+                            <div className="skeleton bg-gray-300/60 dark:bg-base-300 h-4 w-full"></div>
+                        </div>
                     </div>
-                </div>
+                </section>
             </section>
         </section>
     )
@@ -510,12 +512,12 @@ const Summary = ({ summary }) => {
     // }, [summary]);
 
     const loadMoreSummary = () => {
-        console.log(moreSummary);
+        // console.log(moreSummary);
         setIsFetchingSummary(true);
         // reset setMoreSummary if the searchQuery is a new
         handleSummaryStream(summary?.searchQuery, updateMoreSummary, baseData?.data, updateSummaryBaseData, true, baseData?.nextStartIndex, setEventOpened, setIsFetchingSummary);
         console.log("Clicked load more");
-        console.log(moreSummary);
+        // console.log(moreSummary);
         updateMoreSummary(baseData);
     }
 
@@ -525,7 +527,7 @@ const Summary = ({ summary }) => {
     //     console.log(data);
     // }, [data]);
 
-    if (baseData.data?.length < 1 && !(eventOpened || isFetchingSummary)) {
+    if (baseData.length < 1 && !(eventOpened || isFetchingSummary)) {
         return <EmptySummaryUI />
     }
 
@@ -617,7 +619,7 @@ const Summary = ({ summary }) => {
                                 }
                                 {
                                     !(summary?.streaming || moreSummary?.streaming || isFetchingSummary || eventOpened) && summary?.hasNextPage
-                                        ? <button type={"button"} className={"block mx-auto my-4 btn btn-wide bg-gray-200 capitalize"} onClick={loadMoreSummary}>More Summary</button>
+                                        ? <button type={"button"} className={"block mx-auto my-4 btn btn-wide bg-gray-200 dark:bg-base-100 capitalize"} onClick={loadMoreSummary}>More Summary</button>
                                         : null
                                 }
                                 {

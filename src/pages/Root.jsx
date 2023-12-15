@@ -86,6 +86,10 @@ export const Root = () => {
                                 <div className="px-3 py-6">Menu</div>
                                 <li><a>Bookmarks</a></li>
                                 <li><a>Saved</a></li>
+                                <div className="fixed left-0 bottom-0 mx-auto px-8 w-full flex flex-row justify-between text-left overflow-hidden leading-8">
+                                    Built by Blessed
+                                    <li>Contact Me</li>
+                                </div>
                             </ul>
                         </div>
                     </div>
@@ -110,6 +114,14 @@ export const Root = () => {
                                 <li><a>Sidebar Item 2</a></li>
                                 <li></li> */}
                                 <HelpContent />
+                                <div className="absolute right-10 top-11 bg-base-300/60 dark:bg-neutral rounded-xl">
+                                    <button className="w-full mx-auto">
+                                        <span class="sr-only">Close</span>
+                                        <label htmlFor="desktop-help-drawer" className="flex justify-center btn btn-ghost items-center w-12 h-8 leading-8 text-center">
+                                            <svg class="flex-shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                                        </label>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
