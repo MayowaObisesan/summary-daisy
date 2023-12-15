@@ -10,6 +10,7 @@ const SummaryProvider = ({ children }) => {
     const [mainQuery, setMainQuery] = useState("");
     const [eventOpened, setEventOpened] = useState(false);
     const [isFetchingSummary, setIsFetchingSummary] = useState(false);
+    const [moreSummary, setMoreSummary] = useState(baseData);
 
     const query = useCallback((searchInput) => {
         setMainQuery(searchInput);
@@ -17,6 +18,10 @@ const SummaryProvider = ({ children }) => {
 
     const updateSummaryBaseData = (newSummaryData) => {
         setBaseData(newSummaryData);
+    }
+
+    const updateMoreSummary = (moreSummaryData) => {
+        setMoreSummary(moreSummaryData);
     }
 
     const summaryData = useCallback((res) => {
@@ -104,7 +109,9 @@ const SummaryProvider = ({ children }) => {
                 eventOpened,
                 setEventOpened,
                 isFetchingSummary,
-                setIsFetchingSummary
+                setIsFetchingSummary,
+                moreSummary,
+                updateMoreSummary
             }}
         >
             {children}
