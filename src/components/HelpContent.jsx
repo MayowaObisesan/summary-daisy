@@ -7,8 +7,8 @@ export const HelpContent = ({ children }) => {
             <div className="my-4">
                 <header className="flex flex-row items-center px-4">
                     <span className="flex-1 font-bold text-3xl">Help</span>
-                    <div class="flex-shrink-0">
-                        <svg class="flex-shrink-0 h-6 w-6 text-yellow-500 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <div className="flex-shrink-0">
+                        <svg className="flex-shrink-0 h-6 w-6 text-yellow-500 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
                         </svg>
                     </div>

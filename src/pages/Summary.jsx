@@ -275,7 +275,7 @@ const SummaryList = (props) => {
 }
 
 const Summary = ({ summary }) => {
-    console.log("SUMMARY IS: ", summary);
+    // console.log("SUMMARY IS: ", summary);
     // const { summary } = useLoaderData();
     // const url = new URL(request.url);
     // const searchQuery = url.searchParams.get("search_query");
@@ -283,9 +283,9 @@ const Summary = ({ summary }) => {
     // const offlineSummary = localforage.getItem()
     // const fetchMoreData = false;
     // const [nextPageData, setNextPageData] = useState(summary?.nextPageData);
-    const { baseData, updateSummaryBaseData, eventOpened, setEventOpened, isFetchingSummary, setIsFetchingSummary } = useSummaryContext();
-    const [moreSummary, setMoreSummary] = useState(baseData);
-    console.log("BASE DATA:", baseData);
+    const { baseData, updateSummaryBaseData, eventOpened, setEventOpened, isFetchingSummary, setIsFetchingSummary, moreSummary, updateMoreSummary } = useSummaryContext();
+    // const [moreSummary, setMoreSummary] = useState(baseData);
+    // console.log("BASE DATA:", baseData);
 
     const size = useWindowSize();
     // const searchQuery = useSearchParams();
@@ -511,10 +511,12 @@ const Summary = ({ summary }) => {
 
     const loadMoreSummary = () => {
         console.log(moreSummary);
-        handleSummaryStream(summary?.searchQuery, setMoreSummary, baseData?.data, updateSummaryBaseData, true, baseData?.nextStartIndex, setEventOpened, setIsFetchingSummary);
+        setIsFetchingSummary(true);
+        // reset setMoreSummary if the searchQuery is a new
+        handleSummaryStream(summary?.searchQuery, updateMoreSummary, baseData?.data, updateSummaryBaseData, true, baseData?.nextStartIndex, setEventOpened, setIsFetchingSummary);
         console.log("Clicked load more");
         console.log(moreSummary);
-        setMoreSummary(baseData);
+        updateMoreSummary(baseData);
     }
 
     // useEffect(() => {
@@ -523,9 +525,12 @@ const Summary = ({ summary }) => {
     //     console.log(data);
     // }, [data]);
 
-    if (baseData.length < 1 && !eventOpened) {
+    if (baseData.data?.length < 1 && !(eventOpened || isFetchingSummary)) {
         return <EmptySummaryUI />
     }
+
+    const summaryPageListCount = baseData?.data ? Object.keys(baseData?.data[`${baseData?.data.length - 1}`]).length : 0;
+    const loaderList = new Array(10 - summaryPageListCount).fill("");
 
     return (
         <>
@@ -584,7 +589,7 @@ const Summary = ({ summary }) => {
                                 {/* {JSON.stringify(summary?.data)} */}
                                 <section className={"text-xs py-4 leading-6"}>
                                     {
-                                        summary &&
+                                        summary?.searchInformation &&
                                         <div>
                                             {summary.searchInformation?.formattedTotalResults} results in {summary.searchInformation?.formattedSearchTime} seconds
                                         </div>
@@ -604,8 +609,10 @@ const Summary = ({ summary }) => {
                                         : <NoSearchResult />
                                 }
                                 {
-                                    summary?.streaming || moreSummary?.streaming || eventOpened || isFetchingSummary
-                                        ? <SummarySkeleton />
+                                    summary?.streaming || moreSummary?.streaming || isFetchingSummary || eventOpened
+                                        ? loaderList.map(() => {
+                                            return (<SummarySkeleton />)
+                                        })
                                         : null
                                 }
                                 {

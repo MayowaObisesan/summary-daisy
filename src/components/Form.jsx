@@ -59,6 +59,7 @@ export const handleSummaryStream = (searchQuery, setData, currentData, updater, 
         data.hasNextPage = eventData.hasNextPage;
         data.searchQuery = eventData.searchQuery;
 
+        // Check that the searchQuery is not a new searchQuery
         setData(data);
         updater(data);
         console.log(data);
@@ -76,7 +77,7 @@ export const handleSummaryStream = (searchQuery, setData, currentData, updater, 
 }
 
 export const MobileSummaryFormComponent = ({ setData }) => {
-    const { searchQuery, summary, baseData, updateSummaryBaseData, setEventOpened, setIsFetchingSummary } = useSummaryContext();
+    const { searchQuery, summary, baseData, updateSummaryBaseData, setEventOpened, setIsFetchingSummary, updateMoreSummary } = useSummaryContext();
     const searchInputElement = useRef(null);
     const searchFormSubmitButton = useRef(null);
     const focusSearchInput = () => { }
@@ -89,8 +90,14 @@ export const MobileSummaryFormComponent = ({ setData }) => {
     const handleSummary = (e) => {
         e.preventDefault();
         // summary(searchQuery);
-        handleSummaryStream(searchInputElement.current?.value.trim(), setData, [], updateSummaryBaseData, false, 1, setEventOpened, setIsFetchingSummary);
+        if (searchInputElement.current?.value.trim() !== baseData?.searchQuery) {
+            console.log("search Query are not the same", baseData?.searchQuery);
+            setData([]);
+            updateSummaryBaseData([]);
+            updateMoreSummary([]);
+        }
         setIsFetchingSummary(true);
+        handleSummaryStream(searchInputElement.current?.value.trim(), setData, [], updateSummaryBaseData, false, 1, setEventOpened, setIsFetchingSummary);
     }
 
     return (
@@ -120,7 +127,7 @@ export const MobileSummaryFormComponent = ({ setData }) => {
 }
 
 export const DesktopSummaryFormComponent = ({ setData }) => {
-    const { data, query, baseData, updateSummaryBaseData, setEventOpened, setIsFetchingSummary } = useSummaryContext();
+    const { data, query, baseData, updateSummaryBaseData, setEventOpened, setIsFetchingSummary, updateMoreSummary } = useSummaryContext();
     const searchParams = new URLSearchParams(window.location.search);
     const searchQuery = searchParams.get('search_query');
     const searchInputElement = useRef(null);
@@ -192,8 +199,14 @@ export const DesktopSummaryFormComponent = ({ setData }) => {
     const handleSummary = (e) => {
         e.preventDefault();
         // handleGenSummary();
-        handleSummaryStream(searchInputElement.current?.value.trim(), setData, [], updateSummaryBaseData, false, 1, setEventOpened, setIsFetchingSummary);
+        if (searchInputElement.current?.value.trim() !== baseData?.searchQuery) {
+            console.log("search Query are not the same", baseData?.searchQuery);
+            setData([]);
+            updateSummaryBaseData([]);
+            updateMoreSummary([]);
+        }
         setIsFetchingSummary(true);
+        handleSummaryStream(searchInputElement.current?.value.trim(), setData, [], updateSummaryBaseData, false, 1, setEventOpened, setIsFetchingSummary);
     }
 
     return (
