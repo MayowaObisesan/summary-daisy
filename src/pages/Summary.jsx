@@ -36,6 +36,44 @@ const NoSearchResult = () => {
     )
 }
 
+const SummarySkeleton = () => {
+    return (
+        <section className="bg-base-100 animate-pulse shadow rounded-lg px-2 py-4 w-full my-6 mx-auto">
+            <section className="space-y-5">
+                <div className="skeleton h-3 w-8/12"></div>
+                <div className="flex gap-4 items-start px-4">
+                    <div className="skeleton w-2 h-2 rounded-full shrink-0"></div>
+                    <div className="flex-1 flex flex-col gap-2">
+                        <div className="skeleton h-2 w-full"></div>
+                        <div className="skeleton h-2 w-10/12"></div>
+                    </div>
+                </div>
+                <div className="flex gap-4 items-start px-4">
+                    <div className="skeleton w-2 h-2 rounded-full shrink-0"></div>
+                    <div className="flex-1 flex flex-col gap-2">
+                        <div className="skeleton h-2 w-8/12"></div>
+                        <div className="skeleton h-2 w-full"></div>
+                        <div className="skeleton h-2 w-10/12"></div>
+                    </div>
+                </div>
+                <div className="flex gap-4 items-start px-4">
+                    <div className="skeleton w-2 h-2 rounded-full shrink-0"></div>
+                    <div className="flex-1 flex flex-col gap-2">
+                        <div className="skeleton h-2 w-9/12"></div>
+                    </div>
+                </div>
+                <div className="flex gap-4 items-center">
+                    <div className="skeleton w-6 h-6 rounded-full shrink-0"></div>
+                    <div className="flex-1 flex flex-col gap-2">
+                        {/* <div className="skeleton h-4 w-20"></div> */}
+                        <div className="skeleton h-4 w-full"></div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    )
+}
+
 const SummaryItemLoading = () => {
     return (
         <>
@@ -517,7 +555,7 @@ const Summary = ({ summary }) => {
                                 }
                                 {
                                     summary?.streaming || moreSummary?.streaming || eventOpened || isFetchingSummary
-                                        ? <SummaryItemLoading />
+                                        ? <SummarySkeleton />
                                         : null
                                 }
                                 {
@@ -529,7 +567,7 @@ const Summary = ({ summary }) => {
                                     summary?.isStreaming
                                         ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(() => {
                                             return (
-                                                <SummaryItemLoading />
+                                                <SummarySkeleton />
                                             )
                                         })
                                         : null
@@ -567,7 +605,7 @@ const Summary = ({ summary }) => {
                                 }
                                 {
                                     summary?.streaming || moreSummary?.streaming || eventOpened || isFetchingSummary
-                                        ? <SummaryItemLoading />
+                                        ? <SummarySkeleton />
                                         : null
                                 }
                                 {
@@ -579,7 +617,7 @@ const Summary = ({ summary }) => {
                                     summary?.isStreaming
                                         ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(() => {
                                             return (
-                                                <SummaryItemLoading />
+                                                <SummarySkeleton />
                                             )
                                         })
                                         : null
