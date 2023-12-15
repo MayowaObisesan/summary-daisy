@@ -491,7 +491,7 @@ const Summary = ({ summary }) => {
 
     return (
         <>
-            <section className={"block w-full px-2 mx-auto md:px-4 lg:px-5 lg:w-[100vw] dark:bg-base-300 dark:lg:bg-base-300"}>
+            <section className={"block w-full px-2 mx-auto md:px-4 lg:px-5 lg:w-full dark:bg-base-300 dark:lg:bg-base-300"}>
                 {
                     size.width < deviceWidthEnum.desktop
                         ? <section className={"relative flex flex-col h-full flex-basis flex-grow every:color-454545 dark:every:color-lightgray"}>

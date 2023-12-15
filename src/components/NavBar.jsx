@@ -3,12 +3,13 @@ import { DesktopSummaryFormComponent, MobileSummaryFormComponent } from "./Form"
 import { NewsImage } from "../assets/images";
 import { SummaryGradientText } from "./SummaryText";
 import { useSummaryContext } from "../context";
+import { HelpIconSquircle } from "../assets/icons";
 
 export const DesktopNavBar = ({ setData }) => {
     const { baseData } = useSummaryContext();
 
     return (
-        <div className="sticky top-0 z-20 navbar items-start bg-[#FFFFFFBB] backdrop-blur-sm shadow dark:bg-base-200">
+        <div className="sticky top-0 z-20 navbar items-start bg-[#FFFFFFBB] backdrop-blur-sm shadow dark:bg-base-200 overflow-hidden">
             {
                 baseData?.data?.length > 0
                 && <div className={"absolute top-0 right-0 -z-10 bg-green-400 md:bg-green-300 w-24 md:w-48 h-24 blur-3xl dark:bg-green-900 dark:md:bg-green-800"}></div>
@@ -24,13 +25,17 @@ export const DesktopNavBar = ({ setData }) => {
                 <DesktopSummaryFormComponent setData={setData} />
             </div>
             <div className="flex-none">
-                <ul className="menu menu-lg menu-horizontal">
+                <ul className="menu menu-lg menu-horizontal place-items-center space-x-3">
                     {/* Navbar menu content here */}
                     <li><Link to="/">
                         <NewsImage />
                         News
                     </Link></li>
-                    {/* <li><Link to="/">Navbar Item 2</Link></li> */}
+                    {/* <li>
+                    </li> */}
+                    <label htmlFor="my-drawer" className="flex flex-row justify-center items-center w-12 h-12 rounded-xl cursor-pointer bg-black/10 hover:bg-black/20 hover:scale-110 transition-all">
+                        <HelpIconSquircle width={32} height={32} />
+                    </label>
                 </ul>
                 {/* <button className="btn btn-square btn-ghost">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-5 h-5 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg>
@@ -78,7 +83,7 @@ export const LaptopNavBar = ({ setData }) => {
     const { baseData } = useSummaryContext();
 
     return (
-        <div className="sticky top-0 z-20 navbar items-start bg-[#FFFFFFBB] backdrop-blur-sm shadow-sm transition-all dark:bg-base-200">
+        <div className="sticky top-0 z-20 navbar items-start bg-[#FFFFFFBB] backdrop-blur-sm shadow-sm transition-all dark:bg-base-200 overflow-hidden">
             {
                 baseData?.data?.length > 0
                 && <div className={"absolute top-0 right-0 -z-10 bg-green-400 md:bg-green-300 w-24 md:w-48 h-24 blur-3xl dark:bg-green-900 dark:md:bg-green-800"}></div>
@@ -101,6 +106,9 @@ export const LaptopNavBar = ({ setData }) => {
                         News
                     </Link></li>
                     {/* <li><Link to="/">Navbar Item 2</Link></li> */}
+                    <div className="flex flex-row justify-center items-center w-12 h-12 rounded-xl cursor-pointer bg-black/10 hover:bg-black/20 hover:scale-110 transition-all">
+                        <HelpIconSquircle width={32} height={32} />
+                    </div>
                 </ul>
                 {/* <button className="btn btn-square btn-ghost">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-5 h-5 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg>
@@ -149,7 +157,7 @@ export const MobileNavBar = ({ setData }) => {
 
     return (
         <>
-            <div className="navbar relative items-start bg-gray-100/60 dark:bg-base-200">
+            <div className="navbar relative items-center bg-gray-100/60 dark:bg-base-200 overflow-hidden">
                 {
                     baseData?.data?.length > 0
                     && <div className={"absolute top-0 right-0 -z-10 bg-green-400 md:bg-green-300 w-24 md:w-48 h-24 blur-3xl dark:bg-green-900 dark:md:bg-green-800"}></div>
@@ -167,13 +175,16 @@ export const MobileNavBar = ({ setData }) => {
                     {/* <input type="text" placeholder="What should I search and summarize?" className="input input-lg input-bordered w-full max-w-2xl text-sm" /> */}
                 </div>
                 <div className="flex-none">
-                    <ul className="menu menu-horizontal">
+                    <ul className="menu menu-horizontal place-items-center">
                         {/* Navbar menu content here */}
                         <li><Link to="/">
                             <NewsImage width={20} height={20} />
                             News
                         </Link></li>
                         {/* <li><Link to="/">Navbar Item 2</Link></li> */}
+                        <div className="flex flex-row justify-center items-center w-10 h-10 rounded-xl cursor-pointer bg-black/10 hover:bg-black/20 hover:scale-110 transition-all">
+                            <HelpIconSquircle width={24} height={24} />
+                        </div>
                     </ul>
                     {/* <button className="btn btn-square btn-ghost">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-5 h-5 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg>
