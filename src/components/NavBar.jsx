@@ -190,14 +190,17 @@ export const MobileNavBar = ({ setData }) => {
                                 <HelpIconSquircle width={24} height={24} />
                             </div>
                         </button>
-                        <dialog id="mobile-help-modal" className="modal modal-middle m-0 space-y-0 gap-0" ref={mobileHelpModal}>
-                            <div className="modal-box bg-base-200 mb-8 rounded-none rounded-t-xl rounded-b">
+                        <dialog id="mobile-help-modal" className="modal modal-bottom md:modal-middle m-0 space-y-0 gap-0" ref={mobileHelpModal}>
+                            <div className="modal-box w-[98%] justify-self-center bg-base-200 mb-1 rounded-xl">
                                 <HelpContent />
-                            </div>
-                            <div className="modal-action w-[92%] fixed bottom-2 bg-base-200 m-0 rounded-t rounded-b-xl md:hidden">
-                                <form method="dialog" className="w-full mx-auto">
-                                    <button className="w-full h-10 leading-10">close</button>
-                                </form>
+                                <div className="modal-action absolute right-10 top-9 bg-base-300/60 dark:bg-neutral m-0 rounded-xl">
+                                    <form method="dialog" className="w-full mx-auto">
+                                        <button className="flex justify-center btn btn-ghost items-center w-12 h-8 leading-8 text-center">
+                                            <span class="sr-only">Close</span>
+                                            <svg class="flex-shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                             <form method="dialog" className="modal-backdrop hidden md:grid">
                                 <button>close</button>
