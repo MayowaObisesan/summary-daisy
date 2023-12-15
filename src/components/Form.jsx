@@ -101,7 +101,7 @@ export const MobileSummaryFormComponent = ({ setData }) => {
                     name="search_query"
                     placeholder="What should I search and summarize?"
                     id=""
-                    className="input input-lg input-ghost w-full px-2 text-sm bg-transparent focus:outline-0 placeholder:text-gray-600"
+                    className="input input-lg input-ghost border-0 w-full px-2 text-sm bg-transparent focus:outline-0 placeholder:text-gray-600"
                     // className={"outline-none border-0 pct:w-96 h-8 md:h-8 lg:h-8 font-regular font-14 lg:font-15 md:pad-x2 lg:pad-x2 radius-round bg-EE bg-transparent dark:color-lightgray focus:shadow:0px-0px-0px-0px-white transition:width_400ms_ease|border-radius_200ms_ease|box-shadow_200ms_ease-in_200ms|background_200ms_ease_200ms|all_200ms_ease placeholder:color-989898"}
                     onFocus={focusSearchInput}
                     onInput={handleSearchInput}
@@ -198,13 +198,13 @@ export const DesktopSummaryFormComponent = ({ setData }) => {
 
     return (
         <form method="GET" className="form-control relative flex flex-col justify-center align-items-center w-full max-w-2xl bg-white-transparent pad-x-4 pad-y-5 bg-mica z-1000 radius focus-withi:bg-27CE8E transition:background_200ms_ease_200ms dark:bg-transparent" onSubmit={handleSummary}>
-            <div className={"input flex-1 flex flex-row items-center rounded-xl ring-gray-300 ring-2 dark:ring-base-100"}>
+            <div className={"flex-1 flex flex-row items-center rounded-xl px-4 ring-transparent ring-2 bg-gray-200/60 dark:ring-base-100 dark:bg-base-100 transition-all duration-400 ease-out delay-200 focus-within:w-full focus-within:bg-gray-100 focus-within:ring-2 focus-within:ring-gray-300/60 dark:focus-within:ring-neutral dark:focus-within:bg-base-100"}>
                 <input
                     type="text"
                     name="search_query"
                     placeholder="What should I search and summarize?"
                     id=""
-                    className="input input-lg input-ghost w-full text-sm"
+                    className="input input-lg input-ghost w-full px-2 text-sm bg-transparent border-0 focus:outline-0"
                     // className={"outline-none border-0 pct:w-96 h-8 md:h-8 lg:h-8 font-regular lg:font-12 md:pad-x2 lg:pad-x2 radius-round bg-EE bg-transparent dark:color-lightgray focus:shadow:0px-0px-0px-0px-white transition:width_400ms_ease|border-radius_200ms_ease|box-shadow_200ms_ease-in_200ms|background_200ms_ease_200ms|all_200ms_ease placeholder:color-787878"}
                     onFocus={focusSearchInput}
                     onInput={handleSearchInput}
