@@ -32,7 +32,7 @@ const EmptySummaryUI = () => {
                             </div>
                     }
                 </div>
-                <div className="text-lg lg:text-xl">
+                <div className="text-gray-500 text-lg lg:text-xl">
                     Nothing to summarize
                 </div>
             </section>
