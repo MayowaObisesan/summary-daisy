@@ -38,7 +38,7 @@ const NoSearchResult = () => {
 
 const SummarySkeleton = () => {
     return (
-        <section className="relative w-full px-2 pt-2 pb-2 my-6 rounded-lg bg-gray-100/60 dark:bg-base-200">
+        <section className="relative w-full lg:px-2 lg:pt-2 lg:pb-2 my-6 rounded-lg bg-gray-100/60 dark:bg-base-200">
             <section className="bg-base-100 animate-pulse shadow rounded-lg px-2 py-4 w-full mx-auto">
                 <section className="space-y-5">
                     <div className="skeleton bg-gray-300/60 dark:bg-base-300 h-3 w-8/12"></div>
