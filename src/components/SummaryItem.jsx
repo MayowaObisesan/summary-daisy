@@ -74,7 +74,7 @@ export const SummaryGroup = ({ hostName, children }) => {
         <section className="bg-gray-100/80 rounded-md px-1 md:px-2 pt-4 pb-2 my-2 dark:bg-base-200">
             <div className="relative flex flex-row items-center w-full h-8 flex-1 px-4">
                 <span>Results from <b>{hostName}</b></span>
-                <span className="absolute right-2 bg-green-200 w-8 h-8 leading-8 rounded-full text-center font-bold dark:bg-primary">{children.length}</span>
+                <span className="absolute right-2 bg-green-200 w-8 h-8 leading-8 rounded-full text-center font-bold dark:bg-green-700">{children.length}</span>
             </div>
             <section className="flex flex-row flex-nowrap justify-start items-stretch bg-inherit p-1 overflow-x-auto rounded-md lg:p-2 dark:bg-base-200">
                 {/* <div className="flex-none w-9/12 bg-orange-600 mx-2"></div> */}
