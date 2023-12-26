@@ -5,7 +5,7 @@ export const ContactCard = () => {
     return (
         <div class="" role="tooltip">
             {/* <!-- Header --> */}
-            <div class="py-4 px-4 border-b border-gray-200 dark:border-gray-700">
+            <div class="py-4 px-4 border-b border-gray-200 dark:border-neutral">
                 <div class="flex items-center gap-x-3">
                     <img class="flex-shrink-0 inline-block h-10 w-10 rounded-full ring-2 ring-white dark:ring-gray-800" src="https://avatars.githubusercontent.com/u/91972571?v=4" alt="Builder" />
                     <div class="grow">
@@ -46,7 +46,7 @@ export const ContactCard = () => {
                     </div>
                 </li>
 
-                <section className="space-y-2 rounded-lg bg-gray-100 lg:bg-transparent">
+                <section className="space-y-2 rounded-lg bg-gray-100 dark:bg-transparent">
                     {/* <div className={"text-gray-500 dark:text-base-content"}>
                     Social Accounts
                 </div> */}

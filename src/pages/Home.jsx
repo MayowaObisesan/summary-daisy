@@ -57,7 +57,7 @@ const Home = () => {
                                                 <svg class="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m18 15-6-6-6 6" /></svg>
                                             </span>
                                         </summary>
-                                        <div tabIndex={0} className="dropdown-content z-[1] menu w-full my-1 p-1 shadow bg-base-100 dark:bg-base-200 rounded-box">
+                                        <div tabIndex={0} className="dropdown-content z-[1] menu w-full my-1 p-1 shadow bg-base-100 dark:bg-base-100 rounded-box">
                                             <ContactCard></ContactCard>
                                             {/* <div class="flex p-4">
                                                 <div class="flex-shrink-0 text-warning">
