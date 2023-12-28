@@ -33,15 +33,15 @@ export const DesktopNavBar = ({ setData }) => {
                         News
                     </summary>
                     <div tabIndex={0} className="dropdown-content z-[1] menu p-1 shadow bg-gray-100 dark:bg-base-200 rounded-box w-64">
-                        <div class="flex p-4">
-                            <div class="flex-shrink-0 text-warning">
-                                <svg class="h-5 w-5 mt-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg>
+                        <div className="flex p-4">
+                            <div className="flex-shrink-0 text-warning">
+                                <svg className="h-5 w-5 mt-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg>
                             </div>
-                            <div class="ms-4">
-                                <h3 class="text-gray-800 font-semibold dark:text-white">
+                            <div className="ms-4">
+                                <h3 className="text-gray-800 font-semibold dark:text-white">
                                     Work in Progress
                                 </h3>
-                                <div class="mt-1 text-sm leading-6">
+                                <div className="mt-1 text-sm leading-6">
                                     You will be informed once News is live.
                                     🙂
                                 </div>
@@ -129,15 +129,15 @@ export const LaptopNavBar = ({ setData }) => {
                         News
                     </summary>
                     <div tabIndex={0} className="dropdown-content z-[1] menu p-1 shadow bg-gray-100 dark:bg-base-200 rounded-box w-64">
-                        <div class="flex p-4">
-                            <div class="flex-shrink-0 text-warning">
-                                <svg class="h-5 w-5 mt-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg>
+                        <div className="flex p-4">
+                            <div className="flex-shrink-0 text-warning">
+                                <svg className="h-5 w-5 mt-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg>
                             </div>
-                            <div class="ms-4">
-                                <h3 class="text-gray-800 font-semibold dark:text-white">
+                            <div className="ms-4">
+                                <h3 className="text-gray-800 font-semibold dark:text-white">
                                     Work in Progress
                                 </h3>
-                                <div class="mt-1 text-sm leading-6">
+                                <div className="mt-1 text-sm leading-6">
                                     You will be informed once News is live.
                                     🙂
                                 </div>
@@ -228,15 +228,15 @@ export const MobileNavBar = ({ setData }) => {
                             News
                         </div>
                         <div tabIndex={0} className="dropdown-content z-[1] menu p-1 shadow bg-gray-100 dark:bg-base-200 rounded-box w-64">
-                            <div class="flex p-4">
-                                <div class="flex-shrink-0 text-warning">
-                                    <svg class="h-5 w-5 mt-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg>
+                            <div className="flex p-4">
+                                <div className="flex-shrink-0 text-warning">
+                                    <svg className="h-5 w-5 mt-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg>
                                 </div>
-                                <div class="ms-4">
-                                    <h3 class="text-gray-800 font-semibold dark:text-white">
+                                <div className="ms-4">
+                                    <h3 className="text-gray-800 font-semibold dark:text-white">
                                         Work in Progress
                                     </h3>
-                                    <div class="mt-1 text-sm leading-6">
+                                    <div className="mt-1 text-sm leading-6">
                                         You will be informed once News is live.
                                         🙂
                                     </div>
@@ -263,8 +263,8 @@ export const MobileNavBar = ({ setData }) => {
                             <div className="modal-action absolute right-10 top-9 bg-base-300/60 dark:bg-neutral m-0 rounded-xl">
                                 <form method="dialog" className="w-full mx-auto">
                                     <button className="flex justify-center btn btn-ghost items-center w-12 h-8 leading-8 text-center">
-                                        <span class="sr-only">Close</span>
-                                        <svg class="flex-shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                                        <span className="sr-only">Close</span>
+                                        <svg className="flex-shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
                                     </button>
                                 </form>
                             </div>
