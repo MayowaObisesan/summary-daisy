@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Summary",
+  "name": "Summary PW App",
+  "description": "Summary is a platform that generates bullet-point summary of your search results in real-time.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,12 +9,12 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "summarylogo192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
+      "src": "summarylogo512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
