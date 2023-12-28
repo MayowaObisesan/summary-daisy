@@ -3,19 +3,19 @@ import { ExternalLink } from "./ExternalLink"
 
 export const ContactCard = () => {
     return (
-        <div class="" role="tooltip">
+        <div className="" role="tooltip">
             {/* <!-- Header --> */}
-            <div class="py-4 px-4 border-b border-gray-200 dark:border-neutral">
-                <div class="flex items-center gap-x-3">
-                    <img class="flex-shrink-0 inline-block h-10 w-10 rounded-full ring-2 ring-white dark:ring-gray-800" src="https://avatars.githubusercontent.com/u/91972571?v=4" alt="Builder" />
-                    <div class="grow">
-                        <h4 class="font-semibold text-gray-800 dark:text-white">
+            <div className="py-4 px-4 border-b border-gray-200 dark:border-neutral">
+                <div className="flex items-center gap-x-3">
+                    <img className="flex-shrink-0 inline-block h-10 w-10 rounded-full ring-2 ring-white dark:ring-gray-800" src="https://avatars.githubusercontent.com/u/91972571?v=4" alt="Builder" />
+                    <div className="grow">
+                        <h4 className="font-semibold text-gray-800 dark:text-white">
                             Mayowa Obisesan
-                            {/* <span class="ms-0.5 inline-flex items-center align-middle gap-x-1.5 py-0.5 px-1.5 rounded-md text-[11px] font-medium bg-gray-800 text-white dark:bg-white dark:text-gray-800">
+                            {/* <span className="ms-0.5 inline-flex items-center align-middle gap-x-1.5 py-0.5 px-1.5 rounded-md text-[11px] font-medium bg-gray-800 text-white dark:bg-white dark:text-gray-800">
                                 PRO
                             </span> */}
                         </h4>
-                        <p class="text-sm text-gray-500">
+                        <p className="text-sm text-gray-500">
                             Builder
                         </p>
                     </div>
@@ -24,24 +24,24 @@ export const ContactCard = () => {
             {/* <!-- End Header --> */}
 
             {/* <!-- List --> */}
-            <ul class="py-3 px-4 space-y-4">
+            <ul className="py-3 px-4 space-y-4">
                 <li>
-                    <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 dark:text-neutral-200">
-                        <svg class="flex-shrink-0 w-4 h-4 text-gray-600 dark:text-neutral-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" /><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" /><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" /><path d="M10 6h4" /><path d="M10 10h4" /><path d="M10 14h4" /><path d="M10 18h4" /></svg>
+                    <div className="inline-flex items-center gap-x-3 text-sm text-gray-800 dark:text-neutral-200">
+                        <svg className="flex-shrink-0 w-4 h-4 text-gray-600 dark:text-neutral-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeinejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" /><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" /><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" /><path d="M10 6h4" /><path d="M10 10h4" /><path d="M10 14h4" /><path d="M10 18h4" /></svg>
                         Lagos, Nigeria
                     </div>
                 </li>
 
                 <li>
-                    <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 dark:text-neutral-200">
-                        <svg class="flex-shrink-0 w-4 h-4 text-gray-600 dark:text-neutral-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" /><path d="M12 18h.01" /></svg>
+                    <div className="inline-flex items-center gap-x-3 text-sm text-gray-800 dark:text-neutral-200">
+                        <svg className="flex-shrink-0 w-4 h-4 text-gray-600 dark:text-neutral-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeinejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" /><path d="M12 18h.01" /></svg>
                         <a href={"tel:2349131581488"}>(+234) 913-158-1488</a>
                     </div>
                 </li>
 
                 <li>
-                    <div class="inline-flex items-center gap-x-3 text-sm text-gray-800 dark:text-neutral-200">
-                        <svg class="flex-shrink-0 w-4 h-4 text-gray-600 dark:text-neutral-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
+                    <div className="inline-flex items-center gap-x-3 text-sm text-gray-800 dark:text-neutral-200">
+                        <svg className="flex-shrink-0 w-4 h-4 text-gray-600 dark:text-neutral-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
                         <a href={"mailto:mayowaobi74@gmail.com"}>mayowaobi74@gmail.com</a>
                     </div>
                 </li>
@@ -82,13 +82,13 @@ export const ContactCard = () => {
             </div> */}
 
             {/* <!-- Footer --> */}
-            {/* <div class="py-2 px-4 flex justify-between items-center bg-gray-100 dark:bg-gray-800">
-                <a class="inline-flex items-center gap-x-1.5 text-xs text-gray-500 hover:text-blue-600 disabled:opacity-50 disabled:pointer-events-none dark:text-gray-400 dark:hover:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">
-                    <svg class="flex-shrink-0 w-3 h-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" /><line x1="4" x2="4" y1="22" y2="15" /></svg>
+            {/* <div className="py-2 px-4 flex justify-between items-center bg-gray-100 dark:bg-gray-800">
+                <a className="inline-flex items-center gap-x-1.5 text-xs text-gray-500 hover:text-blue-600 disabled:opacity-50 disabled:pointer-events-none dark:text-gray-400 dark:hover:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-Name600" href="#">
+                    <svg className="flex-shrink-0 w-3 h-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeinejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" /><line x1="4" x2="4" y1="22" y2="15" /></svg>
                     Flag
                 </a>
 
-                <button type="button" class="py-1.5 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-full border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                <button type="button" className="py-1.5 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-full border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                     Follow
                 </button>
             </div> */}

@@ -14,17 +14,17 @@ const FooterLinks = () => {
                     Contact
                 </div>
                 <div tabIndex={0} className="dropdown-content z-[1] menu mb-5 p-2 text-left shadow bg-gray-100 dark:bg-base-100 rounded-box">
-                    <div class="flex px-4 py-2">
-                        <div class="grow space-y-4">
-                            <h3 class="text-gray-800 dark:text-white">
+                    <div className="flex px-4 py-2">
+                        <div className="grow space-y-4">
+                            <h3 className="text-gray-800 dark:text-white">
                                 Contact:
                             </h3>
-                            <div class="inline-flex items-center gap-x-3 font-semibold text-sm text-gray-800 dark:text-neutral-200">
-                                <svg class="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
+                            <div className="inline-flex items-center gap-x-3 font-semibold text-sm text-gray-800 dark:text-neutral-200">
+                                <svg className="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
                                 <a href={"mailto:summary.create@gmail.com"} className="underline">summary.create@gmail.com</a>
                             </div>
-                            <div class="inline-flex items-center gap-x-3 font-semibold text-sm text-gray-800 dark:text-neutral-200">
-                                <svg class="flex-shrink-0 w-4 h-4 text-gray-600 dark:text-neutral-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" /><path d="M12 18h.01" /></svg>
+                            <div className="inline-flex items-center gap-x-3 font-semibold text-sm text-gray-800 dark:text-neutral-200">
+                                <svg className="flex-shrink-0 w-4 h-4 text-gray-600 dark:text-neutral-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" /><path d="M12 18h.01" /></svg>
                                 <a href={"tel:2349137823897"}>(234) 913-7823-897</a>
                             </div>
                         </div>

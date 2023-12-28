@@ -91,20 +91,20 @@ export const HelpContent = ({ children }) => {
                     <summary className="btn btn-ghost btn-block justify-between">
                         <span className="">Built in 🇳🇬 by Blessed</span>
                         <span type="button" className="flex justify-center items-center h-10 w-10 text-sm font-semibold rounded-lg bg-base-100 dark:bg-base-100">
-                            <svg class="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m18 15-6-6-6 6" /></svg>
+                            <svg className="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m18 15-6-6-6 6" /></svg>
                         </span>
                     </summary>
                     <div tabIndex={0} className="dropdown-content right-4 z-[1] menu w-full lg:w-80 my-1 p-1 shadow bg-base-100 dark:bg-base-100 rounded-box">
                         <ContactCard></ContactCard>
-                        {/* <div class="flex p-4">
-                                                <div class="flex-shrink-0 text-warning">
-                                                    <svg class="h-5 w-5 mt-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg>
+                        {/* <div className="flex p-4">
+                                                <div className="flex-shrink-0 text-warning">
+                                                    <svg className="h-5 w-5 mt-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg>
                                                 </div>
-                                                <div class="ms-4">
-                                                    <h3 class="text-gray-800 font-semibold dark:text-white">
+                                                <div className="ms-4">
+                                                    <h3 className="text-gray-800 font-semibold dark:text-white">
                                                         Work in Progress
                                                     </h3>
-                                                    <div class="mt-1 text-sm leading-6">
+                                                    <div className="mt-1 text-sm leading-6">
                                                         You will be informed once News is live.
                                                         🙂
                                                     </div>
@@ -118,21 +118,21 @@ export const HelpContent = ({ children }) => {
                     Contact
                 </div>
                 <div tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-64">
-                    <div class="flex p-4">
-                        <div class="flex-shrink-0 text-warning">
-                            <svg class="h-5 w-5 mt-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg>
+                    <div className="flex p-4">
+                        <div className="flex-shrink-0 text-warning">
+                            <svg className="h-5 w-5 mt-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg>
                         </div>
-                        <div class="ms-4">
-                            <h3 class="text-gray-800 font-semibold dark:text-white">
+                        <div className="ms-4">
+                            <h3 className="text-gray-800 font-semibold dark:text-white">
                                 Work in Progress
                             </h3>
-                            <div class="mt-1 text-sm leading-6">
+                            <div className="mt-1 text-sm leading-6">
                                 You will be informed once News is live.
                                 🙂
                             </div>
-                            <div class="mt-4">
-                                <div class="flex space-x-3">
-                                    <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:text-blue-800 dark:text-blue-500 dark:focus:text-blue-400">
+                            <div className="mt-4">
+                                <div className="flex space-x-3">
+                                    <button type="button" className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:text-blue-800 dark:text-blue-500 dark:focus:text-blue-400">
                                         Close
                                     </button>
                                 </div>
