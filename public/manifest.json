@@ -1,26 +1,86 @@
 {
+  "protocol_handlers": [
+    {
+      "protocol": "mailto",
+      "url": "/newEmail?to=%s"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Start Live Session",
+      "short_name": "Start Live",
+      "description": "Jump direction into starting or joining a live session",
+      "url": "/?startLive",
+      "icons": [
+        {
+          "src": "https://pwabuilder.com/assets/icons/icon_192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "https://www.pwabuilder.com/assets/screenshots/screen1.png",
+      "sizes": "2880x1800",
+      "type": "image/png",
+      "description": "PWABuilder Home Screen"
+    },
+    {
+      "src": "https://www.pwabuilder.com/assets/screenshots/screen2.png",
+      "sizes": "2880/1800",
+      "type": "image/png",
+      "description": "PWABuilder Report Card"
+    },
+    {
+      "src": "https://www.pwabuilder.com/assets/screenshots/screen3.png",
+      "sizes": "2880x1800",
+      "type": "image/png",
+      "description": "Manifest information on the Report Card"
+    }
+  ],
   "short_name": "Summary",
-  "name": "Summary PW App",
+  "name": "Summary: Improve your search",
   "description": "Summary is a platform that generates bullet-point summary of your search results in real-time.",
+  "id": "/summary",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "favicon_64.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
       "src": "summarylogo192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x138"
     },
     {
       "src": "summarylogo512.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x369"
     }
   ],
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "scope": "https://createsummary.com",
+  "lang": "en",
+  "orientation": "any",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "browser"
+  ],
+  "dir": "auto",
+  "categories": [
+    "education",
+    "navigation",
+    "productivity",
+    "utilities"
+  ],
+  "features": [
+    "Cross Platform",
+    "small size"
+  ]
 }
