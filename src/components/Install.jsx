@@ -34,7 +34,7 @@ const InstallPWA = () => {
         return (
             <button
                 type="button"
-                className={"btn bg-[#27CE8E] dark:bg-base-300 outline-none border-0 h-12 leading-[48px] px-4 rounded-xl"}
+                className={"btn btn-success outline-none border-0 h-12 leading-[48px] px-4 rounded-xl"}
                 ref={installButton}
                 onClick={clickInstallButton}
             >
