@@ -21,19 +21,19 @@
   ],
   "screenshots": [
     {
-      "src": "SummaryScreenshot.png",
+      "src": "SummaryScreenshot.jpeg",
       "sizes": "424*918",
       "type": "image/png",
       "description": "Summary Home Screen"
     },
     {
-      "src": "SummaryScreenshot2.png",
+      "src": "SummaryScreenshot2.jpeg",
       "sizes": "424*918",
       "type": "image/png",
       "description": "Summary query search"
     },
     {
-      "src": "SummaryScreenshot3.png",
+      "src": "SummaryScreenshot3.jpeg",
       "sizes": "424*918",
       "type": "image/png",
       "description": "Summary Bullet point results"
