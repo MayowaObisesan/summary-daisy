@@ -92,7 +92,7 @@ const InstallPWA = () => {
         <>
             {
                 showInstallContainer
-                && <section id="id-install-summary" className={"sticky top-0 z-10 flex flex-row items-center p-4 bg-gray-200 backdrop-blur shadow dark:bg-[#27CE8E]/5"} ref={installContainer}>
+                && <section id="id-install-summary" className={"sticky top-[72px] lg:top-[80px] z-10 flex flex-row items-center p-4 bg-gray-200 backdrop-blur-md shadow dark:bg-[#27CE8E]/10 dark:lg:bg-[#27CE8E]/5"} ref={installContainer}>
                     <button type={"button"} className={"fa fa-times font-14 border-0 bg-transparent square-4 leading-8 text-center relative self-start dark:color-whitesmoke"} onClick={closeInstallContainer}></button>
                     <div className={"install-message w-full px-4 dark:color-whitesmoke"}>
                         Install Summary.
