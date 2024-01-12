@@ -21,22 +21,22 @@
   ],
   "screenshots": [
     {
-      "src": "https://www.pwabuilder.com/assets/screenshots/screen1.png",
-      "sizes": "2880x1800",
+      "src": "SummaryScreenshot.png",
+      "sizes": "424*918",
       "type": "image/png",
-      "description": "PWABuilder Home Screen"
+      "description": "Summary Home Screen"
     },
     {
-      "src": "https://www.pwabuilder.com/assets/screenshots/screen2.png",
-      "sizes": "2880/1800",
+      "src": "SummaryScreenshot2.png",
+      "sizes": "424*918",
       "type": "image/png",
-      "description": "PWABuilder Report Card"
+      "description": "Summary query search"
     },
     {
-      "src": "https://www.pwabuilder.com/assets/screenshots/screen3.png",
-      "sizes": "2880x1800",
+      "src": "SummaryScreenshot3.png",
+      "sizes": "424*918",
       "type": "image/png",
-      "description": "Manifest information on the Report Card"
+      "description": "Summary Bullet point results"
     }
   ],
   "short_name": "Summary",
