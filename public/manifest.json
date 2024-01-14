@@ -7,13 +7,13 @@
   ],
   "shortcuts": [
     {
-      "name": "Start Live Session",
-      "short_name": "Start Live",
-      "description": "Jump direction into starting or joining a live session",
-      "url": "/?startLive",
+      "name": "Create new summary",
+      "short_name": "New Summary",
+      "description": "Enter a search term to generate the summary.",
+      "url": "/",
       "icons": [
         {
-          "src": "https://pwabuilder.com/assets/icons/icon_192.png",
+          "src": "summaryDefault192.png",
           "sizes": "192x192"
         }
       ]
@@ -45,8 +45,8 @@
   "id": "/summary",
   "icons": [
     {
-      "src": "summaryDefaultFavicon64.png",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "src": "summaryDefault192.png",
+      "sizes": "128x128 64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
@@ -66,7 +66,7 @@
   "background_color": "#ffffff",
   "scope": "https://createsummary.com",
   "lang": "en",
-  "orientation": "any",
+  "orientation": "portrait-primary",
   "display_override": [
     "window-controls-overlay",
     "standalone",

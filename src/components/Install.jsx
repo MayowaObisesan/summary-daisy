@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
+import { NotifSuccess, TemporaryNotif } from "./Notifs";
 
 let installPrompt = null;
 
-function disableInAppInstallPrompt() {
-    installPrompt = null;
-}
+// function disableInAppInstallPrompt() {
+//     installPrompt = null;
+// }
 
 const InstallPWA = () => {
     // const installButton = document.querySelector("#id-install-summary");
@@ -29,6 +30,10 @@ const InstallPWA = () => {
             const result = await installPrompt.prompt();
             console.log("Install prompt was:", result.outcome);
             if (result.outcome === "accepted") { closeInstallContainer(); };
+            // Show the notification that installation was successful.
+            <TemporaryNotif time={5000}>
+                <NotifSuccess title={"Installation Complete"} message={"Summary has been installed on your device. 🥳"} />
+            </TemporaryNotif>
         }
 
         return (
@@ -90,6 +95,20 @@ const InstallPWA = () => {
 
     return (
         <>
+            {/* <div className="absolute my-2 right-2 z-[1000] flex flex-col flex-end gap-4">
+                <NotifInfo icon={<NotifBellIcon />} title={"Install Summary"} message={"Installation takes less than 10 seconds"}>
+                    <div>
+                        <button
+                            className={"btn btn-sm btn-success"}
+                        >
+                            Install
+                        </button>
+                    </div>
+                </NotifInfo>
+                <TemporaryNotif time={5000}>
+                    <NotifSuccess title={"Installation Complete"} message={"Summary has been installed on your device. 🥳"} />
+                </TemporaryNotif>
+            </div> */}
             {
                 showInstallContainer
                 && <section id="id-install-summary" className={"sticky top-[72px] lg:top-[80px] z-10 flex flex-row items-center p-4 bg-gray-200 backdrop-blur-md shadow dark:bg-[#27CE8E]/10 dark:lg:bg-[#27CE8E]/5"} ref={installContainer}>
