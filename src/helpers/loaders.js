@@ -4,7 +4,7 @@ import { redirect } from "react-router-dom";
 import { testData3 } from "../TestData";
 // import { testData3 } from "./TestData";
 
-console.log(process.env)
+// console.log(process.env)
 
 let summaryStore = localforage.createInstance({
     name: "summaryDB",   // dbName

@@ -25,11 +25,11 @@ export const HelpContent = ({ children }) => {
                         It performs your search and returns a summary of each website from your search.
                     </li>
                     <li>
-                        <strong>Summary leverages search engines</strong> to generate search results and and summary those results in real-time.
+                        <strong>Summary leverages search engines</strong> to generate search results and summarize those results in real-time.
                     </li>
-                    <li>
+                    {/* <li>
                         Summary works similar to a search engine like google search, <strong>but it reads each search result and returns a bullet summary of each of the website that was returned from your search.</strong>
-                    </li>
+                    </li> */}
                     <li>
                         Summary only summarizes web page contents, <strong>it does not generate web page contents</strong>.
                     </li>

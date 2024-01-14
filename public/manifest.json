@@ -14,7 +14,7 @@
       "icons": [
         {
           "src": "summaryDefault192.png",
-          "sizes": "192x192"
+          "sizes": "213x213"
         }
       ]
     }
@@ -24,7 +24,8 @@
       "src": "SummaryScreenshot.jpeg",
       "sizes": "424*918",
       "type": "image/png",
-      "description": "Summary Home Screen"
+      "description": "Summary Home Screen",
+      "form-factor": "wide"
     },
     {
       "src": "SummaryScreenshot2.jpeg",
@@ -45,22 +46,22 @@
   "id": "/summary",
   "icons": [
     {
-      "src": "summaryDefault192.png",
-      "sizes": "128x128 64x64 32x32 24x24 16x16",
+      "src": "summaryDefaultFavicon24.png",
+      "sizes": "27x27",
       "type": "image/x-icon"
     },
     {
       "src": "summaryDefault192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "213x213"
     },
     {
       "src": "summaryDefault512.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "568x568"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff",
@@ -68,8 +69,8 @@
   "lang": "en",
   "orientation": "portrait-primary",
   "display_override": [
-    "window-controls-overlay",
     "standalone",
+    "window-controls-overlay",
     "browser"
   ],
   "dir": "auto",

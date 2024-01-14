@@ -117,7 +117,8 @@ const Footer = () => {
                                 <div className="font-bold text-xl">Summary</div>
                                 {/* <div>Copyright © {new Date().getFullYear()}</div>
                         <div>All right reserved by Summary</div> */}
-                                <div>Search by Google</div>
+                                {/* <div className="text-xs">Powered by Google Search</div> */}
+                                <div className="text-xs">Be productive</div>
                             </div>
                         </aside>
                         <nav className="hidden lg:grid-flow-col gap-4 md:place-self-center md:justify-self-end">
@@ -156,7 +157,8 @@ const Footer = () => {
                                 <div className="font-bold text-xl">Summary</div>
                                 {/* <div>Copyright © {new Date().getFullYear()}</div>
                         <div>All right reserved by Summary</div> */}
-                                <div>Search by Google</div>
+                                {/* <div className="text-xs">Powered by Google Search</div> */}
+                                <div className="text-xs">Be productive</div>
                             </div>
                         </aside>
                         <nav className="hidden lg:grid-flow-col gap-4 md:place-self-center md:justify-self-end">
@@ -195,7 +197,8 @@ const Footer = () => {
                             <div className="font-bold text-xl">Summary</div>
                             {/* <div>Copyright © {new Date().getFullYear()}</div>
                         <div>All right reserved by Summary</div> */}
-                            <div>Search by Google</div>
+                            {/* <div className="text-xs">Powered by Google Search</div> */}
+                            <div className="text-xs">Be productive</div>
                         </div>
                     </aside>
                     <nav className="hidden lg:grid-flow-col gap-4 md:place-self-center md:justify-self-end">

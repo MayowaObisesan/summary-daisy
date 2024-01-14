@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Form } from "react-router-dom";
-import { useSummaryContext } from "../context";
+import { updateSummaryHistoryCache, updateSummarySearchCache, useSummaryContext } from "../context";
 import useSummary from "../hooks/useSummary";
 import { groupData } from "../helpers/loaders";
 
@@ -68,6 +68,8 @@ export const handleSummaryStream = (searchQuery, setData, currentData, updater, 
             setEventOpened(false);
             setIsFetchingSummary(false);
             console.log("Closed event source");
+            data.fromLocalStore = true;
+            updateSummarySearchCache(data);
         }
     }
     eventSource.onclose = () => {
@@ -96,6 +98,10 @@ export const MobileSummaryFormComponent = ({ setData }) => {
             updateMoreSummary([]);
         }
         setIsFetchingSummary(true);
+        updateSummaryHistoryCache({
+            query: searchInputElement.current.value.trim(),
+            datetime: new Date().toLocaleString()
+        });
         handleSummaryStream(searchInputElement.current?.value.trim(), setData, [], updateSummaryBaseData, false, 1, setEventOpened, setIsFetchingSummary);
     }
 
@@ -204,6 +210,10 @@ export const DesktopSummaryFormComponent = ({ setData }) => {
             updateMoreSummary([]);
         }
         setIsFetchingSummary(true);
+        updateSummaryHistoryCache({
+            query: searchInputElement.current.value.trim(),
+            datetime: new Date().toLocaleString()
+        });
         handleSummaryStream(searchInputElement.current?.value.trim(), setData, [], updateSummaryBaseData, false, 1, setEventOpened, setIsFetchingSummary);
     }
 

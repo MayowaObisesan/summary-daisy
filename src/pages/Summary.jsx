@@ -132,16 +132,19 @@ const SummaryList = (props) => {
             <>
                 {
                     children?.data?.map((eachSummary, index) => {
-                        const pageNumber = ((props.currentStartIndex - 1) / 10) + (index + 1)
+                        let pageNumber = ((props.currentStartIndex - 1) / 10) + (index + 1);
+                        if (props.fromLocalStore) {
+                            pageNumber = index + 1;
+                        }
                         return (
-                            <>
+                            <div key={index}>
                                 {
                                     pageNumber > 1
-                                    && <div className={"sticky top-[72px] lg:relative lg:top-0 block font-bold px-1 pt-6 pb-2 bg-base-100/60 backdrop-blur-sm z-10"}>
+                                    && <div key={index} className={"sticky top-[72px] lg:relative lg:top-0 block font-bold px-1 pt-6 pb-2 bg-base-100/60 backdrop-blur-sm z-10"}>
                                         Page {pageNumber}
                                     </div>
                                 }
-                                <section className="border-b-2 pb-4 border-base-100">
+                                <section key={index} className="border-b-2 pb-4 border-base-100">
                                     {Object.keys(eachSummary).map((grouper, index) => {
                                         // let hostName = grouper;
                                         const grouperData = eachSummary[grouper];
@@ -168,7 +171,7 @@ const SummaryList = (props) => {
                                         props.children?.length
                                     } */}
                                 </section>
-                            </>
+                            </div>
                         )
                     })
                 }
@@ -277,6 +280,7 @@ const SummaryList = (props) => {
 }
 
 const Summary = ({ summary }) => {
+    // console.log(summary.data);
     // console.log("SUMMARY IS: ", summary);
     // const { summary } = useLoaderData();
     // const url = new URL(request.url);
