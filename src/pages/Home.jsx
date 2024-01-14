@@ -13,6 +13,7 @@ import { SummaryGradientText } from "../components/SummaryText";
 import { HelpContent } from "../components/HelpContent";
 import { ContactCard } from "../components/ContactCard";
 import InstallPWA from "../components/Install";
+import { getSummaryHistoryCache, getSummarySearchCache } from "../context";
 
 export async function loader() {
     // const { trends } = await getSummaryTrends();
@@ -22,12 +23,12 @@ export async function loader() {
 
 const Home = () => {
     const size = useWindowSize();
-    const [data, setData] = useState([]);
+    const [data, setData] = useState(getSummarySearchCache() || []);
 
     useEffect(() => {
         setData(data);
-        console.log("Updating summaryData");
-        console.log(data);
+        // console.log("Updating summaryData");
+        // console.log(data);
     }, [data]);
 
     return (
@@ -46,12 +47,35 @@ const Home = () => {
 
                         <div className="drawer-side z-10">
                             <label htmlFor="my-drawer" className="drawer-overlay"></label>
-                            <ul className="menu p-4 w-80 min-h-full bg-gray-100 dark:bg-base-200 text-base-content">
+                            <ul className="menu p-4 w-80 min-h-full h-screen bg-gray-100 dark:bg-base-200 text-base-content">
                                 {/* Sidebar content here */}
-                                {/* <div className="px-3 py-6">Menu</div> */}
-                                {/* <li><a>Bookmarks</a></li> */}
-                                {/* <li><a>Saved</a></li> */}
-                                <div className="fixed left-0 bottom-4 mx-auto px-4 w-full flex flex-col justify-between text-left leading-8">
+                                <div className={"flex-1 flex flex-col h-full overflow-y-auto"}>
+                                    <div className="px-3 pt-2 pb-6 text-lg font-bold flex flex-row items-center gap-x-4">
+                                        <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg>
+                                        <span>Search History</span>
+                                    </div>
+                                    <div className={"flex-1 overflow-y-auto"}>
+                                        {
+                                            getSummaryHistoryCache().reverse().map((eachHistory, index) => (
+                                                // <li key={eachHistory.query + index} className={"flex flex-row py-1"}>
+                                                //     <span className={"flex-1"}>{eachHistory.query}</span>
+                                                //     {/* <span className={""}>{eachHistory.datetime}</span> */}
+                                                // </li>
+                                                <div key={eachHistory.query + index} tabIndex={0} className="collapse collapse-arrow bg-base-100 my-1">
+                                                    <div className="collapse-title text-base font-medium">
+                                                        {eachHistory.query}
+                                                    </div>
+                                                    <div className="collapse-content px-4">
+                                                        <p>You searched <b>{eachHistory.query}</b> at {eachHistory.datetime}</p>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                </div>
+                                {/* <li><a>Menu</a></li>
+                                <li><a>Saved</a></li> */}
+                                <div className="relative left-0 bottom-0 mx-auto px-4 w-full flex flex-col justify-between text-left leading-8">
                                     <details className="dropdown dropdown-top w-full">
                                         <summary className="btn btn-ghost btn-block justify-between">
                                             <span className="">Built in 🇳🇬 by Blessed</span>

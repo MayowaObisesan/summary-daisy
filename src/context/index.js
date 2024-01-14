@@ -1,16 +1,77 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { SUMMARY_HISTORY_CACHE_NAME, SUMMARY_SEARCH_CACHE_NAME } from "../helpers/constants";
 
 const SummaryContext = createContext();
+
+function isJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
+export const getSummarySearchCache = () => {
+
+    const defaultSummarySearchCache = null;
+    let currentSearchCache = localStorage.getItem(SUMMARY_SEARCH_CACHE_NAME);
+    if (!currentSearchCache) {
+        currentSearchCache = localStorage.setItem(SUMMARY_SEARCH_CACHE_NAME, JSON.stringify(defaultSummarySearchCache));
+    }
+    // console.log(isJsonString(currentSearchCache));
+    // console.log(typeof currentSearchCache);
+
+    return isJsonString(currentSearchCache) ? JSON.parse(currentSearchCache) : null;
+}
+
+export const updateSummarySearchCache = (rawData) => {
+    // Save summary data to localStorage
+    localStorage.setItem(SUMMARY_SEARCH_CACHE_NAME, JSON.stringify(rawData));
+}
+
+export const getSummaryHistoryCache = () => {
+    let currentHistoryCache = localStorage.getItem(SUMMARY_HISTORY_CACHE_NAME);
+    // console.log(currentHistoryCache);
+    if (!currentHistoryCache) {
+        currentHistoryCache = localStorage.setItem(SUMMARY_HISTORY_CACHE_NAME, []);
+    }
+
+    return isJsonString(currentHistoryCache) ? JSON.parse(currentHistoryCache) : [];
+}
+
+export const updateSummaryHistoryCache = (rawData) => {
+    // Save search history data to localStorage
+    // 1. Search query
+    // 2. Search datetime
+    const currentHistory = getSummaryHistoryCache();
+    // console.log(currentHistory);
+    currentHistory.push(rawData);
+    localStorage.setItem(SUMMARY_HISTORY_CACHE_NAME, JSON.stringify(currentHistory));
+    // if (currentHistory) {
+    // } else {
+    //     localStorage.setItem(SUMMARY_HISTORY_CACHE_NAME, JSON.stringify(rawData));
+    // }
+}
 
 const SummaryProvider = ({ children }) => {
     const searchParams = new URLSearchParams(window.location.search);
     const searchQuery = searchParams.get('search_query');
-    const [baseData, setBaseData] = useState([]);
+    const [baseData, setBaseData] = useState(getSummarySearchCache() || []);
     const [eventData, setEventData] = useState(null);
     const [mainQuery, setMainQuery] = useState("");
     const [eventOpened, setEventOpened] = useState(false);
     const [isFetchingSummary, setIsFetchingSummary] = useState(false);
     const [moreSummary, setMoreSummary] = useState(baseData);
+
+    const deleteSummarySearchCache = () => {
+        localStorage.removeItem(SUMMARY_SEARCH_CACHE_NAME);
+    }
+
+    const readSummarySearchCache = (key) => {
+        const parsedSummarySearchCache = getSummarySearchCache();
+        return parsedSummarySearchCache ? parsedSummarySearchCache[key] : null;
+    }
 
     const query = useCallback((searchInput) => {
         setMainQuery(searchInput);
@@ -18,10 +79,17 @@ const SummaryProvider = ({ children }) => {
 
     const updateSummaryBaseData = (newSummaryData) => {
         setBaseData(newSummaryData);
+        // if (!newSummaryData.streaming) {
+        //     updateSummarySearchCache(JSON.stringify(newSummaryData));
+        // }
     }
 
     const updateMoreSummary = (moreSummaryData) => {
         setMoreSummary(moreSummaryData);
+        // rewrite the localStorage
+        // if (!moreSummaryData.streaming) {
+        //     updateSummarySearchCache(JSON.stringify(moreSummaryData));
+        // }
     }
 
     const summaryData = useCallback((res) => {
