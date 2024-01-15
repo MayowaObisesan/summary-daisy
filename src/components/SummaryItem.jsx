@@ -20,7 +20,7 @@ const processSummaryDataIcon = (props) => {
 }
 
 export const SummaryItem = (props) => {
-    const summaryText = props.content ?? props.text ?? props.summary_text ?? props.snippet;
+    const summaryText = props.content || props.text || props.summary_text || props.snippet;
 
     return (
         <>

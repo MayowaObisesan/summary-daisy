@@ -61,7 +61,7 @@ const Home = () => {
                                                 //     <span className={"flex-1"}>{eachHistory.query}</span>
                                                 //     {/* <span className={""}>{eachHistory.datetime}</span> */}
                                                 // </li>
-                                                <div key={eachHistory.query + index} tabIndex={0} className="collapse collapse-arrow bg-base-100 my-1">
+                                                <div key={eachHistory.query + index} tabIndex={0} className="collapse collapse-arrow bg-base-100 dark:bg-base-100 my-1">
                                                     <div className="collapse-title text-base font-medium">
                                                         {eachHistory.query}
                                                     </div>
