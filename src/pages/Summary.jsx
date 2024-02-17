@@ -119,7 +119,7 @@ const SummaryList = (props) => {
     const children = props.children;
     // console.log([data].concat(props.children.data[0]));
     // console.log(props.children.data.length);
-    // console.log(data);
+    // console.log(props);
     // const data = props;
     // const isStreaming = props.isStreaming;
     // const isError = props.isError;
@@ -137,7 +137,7 @@ const SummaryList = (props) => {
                             pageNumber = index + 1;
                         }
                         return (
-                            <div key={index}>
+                            <div key={props.currentStartIndex + index}>
                                 {
                                     pageNumber > 1
                                     && <div key={index} className={"sticky top-[72px] lg:relative lg:top-0 block font-bold px-1 pt-6 pb-2 bg-base-100/60 backdrop-blur-sm z-10"}>
@@ -289,9 +289,10 @@ const Summary = ({ summary }) => {
     // const offlineSummary = localforage.getItem()
     // const fetchMoreData = false;
     // const [nextPageData, setNextPageData] = useState(summary?.nextPageData);
-    const { baseData, updateSummaryBaseData, eventOpened, setEventOpened, isFetchingSummary, setIsFetchingSummary, moreSummary, updateMoreSummary } = useSummaryContext();
+    const { baseData, updateSummaryBaseData, eventOpened, setEventOpened, isFetchingSummary, setIsFetchingSummary, moreSummary, updateMoreSummary, showOnlySummaries, updateShowOnlySummaries } = useSummaryContext();
     // const [moreSummary, setMoreSummary] = useState(baseData);
     // console.log("BASE DATA:", baseData);
+
 
     const size = useWindowSize();
     // const searchQuery = useSearchParams();
@@ -525,6 +526,10 @@ const Summary = ({ summary }) => {
         updateMoreSummary(baseData);
     }
 
+    const toggleShowOnlySummaries = () => {
+        updateShowOnlySummaries();
+    }
+
     // useEffect(() => {
     //     setData(data);
     //     console.log("Updating summaryData");
@@ -545,6 +550,21 @@ const Summary = ({ summary }) => {
                     size.width < deviceWidthEnum.desktop
                         ? <section className={"relative flex flex-col h-full flex-basis flex-grow every:color-454545 dark:every:color-lightgray"}>
                             <section className={"text-sm w-full h-full color-E2E2E2 lg:overflow-y-unset"}>
+                                {
+                                    summary?.data?.length > 0 &&
+                                    <section className={"card card-compact bg-base-200 m-2"}>
+                                        <div className="card-body flex flex-row items-center">
+                                            <div className="flex-1">Show only summaries</div>
+                                            <div className="">
+                                                <input
+                                                    type="checkbox"
+                                                    className="toggle toggle-success"
+                                                    onChange={toggleShowOnlySummaries}
+                                                />
+                                            </div>
+                                        </div>
+                                    </section>
+                                }
                                 {
                                     summary?.data?.length > 0 &&
                                     <section className={"italic text-xs py-3 neutral-content lg:not-italic"}>

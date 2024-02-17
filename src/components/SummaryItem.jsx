@@ -1,6 +1,7 @@
 import Markdown from "react-markdown";
 import { ConvertToList } from "../helpers";
 import { ChecksIcon } from "../assets/icons";
+import { useSummaryContext } from "../context";
 
 const processSummaryDataIcon = (props) => {
     const url = props.url || props.icon;
@@ -20,6 +21,14 @@ const processSummaryDataIcon = (props) => {
 }
 
 export const SummaryItem = (props) => {
+    <section className={"card card-compact bg-base-200 m-2"}>
+        <div className="card-body flex flex-row items-center">
+            <div className="flex-1">Show only summaries</div>
+            <div className="">
+                <input type="checkbox" className="toggle toggle-success" />
+            </div>
+        </div>
+    </section>
     const summaryText = props.content || props.text || props.summary_text || props.snippet;
 
     return (
@@ -51,10 +60,17 @@ export const SummaryItem = (props) => {
 }
 
 export const SummarySingleItem = (props) => {
+    const { showOnlySummaries } = useSummaryContext();
+
+    if (showOnlySummaries && !props.summary_text) {
+        return null;
+    }
     return (
         <div className="relative w-full px-2 pt-2 pb-2 my-2 rounded-lg bg-gray-100/60 dark:bg-base-100">
             <div className="bg-white shadow rounded-md px-4 pt-3 pb-3 dark:bg-inherit dark:shadow-none">
-                <SummaryItem {...props} />
+                {
+                    <SummaryItem {...props} />
+                }
             </div>
         </div>
     );

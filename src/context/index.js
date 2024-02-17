@@ -63,6 +63,7 @@ const SummaryProvider = ({ children }) => {
     const [eventOpened, setEventOpened] = useState(false);
     const [isFetchingSummary, setIsFetchingSummary] = useState(false);
     const [moreSummary, setMoreSummary] = useState(baseData);
+    const [showOnlySummaries, setShowOnlySummaries] = useState(false);
 
     const deleteSummarySearchCache = () => {
         localStorage.removeItem(SUMMARY_SEARCH_CACHE_NAME);
@@ -82,6 +83,10 @@ const SummaryProvider = ({ children }) => {
         // if (!newSummaryData.streaming) {
         //     updateSummarySearchCache(JSON.stringify(newSummaryData));
         // }
+    }
+
+    const updateShowOnlySummaries = () => {
+        setShowOnlySummaries(!showOnlySummaries);
     }
 
     const updateMoreSummary = (moreSummaryData) => {
@@ -179,7 +184,9 @@ const SummaryProvider = ({ children }) => {
                 isFetchingSummary,
                 setIsFetchingSummary,
                 moreSummary,
-                updateMoreSummary
+                updateMoreSummary,
+                showOnlySummaries,
+                updateShowOnlySummaries
             }}
         >
             {children}
