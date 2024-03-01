@@ -613,6 +613,21 @@ const Summary = ({ summary }) => {
                             {/* 70% of the container width. i.e., 65% of 1280 == 832 */}
                             <section className={"bg-pin p-6 w-7/12 lg:pct:w-56"}>
                                 {/* {JSON.stringify(summary?.data)} */}
+                                {
+                                    summary?.data?.length > 0 &&
+                                    <section className={"card card-compact bg-base-200 m-2"}>
+                                        <div className="card-body flex flex-row items-center">
+                                            <div className="flex-1">Show only summaries</div>
+                                            <div className="">
+                                                <input
+                                                    type="checkbox"
+                                                    className="toggle toggle-success"
+                                                    onChange={toggleShowOnlySummaries}
+                                                />
+                                            </div>
+                                        </div>
+                                    </section>
+                                }
                                 <section className={"text-xs py-4 leading-6"}>
                                     {
                                         summary?.searchInformation &&
