@@ -269,7 +269,9 @@ export const MobileSummaryFormComponent = ({ setData }) => {
         updateMoreSummary,
         updateIsSearchDataFetched,
         resetSearchSummaryData,
-        resetShowOnlySummaries
+        resetShowOnlySummaries,
+        updateAiGeneratedData,
+        resetAiGeneratedData
     } = useSummaryContext();
     const searchInputElement = useRef(null);
     const searchFormSubmitButton = useRef(null);
@@ -287,6 +289,7 @@ export const MobileSummaryFormComponent = ({ setData }) => {
             updateSummaryBaseData([]);
             updateMoreSummary([]);
             resetShowOnlySummaries();
+            resetAiGeneratedData();
         }
         // reset the search summary array first
         resetSearchSummaryData();
@@ -300,6 +303,7 @@ export const MobileSummaryFormComponent = ({ setData }) => {
             updateIsSearchDataFetched,
             baseData
         );
+        await callAiGenerate(searchInputElement.current?.value.trim(), updateAiGeneratedData);
     }
 
     const handleSummary = (e) => {
