@@ -81,7 +81,7 @@ export const SummaryItem = (props) => {
             <div className={
                 classNames(
                     "py-4 list-disc leading-6",
-                    {"px-4 mt-4 bg-gray-200/60 rounded-xl dark:bg-base-200/80": props.summary_text}
+                    {"px-4 mt-4 bg-gray-200/60 rounded-xl dark:bg-base-200/80": summaryText}
                 )
             }>
                 <Markdown>
