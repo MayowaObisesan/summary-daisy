@@ -1,7 +1,4 @@
 import {Outlet} from "react-router-dom"
-// import { getSummaryTrends } from "./loaders"
-// import { DesktopNavBar, MobileNavBar } from "./NavBar";
-// import { useDeviceWidth } from "./useDeviceWidth";
 import {deviceWidthEnum} from "../helpers";
 import {DesktopNavBar, LaptopNavBar, MobileNavBar} from "../components/NavBar";
 import {useWindowSize} from "@uidotdev/usehooks";
@@ -25,8 +22,6 @@ const Home = () => {
 
     useEffect(() => {
         setData(data);
-        // console.log("Updating summaryData");
-        // console.log(data);
     }, [data]);
 
     return (
@@ -39,7 +34,11 @@ const Home = () => {
                             {/* Page content here */}
                             <MobileNavBar setData={setData}/>
                             <InstallPWA/>
-                            <Summary summary={data}/>
+                            {/*<Summary summary={data}/>*/}
+                            {/*<NewsContent data={data} />*/}
+                            <section>
+                                This is the news section.
+                            </section>
                             <Footer/>
                         </div>
 
@@ -129,7 +128,7 @@ const Home = () => {
                                     : <DesktopNavBar setData={setData}/>
                             }
                             <InstallPWA/>
-                            <Summary summary={data}/>
+                            {/*<Summary summary={data}/>*/}
                             <Footer/>
                         </div>
 

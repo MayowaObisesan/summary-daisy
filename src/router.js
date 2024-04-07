@@ -5,6 +5,7 @@ import { loader as rootLoader } from './pages/Root';
 import Summary, { loader as summaryLoader, action as summaryAction } from './pages/Summary';
 import About from "./pages/About";
 import Home from "./pages/Home";
+import News from "./pages/News";
 
 export const router = createBrowserRouter([
     {
@@ -18,6 +19,10 @@ export const router = createBrowserRouter([
                 element: <Home />,
                 // loader: summaryLoader,
                 // action: summaryAction,
+            },
+            {
+                path: "/news",
+                element: <News />,
             },
             // {
             //     path: "/about",

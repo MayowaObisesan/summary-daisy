@@ -64,6 +64,9 @@ const SummaryProvider = ({ children }) => {
     const [isFetchingSummary, setIsFetchingSummary] = useState(false);
     const [moreSummary, setMoreSummary] = useState(baseData);
     const [showOnlySummaries, setShowOnlySummaries] = useState(false);
+    const [searchSummaryData, setSearchSummaryData] = useState([]);
+    const [isSearchDataFetched, setIsSearchDataFetched] = useState(false);
+    const [aiGeneratedData, setAiGeneratedData] = useState([]);
 
     const deleteSummarySearchCache = () => {
         localStorage.removeItem(SUMMARY_SEARCH_CACHE_NAME);
@@ -85,6 +88,10 @@ const SummaryProvider = ({ children }) => {
         // }
     }
 
+    const resetShowOnlySummaries = () => {
+        setShowOnlySummaries(false);
+    }
+
     const updateShowOnlySummaries = () => {
         setShowOnlySummaries(!showOnlySummaries);
     }
@@ -95,6 +102,40 @@ const SummaryProvider = ({ children }) => {
         // if (!moreSummaryData.streaming) {
         //     updateSummarySearchCache(JSON.stringify(moreSummaryData));
         // }
+    }
+
+    const updateBaseDataWithSummaries = (_summaryData) => {
+        baseData.summaries.push(_summaryData);
+        // setBaseData(v => {v, "summaries": [_summaryData, ...v.summaries]});
+        // setBaseData(v => [v, {"summaries": [_summaryData, ...v.summaries]}]);
+        // console.log(baseData);
+        setBaseData(baseData);
+        updateSummarySearchCache(baseData);
+    }
+
+    const updateSearchSummaryData = (_searchSummaryData) => {
+        setSearchSummaryData(v => [_searchSummaryData, ...v]);
+        // setSearchSummaryData(_searchSummaryData);
+    }
+
+    const resetSearchSummaryData = () => {
+        setSearchSummaryData([]);
+    }
+
+    const updateIsSearchDataFetched = (_fetchedFlag) => {
+        setIsSearchDataFetched(_fetchedFlag);
+    }
+
+    const updateIsFetchingSummary = (_fetchingFlag) => {
+        setIsFetchingSummary(_fetchingFlag)
+    }
+
+    const resetAiGeneratedData = () => {
+        setAiGeneratedData([]);
+    }
+
+    const updateAiGeneratedData = (_aiGeneratedData) => {
+        setAiGeneratedData(_aiGeneratedData);
     }
 
     const summaryData = useCallback((res) => {
@@ -176,6 +217,7 @@ const SummaryProvider = ({ children }) => {
                 eventData,
                 baseData,
                 updateSummaryBaseData,
+                updateBaseDataWithSummaries,
                 mainQuery,
                 query,
                 summaryData,
@@ -186,7 +228,17 @@ const SummaryProvider = ({ children }) => {
                 moreSummary,
                 updateMoreSummary,
                 showOnlySummaries,
-                updateShowOnlySummaries
+                updateShowOnlySummaries,
+                resetShowOnlySummaries,
+                searchSummaryData,
+                updateSearchSummaryData,
+                resetSearchSummaryData,
+                isSearchDataFetched,
+                updateIsSearchDataFetched,
+                updateIsFetchingSummary,
+                aiGeneratedData,
+                updateAiGeneratedData,
+                resetAiGeneratedData
             }}
         >
             {children}

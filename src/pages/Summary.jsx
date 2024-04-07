@@ -1,13 +1,15 @@
-import { useContext, useState } from "react";
+import {useContext, useEffect, useState} from "react";
 import localforage from "localforage";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { deviceWidthEnum } from "../helpers";
 import { dummySummary, getSummary } from "../helpers/loaders";
 import { SummaryGroup, SummaryGroupItem, SummarySingleItem } from "../components/SummaryItem";
 import Footer from "../components/Footer";
-import { handleSummaryStream } from "../components/Form";
+import {fetchMultipleSearchSummaryUrls, handleSearchFetch, handleSummaryStream} from "../components/Form";
 import { useSummaryContext } from "../context";
 import EmptySummaryUI from "../components/EmptySummaryUI";
+import async from "async";
+import Markdown from "react-markdown";
 
 export async function loader({ request }) {
     const url = new URL(request.url);
@@ -116,10 +118,12 @@ const SummaryItemLoading = () => {
 
 const SummaryList = (props) => {
     const data = props.data;
+    const summaries = props.summaries;
     const children = props.children;
     // console.log([data].concat(props.children.data[0]));
     // console.log(props.children.data.length);
     // console.log(props);
+
     // const data = props;
     // const isStreaming = props.isStreaming;
     // const isError = props.isError;
@@ -127,7 +131,10 @@ const SummaryList = (props) => {
         return (
             <section>No search results to display</section>
         )
-    } else if (children?.data?.length > 0) {
+    }
+    else if (children?.data?.length > 0) {
+        // console.log("Inside the children render condition");
+        // console.log(children);
         return (
             <>
                 {
@@ -137,7 +144,7 @@ const SummaryList = (props) => {
                             pageNumber = index + 1;
                         }
                         return (
-                            <div key={props.currentStartIndex + index}>
+                            <div key={`page${props.currentStartIndex}-${index}`}>
                                 {
                                     pageNumber > 1
                                     && <div key={index} className={"sticky top-[72px] lg:relative lg:top-0 block font-bold px-1 pt-6 pb-2 bg-base-100/60 backdrop-blur-sm z-10"}>
@@ -152,7 +159,7 @@ const SummaryList = (props) => {
                                             // For single summary response
                                             return (
                                                 // <SummaryItem key={index} groupedResult={grouperData[0]} hostName={grouper} />
-                                                <SummarySingleItem key={index} {...grouperData[0]} hostName={grouper} />
+                                                <SummarySingleItem key={grouperData[0].cacheId} {...grouperData[0]} summaries={summaries} hostName={grouper} />
                                             )
                                         } else if (grouperData.length > 1) {
                                             // For grouped summary response
@@ -160,7 +167,7 @@ const SummaryList = (props) => {
                                                 <SummaryGroup hostName={grouper}>
                                                     {
                                                         grouperData.map((groupedResult, index) => (
-                                                            <SummaryGroupItem key={index} {...groupedResult} hostName={grouper} />
+                                                            <SummaryGroupItem key={groupedResult.cacheId} {...groupedResult} hostName={grouper} />
                                                         ))
                                                     }
                                                 </SummaryGroup>
@@ -177,13 +184,14 @@ const SummaryList = (props) => {
                 }
             </>
         )
-    } else if (data?.length >= 1) {
+    }
+    else if (data?.length >= 1) {
         return (
             <>
                 {data?.map((eachSummary, index) => {
                     const pageNumber = ((props.currentStartIndex - 1) / 10) + (index + 1)
                     return (
-                        <>
+                        <div key={`page${props.currentStartIndex}-${index}`}>
                             {
                                 pageNumber > 1
                                 && <div className={"relative block font-bold pad-x1 pad-t4"}>
@@ -198,7 +206,7 @@ const SummaryList = (props) => {
                                         // For single summary response
                                         return (
                                             // <SummaryItem key={index} groupedResult={grouperData[0]} hostName={grouper} />
-                                            <SummarySingleItem key={index} {...grouperData[0]} hostName={grouper} />
+                                            <SummarySingleItem key={grouperData[0].cacheId} {...grouperData[0]} summaries={summaries} hostName={grouper} />
                                         )
                                     } else if (grouperData.length > 1) {
                                         // For grouped summary response
@@ -219,7 +227,7 @@ const SummaryList = (props) => {
                                             <SummaryGroup hostName={grouper}>
                                                 {
                                                     grouperData.map((groupedResult, index) => (
-                                                        <SummaryGroupItem key={index} {...groupedResult} hostName={grouper} />
+                                                        <SummaryGroupItem key={groupedResult.cacheId} {...groupedResult} hostName={grouper} />
                                                     ))
                                                 }
                                             </SummaryGroup>
@@ -230,7 +238,7 @@ const SummaryList = (props) => {
                             {/* {
                                 props.children?.length
                             } */}
-                        </>
+                        </div>
                     )
                 })}
                 {/* {
@@ -276,6 +284,8 @@ const SummaryList = (props) => {
             </>
         )
     }
+
+
     console.log("Finished processing summary list");
 }
 
@@ -289,7 +299,25 @@ const Summary = ({ summary }) => {
     // const offlineSummary = localforage.getItem()
     // const fetchMoreData = false;
     // const [nextPageData, setNextPageData] = useState(summary?.nextPageData);
-    const { baseData, updateSummaryBaseData, eventOpened, setEventOpened, isFetchingSummary, setIsFetchingSummary, moreSummary, updateMoreSummary, showOnlySummaries, updateShowOnlySummaries } = useSummaryContext();
+    const {
+        baseData,
+        updateSummaryBaseData,
+        updateBaseDataWithSummaries,
+        eventOpened,
+        setEventOpened,
+        isFetchingSummary,
+        setIsFetchingSummary,
+        moreSummary,
+        updateMoreSummary,
+        showOnlySummaries,
+        updateShowOnlySummaries,
+        isSearchDataFetched,
+        updateIsSearchDataFetched,
+        updateSearchSummaryData,
+        updateIsFetchingSummary,
+        aiGeneratedData
+    } = useSummaryContext();
+    // console.log(baseData);
     // const [moreSummary, setMoreSummary] = useState(baseData);
     // console.log("BASE DATA:", baseData);
 
@@ -516,14 +544,35 @@ const Summary = ({ summary }) => {
     //     return () => setSummaryData(summary);
     // }, [summary]);
 
-    const loadMoreSummary = () => {
+    // console.log(isSearchDataFetched);
+    useEffect(() => {
+        const fetcher =  async () => {
+            const searchUrls = baseData.searchUrls;
+
+            const summaryData = await fetchMultipleSearchSummaryUrls(
+                searchUrls,
+                summary?.searchQuery,
+                updateSearchSummaryData,
+                updateIsFetchingSummary,
+                updateBaseDataWithSummaries
+            );
+            updateIsSearchDataFetched(false);
+        }
+
+        if (isSearchDataFetched) fetcher();
+        // console.log(summary.searchUrls[0]);
+    }, [isSearchDataFetched]);
+
+    const loadMoreSummary =  async () => {
         // console.log(moreSummary);
         setIsFetchingSummary(true);
         // reset setMoreSummary if the searchQuery is a new
-        handleSummaryStream(summary?.searchQuery, updateMoreSummary, baseData?.data, updateSummaryBaseData, true, baseData?.nextStartIndex, setEventOpened, setIsFetchingSummary);
+        console.log(baseData?.data);
+        // handleSummaryStream(summary?.searchQuery, updateMoreSummary, baseData?.data, updateSummaryBaseData, true, baseData?.nextStartIndex, setEventOpened, setIsFetchingSummary);
+        await handleSearchFetch(summary?.searchQuery, true, baseData?.nextStartIndex, baseData?.data, updateMoreSummary, updateSummaryBaseData, updateIsSearchDataFetched, baseData);
         console.log("Clicked load more");
         // console.log(moreSummary);
-        updateMoreSummary(baseData);
+        // updateMoreSummary(baseData);
     }
 
     const toggleShowOnlySummaries = () => {
@@ -536,7 +585,8 @@ const Summary = ({ summary }) => {
     //     console.log(data);
     // }, [data]);
 
-    if (baseData.length < 1 && !(eventOpened || isFetchingSummary)) {
+    // if (baseData.length < 1 && !(eventOpened || isFetchingSummary)) {
+    if (baseData.length < 1 && isSearchDataFetched) {
         return <EmptySummaryUI />
     }
 
@@ -552,7 +602,7 @@ const Summary = ({ summary }) => {
                             <section className={"text-sm w-full h-full color-E2E2E2 lg:overflow-y-unset"}>
                                 {
                                     summary?.data?.length > 0 &&
-                                    <section className={"card card-compact bg-base-200 m-2"}>
+                                    <section className={"card card-compact bg-gray-200/80 dark:bg-base-200 m-2"}>
                                         <div className="card-body flex flex-row items-center">
                                             <div className="flex-1">Show only summaries</div>
                                             <div className="">
@@ -584,18 +634,21 @@ const Summary = ({ summary }) => {
                                         </SummaryList>
                                         : <NoSearchResult />
                                 }
+                                {/*{*/}
+                                {/*    // summary?.streaming || moreSummary?.streaming || eventOpened || isFetchingSummary*/}
+                                {/*    baseData?.length < 1*/}
+                                {/*        ? <SummarySkeleton />*/}
+                                {/*        : null*/}
+                                {/*}*/}
                                 {
-                                    summary?.streaming || moreSummary?.streaming || eventOpened || isFetchingSummary
-                                        ? <SummarySkeleton />
-                                        : null
-                                }
-                                {
-                                    !(summary?.streaming || moreSummary?.streaming || isFetchingSummary || eventOpened) && summary?.hasNextPage
+                                    // !(summary?.streaming || moreSummary?.streaming || isFetchingSummary || eventOpened) &&
+                                    summary?.hasNextPage
                                         ? <button type={"button"} className={"block mx-auto my-8 btn btn-wide bg-gray-200 dark:bg-base-100 capitalize"} onClick={loadMoreSummary}>More Summary</button>
                                         : null
                                 }
                                 {
-                                    summary?.isStreaming
+                                    // summary?.isStreaming
+                                    baseData?.length < 1
                                         ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(() => {
                                             return (
                                                 <SummarySkeleton />
@@ -615,7 +668,7 @@ const Summary = ({ summary }) => {
                                 {/* {JSON.stringify(summary?.data)} */}
                                 {
                                     summary?.data?.length > 0 &&
-                                    <section className={"card card-compact bg-base-200 m-2"}>
+                                    <section className={"card card-compact bg-gray-200/80 dark:bg-base-200 m-2"}>
                                         <div className="card-body flex flex-row items-center">
                                             <div className="flex-1">Show only summaries</div>
                                             <div className="">
@@ -644,20 +697,22 @@ const Summary = ({ summary }) => {
                                 {/* {JSON.stringify(summary)} */}
                                 {
                                     summary
-                                        ? <SummaryList {...summary}>
+                                        ? <SummaryList {...baseData}>
                                             {moreSummary}
                                         </SummaryList>
                                         : <NoSearchResult />
                                 }
                                 {
-                                    summary?.streaming || moreSummary?.streaming || isFetchingSummary || eventOpened
+                                    // summary?.streaming || moreSummary?.streaming || isFetchingSummary || eventOpened
+                                    baseData?.length < 1
                                         ? loaderList.map(() => {
                                             return (<SummarySkeleton />)
                                         })
                                         : null
                                 }
                                 {
-                                    !(summary?.streaming || moreSummary?.streaming || isFetchingSummary || eventOpened) && summary?.hasNextPage
+                                    // (summary?.streaming || moreSummary?.streaming || isFetchingSummary || eventOpened) &&
+                                    summary?.hasNextPage
                                         ? <button type={"button"} className={"block mx-auto my-4 btn btn-wide bg-gray-200 dark:bg-base-100 capitalize"} onClick={loadMoreSummary}>More Summary</button>
                                         : null
                                 }
@@ -672,14 +727,29 @@ const Summary = ({ summary }) => {
                                 }
                             </section>
                             {/* 30% of the container width. i.e., 35% of 1280 == 448 */}
-                            <section className={"border:0px_solid_lightgray w-[400px] h-[400] px-8 pt-32"}>
-                                <div className={"bg-base-100 w-88 h-80 rounded-md my-2 dark:bg-27CE8E1A"}></div>
+                            <section className={"border:0px_solid_lightgray w-[560px] h-[400] px-8 pt-32"}>
+                                <div className={"bg-gray-100 w-full min-h-80 rounded-md my-2 py-4 dark:bg-27CE8E1A dark:bg-base-100"}>
+                                    {
+                                        aiGeneratedData.length > 0 && aiGeneratedData[0].finish_reason &&
+                                        <div className={"px-8 py-4 font-bold text-sm"}>AI Generated</div>
+                                    }
+                                    <div className={"summary-list px-8 py-2 leading-normal list-disc"}>
+                                        {
+                                            aiGeneratedData.length > 0
+                                            && aiGeneratedData.map((eachAiGeneratedData) => (
+                                                <Markdown>
+                                                    {eachAiGeneratedData?.text}
+                                                </Markdown>
+                                            ))
+                                        }
+                                    </div>
+                                </div>
                                 <div className={"bg-base-200 w-88 h-64 rounded my-2"}></div>
                             </section>
                         </section>
                 }
             </section>
-            {summary.length >= 10 && <Footer />}
+            {baseData?.length >= 1 && <Footer />}
         </>
     )
 }

@@ -1,7 +1,9 @@
 import Markdown from "react-markdown";
-import { ConvertToList } from "../helpers";
+import {ConvertToList} from "../helpers";
 import { ChecksIcon } from "../assets/icons";
 import { useSummaryContext } from "../context";
+import classNames from "classnames";
+import {useEffect} from "react";
 
 const processSummaryDataIcon = (props) => {
     const url = props.url || props.icon;
@@ -21,6 +23,9 @@ const processSummaryDataIcon = (props) => {
 }
 
 export const SummaryItem = (props) => {
+    const {isFetchingSummary, isSearchDataFetched, searchSummaryData} = useSummaryContext();
+    // console.log(props);
+
     <section className={"card card-compact bg-base-200 m-2"}>
         <div className="card-body flex flex-row items-center">
             <div className="flex-1">Show only summaries</div>
@@ -29,22 +34,69 @@ export const SummaryItem = (props) => {
             </div>
         </div>
     </section>
-    const summaryText = props.content || props.text || props.summary_text || props.snippet;
+
+    // useEffect(() => {
+    //     console.log("Inside summary item to listen to summary text");
+    //     console.log(searchSummaryData.length);
+    // }, [searchSummaryData.length]);
+    //
+    // useEffect(() => {
+    //     console.log("Inside summary item to listen to summary text without length");
+    // }, [searchSummaryData]);
+
+    // console.log(searchSummaryData);
+    let summaryText;
+    if (props.summaries?.length > 0) {
+        // const _summaryStreamText = searchSummaryData?.filter(it => it.url === props.link);
+        const _summaryStreamText = props.summaries?.filter(it => it.url === props.link);
+        summaryText = _summaryStreamText[0]?.summary_text;
+        // Object.assign(props, {"summary_text": summaryText});
+        // props.summary_text = summaryText;
+    } else {
+        summaryText = null;
+    }
+    // const summaryText = "";
+    // console.log("_summary Stream Text", _summaryStreamText);
+    const searchText = props.content || props.text || props.summary_text || props.snippet || props.htmlSnippet;
 
     return (
         <>
             {
-                props.summary_text
+                summaryText
                 && <span className="absolute flex justify-center items-center w-8 h-8 top-3 right-2 text-teal-800 font-semibold text-xs bg-base-200/50 rounded-md">
                     <ChecksIcon width={16} height={16} strokeWidth={2} />
                 </span>
             }
+            {
+                props.summaries?.filter(it => it.url === props.link)?.length < 1 && isSearchDataFetched
+                && <span
+                    className="absolute flex justify-center items-center w-8 h-8 top-3 right-2 font-semibold text-xs bg-base-200/20 rounded-md">
+                    <span className="loading loading-dots loading-sm"></span>
+                </span>
+            }
+            {
+
+            }
             <a href={props.link} className="font-semibold text-xs text-green-800 dark:font-medium dark:text-green-800" > {props.title}</a>
-            <div className="summary-list py-4 list-disc leading-6">
+            <div className={
+                classNames(
+                    "py-4 list-disc leading-6",
+                    {"px-4 mt-4 bg-gray-200/60 rounded-xl dark:bg-base-200/80": props.summary_text}
+                )
+            }>
                 <Markdown>
-                    {summaryText}
+                    {searchText}
                 </Markdown>
             </div>
+            {
+                summaryText &&
+                <div className="summary-list py-4 list-disc leading-6">
+                    <div className={"font-medium text-sm px-4 py-1 inline-block rounded-lg bg-gray-200/80 dark:bg-base-200/80"}>Website summary</div>
+                    <Markdown>
+                        {summaryText}
+                    </Markdown>
+                </div>
+            }
             <a href={props.link} className="text-sm hover:bg-base-100" target="_blank" rel="noreferrer">
                 <div className="flex items-center">
                     {
@@ -60,9 +112,17 @@ export const SummaryItem = (props) => {
 }
 
 export const SummarySingleItem = (props) => {
-    const { showOnlySummaries } = useSummaryContext();
+    const { showOnlySummaries, searchSummaryData } = useSummaryContext();
 
-    if (showOnlySummaries && !props.summary_text) {
+    let summaryText;
+    if (props.summaries?.length > 0) {
+        const _summaryStreamText = props.summaries?.filter(it => it.url === props.link);
+        summaryText = _summaryStreamText[0]?.summary_text;
+    } else {
+        summaryText = null;
+    }
+
+    if (showOnlySummaries && !summaryText) {
         return null;
     }
     return (
@@ -77,6 +137,20 @@ export const SummarySingleItem = (props) => {
 }
 
 export const SummaryGroupItem = (props) => {
+    const { showOnlySummaries, searchSummaryData } = useSummaryContext();
+
+    let summaryText;
+    if (props.summaries?.length > 0) {
+        const _summaryStreamText = props.summaries?.filter(it => it.url === props.link);
+        summaryText = _summaryStreamText[0]?.summary_text;
+    } else {
+        summaryText = null;
+    }
+
+    if (showOnlySummaries && !summaryText) {
+        return null;
+    }
+
     return (
         <div className="relative flex-none w-full max-w-[88%] md:max-w-[72%] bg-base-100 shadow px-6 pt-4 pb-4 mx-2 my-2 rounded-lg lg:max-w-[72%]">
             <SummaryItem {...props} />
