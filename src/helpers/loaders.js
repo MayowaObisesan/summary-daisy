@@ -62,13 +62,32 @@ export async function getSummaryTrends() {
     return { data, isLoading, isError }
 }
 
-export function groupData(array_to_group) {
+export function groupSummaryData(array_to_group) {
     // You can pass in a dict as an argument, e.g., data as an argument
     // const data = { /* your data object here */ };
 
     // const result = data.data.reduce((acc, curr) => {
     const result = array_to_group.reduce((acc, curr) => {
         const { displayLink, ...rest } = curr.data;
+        if (acc[displayLink]) {
+            acc[displayLink].push(rest);
+        } else {
+            acc[displayLink] = [rest];
+        }
+        return acc;
+    }, {});
+
+    // console.log(result);
+    return result;
+}
+
+export function groupData(array_to_group) {
+    // You can pass in a dict as an argument, e.g., data as an argument
+    // const data = { /* your data object here */ };
+
+    // const result = data.data.reduce((acc, curr) => {
+    const result = array_to_group.reduce((acc, curr) => {
+        const { displayLink, ...rest } = curr;
         if (acc[displayLink]) {
             acc[displayLink].push(rest);
         } else {

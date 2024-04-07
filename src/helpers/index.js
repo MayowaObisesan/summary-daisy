@@ -7,6 +7,10 @@ export const deviceWidthEnum = {
     "phone": 600
 }
 
+function customClassNames(...classes) {
+    return classes.filter(Boolean).join(' ')
+}
+
 export const convertToBullets = (text) => {
     // create a new ul element
     let ul = document.createElement("ul");
