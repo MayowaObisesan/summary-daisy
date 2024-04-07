@@ -286,7 +286,7 @@ const SummaryList = (props) => {
     }
 
 
-    console.log("Finished processing summary list");
+    // console.log("Finished processing summary list");
 }
 
 const Summary = ({ summary }) => {
