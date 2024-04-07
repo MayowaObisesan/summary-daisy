@@ -8,7 +8,6 @@ const { CohereClient } = require("cohere-ai");
 
 
 async function callAiGenerate(_prompt, _updateAiGeneratedData) {
-    console.log(process.env.REACT_APP_COHERE_API_KEY);
     const cohere = new CohereClient({
         token: process.env.REACT_APP_COHERE_API_KEY,
     });
@@ -18,7 +17,7 @@ async function callAiGenerate(_prompt, _updateAiGeneratedData) {
         prompt: _prompt,
     });
 
-    console.log(generate);
+    // console.log(generate);
     _updateAiGeneratedData(generate.generations);
     // })();
 }
@@ -139,7 +138,7 @@ export const handleSearchFetch = async (searchQuery, nextPage, startIndex, curre
 
         // let eventData = JSON.parse(searchResult.data);
         let eventData = searchResult;
-        console.log(eventData);
+        // console.log(eventData);
         let data = {};
 
         eventData.currentStartIndex = eventData.queries?.request[0]?.startIndex;
@@ -150,7 +149,7 @@ export const handleSearchFetch = async (searchQuery, nextPage, startIndex, curre
         groupedData = groupData(eventData.items);
         resultGroupArray.splice(0, resultGroupArray.length);
         resultGroupArray.push(groupedData);
-        console.log(resultGroupArray);
+        // console.log(resultGroupArray);
         // eventData.data = resultGroupArray;
 
         // We need the data because the eventData is still being used for grouping the results,
@@ -167,7 +166,7 @@ export const handleSearchFetch = async (searchQuery, nextPage, startIndex, curre
         data.hasNextPage = eventData.hasNextPage;
         data.searchQuery = eventData.searchQuery;
         data.searchUrls = eventData.items.map(it => it.link);
-        console.log(searchQuery, baseData?.searchQuery, eventData.searchQuery);
+        // console.log(searchQuery, baseData?.searchQuery, eventData.searchQuery);
         data.summaries = searchQuery === baseData?.searchQuery ? (baseData?.summaries ?? []) : [];
 
         setData(data);
