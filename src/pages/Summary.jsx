@@ -586,7 +586,7 @@ const Summary = ({ summary }) => {
     // }, [data]);
 
     // if (baseData.length < 1 && !(eventOpened || isFetchingSummary)) {
-    if (baseData.length < 1 && isSearchDataFetched) {
+    if (baseData.length < 1 && baseData?.searchQuery === "") {
         return <EmptySummaryUI />
     }
 
