@@ -74,3 +74,43 @@ export function ConvertToList({ str }) {
     console.log(listItems);
     return <ul className="list-disc">{listItems}</ul>;
 }
+
+export function truncateLetters(text, start, stop) {
+    try {
+        // consoler.innerHTML += "truncate_letters";
+        start = Number(start);
+        stop = Number(stop);
+        text = text?.toString();
+        let text_split = text?.split('');
+        /*
+        * Don't use splice in the below scenario, use slice instead.
+        * Splice changes text_split.length to the text_split.length - stop which if;
+        * text_split.length == 118 and stop = 80, text_split.splice(start, stop) changes the value to 38 when
+        * subtracting the stop value from the text_split.length value below. */
+        // let text_split_splice = text_split?.splice(start, stop)
+        let text_split_splice = text_split?.slice(start, stop)
+        // let text_split_splice_string = text_split_splice.toString();
+        let truncated_letters = text_split_splice?.join('')
+        // consoler.innerHTML += " Word Truncated :" + truncated_letters;
+        return (text_split?.length > stop) ? truncated_letters + '...' : truncated_letters;
+    } catch (err) {
+        alert('TRUNCATE LETTERS ERROR:' + err)
+    }
+}
+
+export function truncateWords(text, start, stop) {
+    try {
+        // consoler.innerHTML += "truncate_words";
+        start = Number(start)
+        stop = Number(stop)
+        text = text?.toString();
+        let text_split = text.split(' ')
+        let text_split_splice = text_split.splice(start, stop)
+        // let text_split_splice_string = text_split_splice.toString();
+        let truncated_words = text_split_splice.join(' ')
+        // consoler.innerHTML += " Word Truncated :" + truncated_words;
+        return Number(text_split.length) > stop ? truncated_words + '...' : truncated_words
+    } catch (err) {
+        alert('TRUNCATE WORDS ERROR:' + err)
+    }
+}
