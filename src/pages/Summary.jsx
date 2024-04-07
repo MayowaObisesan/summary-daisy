@@ -1,7 +1,7 @@
 import {useContext, useEffect, useState} from "react";
 import localforage from "localforage";
 import { useWindowSize } from "@uidotdev/usehooks";
-import { deviceWidthEnum } from "../helpers";
+import {deviceWidthEnum, truncateWords} from "../helpers";
 import { dummySummary, getSummary } from "../helpers/loaders";
 import { SummaryGroup, SummaryGroupItem, SummarySingleItem } from "../components/SummaryItem";
 import Footer from "../components/Footer";
@@ -598,7 +598,34 @@ const Summary = ({ summary }) => {
             <section className={"block w-full px-2 mx-auto md:px-4 lg:px-5 lg:w-full dark:bg-base-300 dark:lg:bg-base-300"}>
                 {
                     size.width < deviceWidthEnum.desktop
-                        ? <section className={"relative flex flex-col h-full flex-basis flex-grow every:color-454545 dark:every:color-lightgray"}>
+                        ? <section
+                            className={"relative flex flex-col h-full flex-basis flex-grow every:color-454545 dark:every:color-lightgray"}>
+                            <section className={"w-full h-[400]"}>
+                                <div
+                                    className={"bg-gray-100 w-full min-h-80 rounded-md my-2 py-2 dark:bg-27CE8E1A dark:bg-base-100"}>
+                                    {
+                                        aiGeneratedData.length > 0 && aiGeneratedData[0].finish_reason &&
+                                        <div className={"bg-clip-text bg-gradient-to-l from-[#27CE8E] to-[#FFDE52] text-transparent px-5 py-4 font-bold text-sm"}>AI Generated</div>
+                                    }
+                                    <div className={"summary-list px-5 py-2 leading-normal list-disc"}>
+                                        {
+                                            aiGeneratedData.length > 0
+                                            && aiGeneratedData.map((eachAiGeneratedData) => (
+                                                <>
+                                                    <Markdown>
+                                                        {truncateWords(eachAiGeneratedData?.text, 0, 80)}
+                                                    </Markdown>
+                                                    {
+                                                        eachAiGeneratedData?.text.split(" ").length > 80
+                                                        && <div className={"btn btn-sm flex justify-center mx-auto mt-4"}>Show more</div>
+                                                    }
+                                                </>
+                                            ))
+                                        }
+                                    </div>
+                                </div>
+                                {/*<div className={"bg-base-200 w-88 h-64 rounded my-2"}></div>*/}
+                            </section>
                             <section className={"text-sm w-full h-full color-E2E2E2 lg:overflow-y-unset"}>
                                 {
                                     summary?.data?.length > 0 &&
@@ -621,7 +648,8 @@ const Summary = ({ summary }) => {
                                         {
                                             summary &&
                                             <div>
-                                                {summary.searchInformation?.formattedTotalResults} results in {summary.searchInformation?.formattedSearchTime}s
+                                                {summary.searchInformation?.formattedTotalResults} results
+                                                in {summary.searchInformation?.formattedSearchTime}s
                                             </div>
                                         }
                                         {/* {summary && <div>Powered by Google search</div>} */}
@@ -632,7 +660,7 @@ const Summary = ({ summary }) => {
                                         ? <SummaryList {...summary}>
                                             {moreSummary}
                                         </SummaryList>
-                                        : <NoSearchResult />
+                                        : <NoSearchResult/>
                                 }
                                 {/*{*/}
                                 {/*    // summary?.streaming || moreSummary?.streaming || eventOpened || isFetchingSummary*/}
@@ -643,7 +671,9 @@ const Summary = ({ summary }) => {
                                 {
                                     // !(summary?.streaming || moreSummary?.streaming || isFetchingSummary || eventOpened) &&
                                     summary?.hasNextPage
-                                        ? <button type={"button"} className={"block mx-auto my-8 btn btn-wide bg-gray-200 dark:bg-base-100 capitalize"} onClick={loadMoreSummary}>More Summary</button>
+                                        ? <button type={"button"}
+                                                  className={"block mx-auto my-8 btn btn-wide bg-gray-200 dark:bg-base-100 capitalize"}
+                                                  onClick={loadMoreSummary}>More Summary</button>
                                         : null
                                 }
                                 {
@@ -651,7 +681,7 @@ const Summary = ({ summary }) => {
                                     baseData?.length < 1
                                         ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(() => {
                                             return (
-                                                <SummarySkeleton />
+                                                <SummarySkeleton/>
                                             )
                                         })
                                         : null
@@ -662,7 +692,8 @@ const Summary = ({ summary }) => {
                             && <MobileSummaryFormComponent />
                         } */}
                         </section>
-                        : <section className={"flex flex-row justify-start items-start mx-auto w-11/12 lg:w-1440 bg-green-inverse space-x-10"}>
+                        : <section
+                            className={"flex flex-row justify-start items-start mx-auto w-11/12 lg:w-1440 bg-green-inverse space-x-10"}>
                             {/* 70% of the container width. i.e., 65% of 1280 == 832 */}
                             <section className={"bg-pin p-6 w-7/12 lg:pct:w-56"}>
                                 {/* {JSON.stringify(summary?.data)} */}
@@ -731,9 +762,11 @@ const Summary = ({ summary }) => {
                                 <div className={"bg-gray-100 w-full min-h-80 rounded-md my-2 py-4 dark:bg-27CE8E1A dark:bg-base-100"}>
                                     {
                                         aiGeneratedData.length > 0 && aiGeneratedData[0].finish_reason &&
-                                        <div className={"px-8 py-4 font-bold text-sm"}>AI Generated</div>
-                                    }
-                                    <div className={"summary-list px-8 py-2 leading-normal list-disc"}>
+                                        <div className={"bg-clip-text bg-gradient-to-l from-[#27CE8E] to-[#FFDE52] text-transparent px-8 py-4 font-bold text-sm"}>AI
+                                    Generated
+                                </div>
+                                }
+                                <div className={"summary-list px-8 py-2 leading-normal list-disc"}>
                                         {
                                             aiGeneratedData.length > 0
                                             && aiGeneratedData.map((eachAiGeneratedData) => (
