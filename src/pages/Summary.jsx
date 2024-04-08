@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import localforage from "localforage";
 import { useWindowSize } from "@uidotdev/usehooks";
 import {deviceWidthEnum, truncateWords} from "../helpers";
@@ -10,6 +10,8 @@ import { useSummaryContext } from "../context";
 import EmptySummaryUI from "../components/EmptySummaryUI";
 import async from "async";
 import Markdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
+import {HelpContent} from "../components/HelpContent";
 
 export async function loader({ request }) {
     const url = new URL(request.url);
@@ -299,6 +301,13 @@ const Summary = ({ summary }) => {
     // const offlineSummary = localforage.getItem()
     // const fetchMoreData = false;
     // const [nextPageData, setNextPageData] = useState(summary?.nextPageData);
+    const aiGeneratedContentModal = useRef(null);
+    const [showCompleteAiGeneratedContent, setShowCompleteAiGeneratedContent] = useState(false);
+
+    const handleToggleShowCompleteAiGeneratedContent = () => {
+        setShowCompleteAiGeneratedContent(!showCompleteAiGeneratedContent);
+    }
+
     const {
         baseData,
         updateSummaryBaseData,
@@ -595,29 +604,35 @@ const Summary = ({ summary }) => {
 
     return (
         <>
-            <section className={"block w-full px-2 mx-auto md:px-4 lg:px-5 lg:w-full dark:bg-base-300 dark:lg:bg-base-300"}>
+            <section
+                className={"block w-full px-2 mx-auto md:px-4 lg:px-5 lg:w-full dark:bg-base-300 dark:lg:bg-base-300"}>
                 {
                     size.width < deviceWidthEnum.desktop
                         ? <section
                             className={"relative flex flex-col h-full flex-basis flex-grow every:color-454545 dark:every:color-lightgray"}>
                             <section className={"w-full h-[400]"}>
                                 <div
-                                    className={"bg-gray-100 w-full min-h-80 rounded-md my-2 py-2 dark:bg-27CE8E1A dark:bg-base-100"}>
+                                    className={"bg-gray-100 w-full min-h-80 rounded-md my-2 py-2 overflow-x-auto dark:bg-27CE8E1A dark:bg-base-100"}>
                                     {
                                         aiGeneratedData.length > 0 && aiGeneratedData[0].finish_reason &&
-                                        <div className={"bg-clip-text bg-gradient-to-l from-[#27CE8E] to-[#FFDE52] text-transparent px-5 py-4 font-bold text-sm"}>AI Generated</div>
+                                        <div
+                                            className={"bg-clip-text bg-gradient-to-l from-[#27CE8E] to-[#FFDE52] text-transparent px-5 py-4 font-bold text-sm"}>AI
+                                            Generated</div>
                                     }
                                     <div className={"summary-list px-5 py-2 leading-normal list-disc"}>
                                         {
-                                            aiGeneratedData.length > 0
-                                            && aiGeneratedData.map((eachAiGeneratedData) => (
+                                            (aiGeneratedData || baseData?.aiGeneratedData)?.length > 0
+                                            && (aiGeneratedData || baseData?.aiGeneratedData)?.map((eachAiGeneratedData) => (
                                                 <>
-                                                    <Markdown>
-                                                        {truncateWords(eachAiGeneratedData?.text, 0, 80)}
-                                                    </Markdown>
+                                                    <Markdown
+                                                        rehypePlugins={[rehypeRaw]}>{truncateWords(eachAiGeneratedData?.text, 0, 80)}</Markdown>
                                                     {
                                                         eachAiGeneratedData?.text.split(" ").length > 80
-                                                        && <div className={"btn btn-sm flex justify-center mx-auto mt-4"}>Show more</div>
+                                                        && <button onClick={() => aiGeneratedContentModal.current?.showModal()}>
+                                                            <div className={"btn btn-sm flex justify-center mx-auto mt-4"}>
+                                                                Show more
+                                                            </div>
+                                                        </button>
                                                     }
                                                 </>
                                             ))
@@ -716,7 +731,8 @@ const Summary = ({ summary }) => {
                                     {
                                         summary?.searchInformation &&
                                         <div>
-                                            {summary.searchInformation?.formattedTotalResults} results in {summary.searchInformation?.formattedSearchTime} seconds
+                                            {summary.searchInformation?.formattedTotalResults} results
+                                            in {summary.searchInformation?.formattedSearchTime} seconds
                                         </div>
                                     }
                                     {/* {summary && <div className={"font-10 color-gray lh-3"}>Powered by Google search</div>} */}
@@ -731,27 +747,29 @@ const Summary = ({ summary }) => {
                                         ? <SummaryList {...baseData}>
                                             {moreSummary}
                                         </SummaryList>
-                                        : <NoSearchResult />
+                                        : <NoSearchResult/>
                                 }
                                 {
                                     // summary?.streaming || moreSummary?.streaming || isFetchingSummary || eventOpened
                                     baseData?.length < 1
                                         ? loaderList.map(() => {
-                                            return (<SummarySkeleton />)
+                                            return (<SummarySkeleton/>)
                                         })
                                         : null
                                 }
                                 {
                                     // (summary?.streaming || moreSummary?.streaming || isFetchingSummary || eventOpened) &&
                                     summary?.hasNextPage
-                                        ? <button type={"button"} className={"block mx-auto my-4 btn btn-wide bg-gray-200 dark:bg-base-100 capitalize"} onClick={loadMoreSummary}>More Summary</button>
+                                        ? <button type={"button"}
+                                                  className={"block mx-auto my-4 btn btn-wide bg-gray-200 dark:bg-base-100 capitalize"}
+                                                  onClick={loadMoreSummary}>More Summary</button>
                                         : null
                                 }
                                 {
                                     summary?.isStreaming
                                         ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(() => {
                                             return (
-                                                <SummarySkeleton />
+                                                <SummarySkeleton/>
                                             )
                                         })
                                         : null
@@ -759,20 +777,57 @@ const Summary = ({ summary }) => {
                             </section>
                             {/* 30% of the container width. i.e., 35% of 1280 == 448 */}
                             <section className={"border:0px_solid_lightgray w-[560px] h-[400] px-8 pt-32"}>
-                                <div className={"bg-gray-100 w-full min-h-80 rounded-md my-2 py-4 dark:bg-27CE8E1A dark:bg-base-100"}>
+                                <div
+                                    className={"bg-gray-100 w-full min-h-80 rounded-md my-2 py-4 dark:bg-27CE8E1A dark:bg-base-100"}>
                                     {
                                         aiGeneratedData.length > 0 && aiGeneratedData[0].finish_reason &&
-                                        <div className={"bg-clip-text bg-gradient-to-l from-[#27CE8E] to-[#FFDE52] text-transparent px-8 py-4 font-bold text-sm"}>AI
-                                    Generated
-                                </div>
-                                }
-                                <div className={"summary-list px-8 py-2 leading-normal list-disc"}>
+                                        <div
+                                            className={"bg-clip-text bg-gradient-to-l from-[#27CE8E] to-[#FFDE52] text-transparent px-8 py-4 font-bold text-sm"}>AI
+                                            Generated
+                                        </div>
+                                    }
+                                    <div className={"summary-list px-8 py-2 leading-normal list-disc"}>
                                         {
                                             aiGeneratedData.length > 0
                                             && aiGeneratedData.map((eachAiGeneratedData) => (
-                                                <Markdown>
-                                                    {eachAiGeneratedData?.text}
-                                                </Markdown>
+                                                <>
+                                                    {
+                                                        showCompleteAiGeneratedContent
+                                                            ? <>
+                                                                <Markdown
+                                                                    rehypePlugins={[rehypeRaw]}>
+                                                                    {eachAiGeneratedData?.text}
+                                                                </Markdown>
+                                                                {
+                                                                    eachAiGeneratedData?.text.split(" ").length > 80
+                                                                    && <button
+                                                                        onClick={handleToggleShowCompleteAiGeneratedContent}>
+                                                                        <div
+                                                                            className={"btn btn-sm flex justify-center mx-auto mt-4"}>
+                                                                            Show less
+                                                                        </div>
+                                                                    </button>
+                                                                }
+                                                            </>
+                                                            : <>
+                                                                <Markdown
+                                                                    rehypePlugins={[rehypeRaw]}>
+                                                                    {truncateWords(eachAiGeneratedData?.text, 0, 160)}
+                                                                </Markdown>
+                                                                {
+                                                                    eachAiGeneratedData?.text.split(" ").length > 160
+                                                                    && <button
+                                                                        onClick={handleToggleShowCompleteAiGeneratedContent}>
+                                                                        <div
+                                                                            className={"btn btn-sm flex justify-center mx-auto mt-4"}>
+                                                                            Show more
+                                                                        </div>
+                                                                    </button>
+                                                                }
+                                                            </>
+                                                    }
+
+                                                </>
                                             ))
                                         }
                                     </div>
@@ -782,7 +837,52 @@ const Summary = ({ summary }) => {
                         </section>
                 }
             </section>
-            {baseData?.length >= 1 && <Footer />}
+            <dialog id="ai-generated-content-modal" className="modal modal-bottom md:modal-middle m-0 space-y-0 gap-0 z-50"
+                    ref={aiGeneratedContentModal}>
+                <div className="modal-box w-[98%] justify-self-center bg-base-200 mb-1 rounded-xl">
+                    <div
+                        className={"w-full rounded-md my-2 py-2 overflow-x-auto"}>
+                        {
+                            aiGeneratedData.length > 0 && aiGeneratedData[0].finish_reason &&
+                            <div
+                                className={"bg-clip-text bg-gradient-to-l from-[#27CE8E] to-[#FFDE52] text-transparent py-4 font-bold text-sm"}>AI
+                                Generated</div>
+                        }
+                        <div className={"summary-list py-2 leading-normal list-disc"}>
+                            {
+                                (aiGeneratedData || baseData?.aiGeneratedData)?.length > 0
+                                && (aiGeneratedData || baseData?.aiGeneratedData)?.map((eachAiGeneratedData) => (
+                                        <Markdown
+                                            rehypePlugins={[rehypeRaw]}>
+                                            {eachAiGeneratedData?.text}
+                                        </Markdown>
+                                ))
+                            }
+                        </div>
+                    </div>
+                    {/*<HelpContent/>*/}
+                    <div
+                        className="modal-action absolute right-10 top-9 bg-base-300/60 dark:bg-neutral m-0 rounded-xl">
+                        <form method="dialog" className="w-full mx-auto">
+                            <button
+                                className="flex justify-center btn btn-ghost items-center w-12 h-8 leading-8 text-center">
+                                <span className="sr-only">Close</span>
+                                <svg className="flex-shrink-0 w-5 h-5" xmlns="http://www.w3.org/2000/svg"
+                                     width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     stroke="currentColor" strokeWidth="3" strokeLinecap="round"
+                                     strokeLinejoin="round">
+                                    <path d="M18 6 6 18"/>
+                                    <path d="m6 6 12 12"/>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <form method="dialog" className="modal-backdrop hidden md:grid">
+                    <button>close</button>
+                </form>
+            </dialog>
+            {baseData?.length >= 1 && <Footer/>}
         </>
     )
 }
