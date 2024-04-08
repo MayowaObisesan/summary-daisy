@@ -66,7 +66,7 @@ const SummaryProvider = ({ children }) => {
     const [showOnlySummaries, setShowOnlySummaries] = useState(false);
     const [searchSummaryData, setSearchSummaryData] = useState([]);
     const [isSearchDataFetched, setIsSearchDataFetched] = useState(false);
-    const [aiGeneratedData, setAiGeneratedData] = useState([]);
+    const [aiGeneratedData, setAiGeneratedData] = useState(baseData?.aiGeneratedData || []);
 
     const deleteSummarySearchCache = () => {
         localStorage.removeItem(SUMMARY_SEARCH_CACHE_NAME);
@@ -136,7 +136,28 @@ const SummaryProvider = ({ children }) => {
 
     const updateAiGeneratedData = (_aiGeneratedData) => {
         setAiGeneratedData(_aiGeneratedData);
+        // console.log(baseData.aiGeneratedData);
+        // console.log(_aiGeneratedData);
+        // baseData.aiGeneratedData = _aiGeneratedData;
+        // setBaseData(baseData);
+        // updateSummarySearchCache(baseData);
+        // console.log([{"aiContent": _aiGeneratedData, ...baseData}]);
+        // setBaseData([{"aiContent": _aiGeneratedData, ...baseData}]);
+        // if (baseData.aiGeneratedData) {
+        //     console.log(baseData);
+        //     // baseData.aiGeneratedData.push(_aiGeneratedData[0]);
+        //     // console.log(baseData.aiGeneratedData);
+        //     // setBaseData(baseData);
+        // }
+        // updateSummarySearchCache([{"aiContent": _aiGeneratedData, ...baseData}]);
+        // console.log(baseData);
     }
+
+    useEffect(() => {
+        baseData.aiGeneratedData = aiGeneratedData;
+        setBaseData(baseData);
+        updateSummarySearchCache(baseData);
+    }, [aiGeneratedData]);
 
     const summaryData = useCallback((res) => {
         setBaseData(res);

@@ -115,7 +115,7 @@ export async function fetchMultipleSearchSummaryUrls(urls, query, updater, updat
 }
 
 
-export const handleSearchFetch = async (searchQuery, nextPage, startIndex, currentData, setData, updater, updateSearchSummaryFetchedFlag, baseData) => {
+export const handleSearchFetch = async (searchQuery, nextPage, startIndex, currentData, setData, updater, updateSearchSummaryFetchedFlag, baseData, aiGeneratedData) => {
     try {
         const response = await fetch(`${process.env.REACT_APP_BASE_URL}/search?query=${searchQuery}&next_page=${nextPage}&start_index=${startIndex}`);
         // .then(response => response.json())
@@ -168,6 +168,7 @@ export const handleSearchFetch = async (searchQuery, nextPage, startIndex, curre
         data.searchUrls = eventData.items.map(it => it.link);
         // console.log(searchQuery, baseData?.searchQuery, eventData.searchQuery);
         data.summaries = searchQuery === baseData?.searchQuery ? (baseData?.summaries ?? []) : [];
+        data.aiGeneratedData = [];
 
         setData(data);
         updater(data);
@@ -270,6 +271,7 @@ export const MobileSummaryFormComponent = ({ setData }) => {
         updateIsSearchDataFetched,
         resetSearchSummaryData,
         resetShowOnlySummaries,
+        aiGeneratedData,
         updateAiGeneratedData,
         resetAiGeneratedData
     } = useSummaryContext();
@@ -301,7 +303,8 @@ export const MobileSummaryFormComponent = ({ setData }) => {
             setData,
             updateSummaryBaseData,
             updateIsSearchDataFetched,
-            baseData
+            baseData,
+            aiGeneratedData
         );
         await callAiGenerate(searchInputElement.current?.value.trim(), updateAiGeneratedData);
     }
@@ -360,6 +363,7 @@ export const DesktopSummaryFormComponent = ({ setData }) => {
         updateIsSearchDataFetched,
         resetSearchSummaryData,
         resetShowOnlySummaries,
+        aiGeneratedData,
         updateAiGeneratedData,
         resetAiGeneratedData
     } = useSummaryContext();
@@ -450,7 +454,8 @@ export const DesktopSummaryFormComponent = ({ setData }) => {
             setData,
             updateSummaryBaseData,
             updateIsSearchDataFetched,
-            baseData
+            baseData,
+            aiGeneratedData
         );
         await callAiGenerate(searchInputElement.current?.value.trim(), updateAiGeneratedData);
     }
