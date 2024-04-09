@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
-import { SUMMARY_HISTORY_CACHE_NAME, SUMMARY_SEARCH_CACHE_NAME } from "../helpers/constants";
+import {SUMMARY_HISTORY_CACHE_NAME, SUMMARY_NEWS_CACHE_NAME, SUMMARY_SEARCH_CACHE_NAME} from "../helpers/constants";
 
 const SummaryContext = createContext();
 
@@ -12,12 +12,29 @@ function isJsonString(str) {
     return true;
 }
 
+export const getSummaryCache = (cacheName, defaultCacheName) => {
+    // const defaultSummaryCache = null;
+    let currentCache = localStorage.getItem(cacheName);
+    if (!currentCache) {
+        localStorage.setItem(cacheName, JSON.stringify(defaultCacheName));
+        currentCache = localStorage.getItem(cacheName);
+    }
+
+    return isJsonString(currentCache) ? JSON.parse(currentCache) : null;
+}
+
+export const updateSummaryCache = (cacheName, rawData) => {
+    // Save summary data to localStorage
+    localStorage.setItem(cacheName, JSON.stringify(rawData));
+}
+
 export const getSummarySearchCache = () => {
 
     const defaultSummarySearchCache = null;
     let currentSearchCache = localStorage.getItem(SUMMARY_SEARCH_CACHE_NAME);
     if (!currentSearchCache) {
-        currentSearchCache = localStorage.setItem(SUMMARY_SEARCH_CACHE_NAME, JSON.stringify(defaultSummarySearchCache));
+        localStorage.setItem(SUMMARY_SEARCH_CACHE_NAME, JSON.stringify(defaultSummarySearchCache));
+        currentSearchCache = localStorage.getItem(SUMMARY_SEARCH_CACHE_NAME);
     }
     // console.log(isJsonString(currentSearchCache));
     // console.log(typeof currentSearchCache);
@@ -28,6 +45,14 @@ export const getSummarySearchCache = () => {
 export const updateSummarySearchCache = (rawData) => {
     // Save summary data to localStorage
     localStorage.setItem(SUMMARY_SEARCH_CACHE_NAME, JSON.stringify(rawData));
+}
+
+export const getSummaryNewsCache = () => {
+    getSummaryCache(SUMMARY_NEWS_CACHE_NAME, null);
+}
+
+export const updateSummaryNewsCache = (rawData) => {
+    updateSummaryCache(SUMMARY_NEWS_CACHE_NAME, rawData);
 }
 
 export const getSummaryHistoryCache = () => {
@@ -62,11 +87,15 @@ const SummaryProvider = ({ children }) => {
     const [mainQuery, setMainQuery] = useState("");
     const [eventOpened, setEventOpened] = useState(false);
     const [isFetchingSummary, setIsFetchingSummary] = useState(false);
+    const [isFetchingSearch, setIsFetchingSearch] = useState();
     const [moreSummary, setMoreSummary] = useState(baseData);
     const [showOnlySummaries, setShowOnlySummaries] = useState(false);
     const [searchSummaryData, setSearchSummaryData] = useState([]);
     const [isSearchDataFetched, setIsSearchDataFetched] = useState(false);
     const [aiGeneratedData, setAiGeneratedData] = useState(baseData?.aiGeneratedData || []);
+    const [baseNewsData, setBaseNewsData] = useState([]);
+    const [newsFetchedFlag, setNewsFetchedFlag] = useState(false);
+    const [latestNewsData, setLatestNewsData] = useState([]);
 
     const deleteSummarySearchCache = () => {
         localStorage.removeItem(SUMMARY_SEARCH_CACHE_NAME);
@@ -130,6 +159,10 @@ const SummaryProvider = ({ children }) => {
         setIsFetchingSummary(_fetchingFlag)
     }
 
+    const updateIsFetchingSearch = (_fetchingFlag) => {
+        setIsFetchingSearch(_fetchingFlag)
+    }
+
     const resetAiGeneratedData = () => {
         setAiGeneratedData([]);
     }
@@ -151,6 +184,14 @@ const SummaryProvider = ({ children }) => {
         // }
         // updateSummarySearchCache([{"aiContent": _aiGeneratedData, ...baseData}]);
         // console.log(baseData);
+    }
+
+    const updateBaseNewsData = (_newsData) => {
+        setBaseNewsData(_newsData);
+    }
+
+    const updateNewsFetchedFlag = (_flag) => {
+        setNewsFetchedFlag(_flag);
     }
 
     useEffect(() => {
@@ -257,9 +298,15 @@ const SummaryProvider = ({ children }) => {
                 isSearchDataFetched,
                 updateIsSearchDataFetched,
                 updateIsFetchingSummary,
+                isFetchingSearch,
+                updateIsFetchingSearch,
                 aiGeneratedData,
                 updateAiGeneratedData,
-                resetAiGeneratedData
+                resetAiGeneratedData,
+                baseNewsData,
+                updateBaseNewsData,
+                newsFetchedFlag,
+                updateNewsFetchedFlag
             }}
         >
             {children}

@@ -1,6 +1,11 @@
 import { useRef } from "react";
 import { Form } from "react-router-dom";
-import { updateSummaryHistoryCache, updateSummarySearchCache, useSummaryContext } from "../context";
+import {
+    updateSummaryHistoryCache,
+    updateSummaryNewsCache,
+    updateSummarySearchCache,
+    useSummaryContext
+} from "../context";
 import useSummary from "../hooks/useSummary";
 import { groupData } from "../helpers/loaders";
 
@@ -115,7 +120,28 @@ export async function fetchMultipleSearchSummaryUrls(urls, query, updater, updat
 }
 
 
-export const handleSearchFetch = async (searchQuery, nextPage, startIndex, currentData, setData, updater, updateSearchSummaryFetchedFlag, baseData, aiGeneratedData) => {
+export const handleNewsFetch = async (searchQuery, nextPage, startIndex, sources, language, country, category, newsUpdater, newsFetchedFlag) => {
+    try {
+        const response = await fetch(
+            `${process.env.REACT_APP_BASE_URL}/news?query=${searchQuery}&next_page=${nextPage}&start_index=${startIndex}&sources=${sources}&language=${language}&country=${country}&category=${category}`
+        );
+        if (response.status === 400) {
+            throw new Error("Check your search query");
+        } else if (response.status === 500) {
+            throw new Error("Server Error");
+        } else if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const newsResult = await response.json()
+        newsUpdater(newsResult);
+        newsFetchedFlag(true);
+        updateSummaryNewsCache(newsResult);
+    } catch(err) {}
+}
+
+
+export const handleSearchFetch = async (searchQuery, nextPage, startIndex, currentData, setData, updater, updateSearchSummaryFetchedFlag, baseData) => {
     try {
         const response = await fetch(`${process.env.REACT_APP_BASE_URL}/search?query=${searchQuery}&next_page=${nextPage}&start_index=${startIndex}`);
         // .then(response => response.json())
@@ -273,7 +299,8 @@ export const MobileSummaryFormComponent = ({ setData }) => {
         resetShowOnlySummaries,
         aiGeneratedData,
         updateAiGeneratedData,
-        resetAiGeneratedData
+        resetAiGeneratedData,
+        updateIsFetchingSearch
     } = useSummaryContext();
     const searchInputElement = useRef(null);
     const searchFormSubmitButton = useRef(null);
@@ -293,6 +320,7 @@ export const MobileSummaryFormComponent = ({ setData }) => {
             resetShowOnlySummaries();
             resetAiGeneratedData();
         }
+        updateIsFetchingSearch(true);
         // reset the search summary array first
         resetSearchSummaryData();
         await handleSearchFetch(
@@ -303,8 +331,7 @@ export const MobileSummaryFormComponent = ({ setData }) => {
             setData,
             updateSummaryBaseData,
             updateIsSearchDataFetched,
-            baseData,
-            aiGeneratedData
+            baseData
         );
         await callAiGenerate(searchInputElement.current?.value.trim(), updateAiGeneratedData);
     }
@@ -365,7 +392,8 @@ export const DesktopSummaryFormComponent = ({ setData }) => {
         resetShowOnlySummaries,
         aiGeneratedData,
         updateAiGeneratedData,
-        resetAiGeneratedData
+        resetAiGeneratedData,
+        updateIsFetchingSearch
     } = useSummaryContext();
     const searchParams = new URLSearchParams(window.location.search);
     const searchQuery = searchParams.get('search_query');
@@ -444,6 +472,7 @@ export const DesktopSummaryFormComponent = ({ setData }) => {
             resetShowOnlySummaries();
             resetAiGeneratedData();
         }
+        updateIsFetchingSearch(true);
         // reset the search summary array first
         resetSearchSummaryData();
         await handleSearchFetch(
@@ -454,8 +483,7 @@ export const DesktopSummaryFormComponent = ({ setData }) => {
             setData,
             updateSummaryBaseData,
             updateIsSearchDataFetched,
-            baseData,
-            aiGeneratedData
+            baseData
         );
         await callAiGenerate(searchInputElement.current?.value.trim(), updateAiGeneratedData);
     }

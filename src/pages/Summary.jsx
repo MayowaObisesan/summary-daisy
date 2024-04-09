@@ -324,7 +324,9 @@ const Summary = ({ summary }) => {
         updateIsSearchDataFetched,
         updateSearchSummaryData,
         updateIsFetchingSummary,
-        aiGeneratedData
+        aiGeneratedData,
+        isFetchingSearch,
+        updateIsFetchingSearch
     } = useSummaryContext();
     // console.log(baseData);
     // const [moreSummary, setMoreSummary] = useState(baseData);
@@ -575,11 +577,12 @@ const Summary = ({ summary }) => {
     const loadMoreSummary =  async () => {
         // console.log(moreSummary);
         setIsFetchingSummary(true);
+        updateIsFetchingSearch(true);
         // reset setMoreSummary if the searchQuery is a new
-        console.log(baseData?.data);
+        // console.log(baseData?.data);
         // handleSummaryStream(summary?.searchQuery, updateMoreSummary, baseData?.data, updateSummaryBaseData, true, baseData?.nextStartIndex, setEventOpened, setIsFetchingSummary);
         await handleSearchFetch(summary?.searchQuery, true, baseData?.nextStartIndex, baseData?.data, updateMoreSummary, updateSummaryBaseData, updateIsSearchDataFetched, baseData);
-        console.log("Clicked load more");
+        // console.log("Clicked load more");
         // console.log(moreSummary);
         // updateMoreSummary(baseData);
     }
@@ -595,7 +598,9 @@ const Summary = ({ summary }) => {
     // }, [data]);
 
     // if (baseData.length < 1 && !(eventOpened || isFetchingSummary)) {
-    if (baseData.length < 1 && baseData?.searchQuery === "") {
+    // if (baseData.length < 1 && baseData?.searchQuery === "") {
+
+    if (baseData?.length < 1 && !isFetchingSearch) {
         return <EmptySummaryUI />
     }
 
