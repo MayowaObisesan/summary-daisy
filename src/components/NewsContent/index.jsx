@@ -1,7 +1,8 @@
 import {useEffect} from "react";
-import {updateSummaryNewsCache, useSummaryContext} from "../context";
+import {updateSummaryNewsCache, useSummaryContext} from "../../context";
+import {NewsCard} from "./NewsCard";
 
-const NewsContent = () => {
+const Index = () => {
     const {baseNewsData, updateBaseNewsData, updateNewsFetchedFlag} = useSummaryContext();
     console.log(baseNewsData);
 
@@ -30,13 +31,13 @@ const NewsContent = () => {
     }, []);
 
     return (
-        <section>
-            News section
-            <div>
+        <section className={"flex flex-row justify-center"}>
+            <div className={"flex flex-row flex-wrap justify-center gap-4 p-4"}>
                 {
-                    baseNewsData.articles?.length > 0 && baseNewsData?.articles.map((eachNews, index) => (
-                        <div>
-                            {JSON.stringify(eachNews)}
+                    baseNewsData?.articles?.length > 0 && baseNewsData?.articles.map((eachNews, index) => (
+                        <div className={"card bg-base-200"}>
+                            <NewsCard {...eachNews} />
+                            {/*{JSON.stringify(eachNews)}*/}
                         </div>
                     ))
                 }
@@ -45,4 +46,4 @@ const NewsContent = () => {
     )
 }
 
-export default NewsContent;
+export default Index;

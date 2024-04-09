@@ -8,7 +8,8 @@ import Footer from "../components/Footer";
 import {HelpContent} from "../components/HelpContent";
 import {ContactCard} from "../components/ContactCard";
 import InstallPWA from "../components/Install";
-import {getSummaryHistoryCache, getSummarySearchCache} from "../context";
+import {getSummaryHistoryCache, getSummarySearchCache, useSummaryContext} from "../context";
+import Index from "../components/NewsContent";
 
 export async function loader() {
     // const { trends } = await getSummaryTrends();
@@ -16,13 +17,14 @@ export async function loader() {
     return {};
 }
 
-const Home = () => {
+const News = () => {
     const size = useWindowSize();
-    const [data, setData] = useState(getSummarySearchCache() || []);
+    // const [data, setData] = useState(getSummarySearchCache() || []);
+    const {baseNewsData, updateBaseNewsData} = useSummaryContext();
 
-    useEffect(() => {
-        setData(data);
-    }, [data]);
+    // useEffect(() => {
+    //     setData(data);
+    // }, [data]);
 
     return (
         <div className={"relative flex flex-col h-full overflow-y-auto dark:bg-base-300 font-sans"}>
@@ -32,10 +34,10 @@ const Home = () => {
                         <input id="my-drawer" type="checkbox" className="drawer-toggle"/>
                         <div className="drawer-content h-screen overflow-y-auto z-[1]">
                             {/* Page content here */}
-                            <MobileNavBar setData={setData}/>
+                            <MobileNavBar setData={updateBaseNewsData}/>
                             <InstallPWA/>
                             {/*<Summary summary={data}/>*/}
-                            {/*<NewsContent data={data} />*/}
+                            <Index data={baseNewsData} />
                             <section>
                                 This is the news section.
                             </section>
@@ -124,11 +126,12 @@ const Home = () => {
                             {/* Page content here */}
                             {
                                 size?.width <= deviceWidthEnum.desktop
-                                    ? <LaptopNavBar setData={setData}/>
-                                    : <DesktopNavBar setData={setData}/>
+                                    ? <LaptopNavBar setData={updateBaseNewsData}/>
+                                    : <DesktopNavBar setData={updateBaseNewsData}/>
                             }
                             <InstallPWA/>
                             {/*<Summary summary={data}/>*/}
+                            <Index />
                             <Footer/>
                         </div>
 
@@ -164,4 +167,4 @@ const Home = () => {
     )
 }
 
-export default Home;
+export default News;
