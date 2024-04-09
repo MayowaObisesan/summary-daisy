@@ -28,7 +28,7 @@ export const DesktopNavBar = ({setData}) => {
                 <DesktopSummaryFormComponent setData={setData}/>
             </div>
             <div className="flex-none">
-                <Link to={"/news"} className={"btn"}>News</Link>
+                {/*<Link to={"/news"} className={"btn"}>News</Link>*/}
                 <details className="dropdown dropdown-end">
                     <summary className="m-1 btn">
                         <span className="opacity-30 dark:opacity-10"><NewsImage width={20} height={20}/></span>
