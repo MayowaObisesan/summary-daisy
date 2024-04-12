@@ -39,7 +39,7 @@ const Home = () => {
                         <div
                             className="bg-gradient-to-r from-green-300/50 to-yellow-100 blur-3xl w-[25rem] h-[44rem] rotate-[-60deg] transform -translate-x-[10rem] dark:from-green-900/50 dark:to-yellow-900"></div>
                         <div
-                            className="bg-gradient-to-tl from-yellow-50/80 via-yellow-100/60 to-yellow-50/60 lg:from-yellow-50 lg:via-yellow-100 lg:to-yellow-50 blur-3xl w-[90rem] h-[50rem] rounded-fulls origin-top-left -rotate-12 -translate-x-[15rem] dark:from-green-900/40 dark:via-green-900/50 dark:to-yellow-900/60 dark:lg:from-green-900/70 dark:lg:via-green-900/70 dark:lg:to-yellow-900/70"></div>
+                            className="bg-gradient-to-tl from-green-50/80 via-green-100/60 to-green-50/60 lg:from-yellow-50 lg:via-yellow-100 lg:to-yellow-50 blur-3xl w-[90rem] h-[50rem] rounded-fulls origin-top-left -rotate-12 -translate-x-[15rem] dark:from-green-900/40 dark:via-green-900/50 dark:to-yellow-900/60 dark:lg:from-green-900/70 dark:lg:via-green-900/70 dark:lg:to-yellow-900/70"></div>
                     </div>
                     <div
                         className="relative overflow-hidden before:absolute before:-top-40 before:opacity-0 before:start-1/2 before:bg-[url('https://preline.co/assets/svg/examples/squared-bg-element.svg')] before:hue-rotate-180 before:bg-blend-normal before:bg-no-repeat before:bg-top before:size-full before:z-[0] before:transform before:-translate-x-1/2 dark:before:bg-[url('https://preline.co/assets/svg/examples-dark/squared-bg-element.svg')]">

@@ -1,6 +1,6 @@
 import {useContext, useEffect, useRef, useState} from "react";
 import localforage from "localforage";
-import { useWindowSize } from "@uidotdev/usehooks";
+import { useCopyToClipboard, useWindowSize } from "@uidotdev/usehooks";
 import {deviceWidthEnum, truncateWords} from "../helpers";
 import { dummySummary, getSummary } from "../helpers/loaders";
 import { SummaryGroup, SummaryGroupItem, SummarySingleItem } from "../components/SummaryItem";
@@ -334,6 +334,8 @@ const Summary = ({ summary }) => {
 
 
     const size = useWindowSize();
+    const [copiedGeneratedText, copyGeneratedTextToClipboard] = useCopyToClipboard();
+    const hasCopiedGeneratedText = Boolean(copiedGeneratedText);
     // const searchQuery = useSearchParams();
     // const searchParams = new URLSearchParams(window.location.search);
     // const searchQuery = searchParams.get('search_query');
@@ -591,6 +593,18 @@ const Summary = ({ summary }) => {
         updateShowOnlySummaries();
     }
 
+    const handleCopyGeneratedText = (text) => {
+        copyGeneratedTextToClipboard(text);
+    }
+
+    useEffect(() => {
+        if (hasCopiedGeneratedText) {
+            setTimeout(() => {
+                copyGeneratedTextToClipboard("");
+            }, 2000);
+        }
+    }, [hasCopiedGeneratedText]);
+
     // useEffect(() => {
     //     setData(data);
     //     console.log("Updating summaryData");
@@ -616,13 +630,43 @@ const Summary = ({ summary }) => {
                         ? <section
                             className={"relative flex flex-col h-full flex-basis flex-grow every:color-454545 dark:every:color-lightgray"}>
                             <section className={"w-full h-[400]"}>
+                                {
+                                    hasCopiedGeneratedText
+                                    && <div role="alert" className="alert alert-success flex flex-row">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                             className="stroke-current shrink-0 h-6 w-6" fill="none"
+                                             viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                        <span>Text Copied</span>
+                                    </div>
+                                }
                                 <div
-                                    className={"bg-gray-100 w-full min-h-80 rounded-md my-2 py-2 overflow-x-auto dark:bg-27CE8E1A dark:bg-base-100"}>
+                                    className={"relative bg-green-100 w-full rounded-md my-2 py-2 overflow-x-auto dark:bg-27CE8E1A dark:bg-green-800/20"}>
                                     {
-                                        aiGeneratedData.length > 0 && aiGeneratedData[0].finish_reason &&
+                                        aiGeneratedData?.length < 1 &&
+                                        <div className={"flex flex-row items-center gap-x-8 p-8"}>
+                                            <span className="loading loading-dots loading-md"></span>
+                                            Generating AI response ...
+                                        </div>
+                                    }
+                                    {
+                                        aiGeneratedData?.length > 0 && aiGeneratedData[0].finish_reason &&
                                         <div
-                                            className={"bg-clip-text bg-gradient-to-l from-[#27CE8E] to-[#FFDE52] text-transparent px-5 py-4 font-bold text-sm"}>AI
-                                            Generated</div>
+                                            className={"bg-clip-text bg-gradient-to-l from-[#27CE8E] to-[#FFDE52] text-transparent px-5 py-4 font-bold text-sm"}>
+                                            AI Generated
+                                        </div>
+                                    }
+                                    {
+                                        aiGeneratedData?.length > 0
+                                            ? hasCopiedGeneratedText
+                                                ? <button className="fa fa-check absolute top-6 right-5"></button>
+                                                : <button
+                                                    className="far fa-copy absolute top-6 right-5"
+                                                    onClick={() => handleCopyGeneratedText(baseData?.aiGeneratedData[0]?.text)}>
+                                                </button>
+                                            : null
                                     }
                                     <div className={"summary-list px-5 py-2 leading-normal list-disc"}>
                                         {
@@ -633,7 +677,8 @@ const Summary = ({ summary }) => {
                                                         rehypePlugins={[rehypeRaw]}>{truncateWords(eachAiGeneratedData?.text, 0, 80)}</Markdown>
                                                     {
                                                         eachAiGeneratedData?.text.split(" ").length > 80
-                                                        && <button onClick={() => aiGeneratedContentModal.current?.showModal()}>
+                                                        && <button
+                                                            onClick={() => aiGeneratedContentModal.current?.showModal()}>
                                                             <div className={"btn btn-sm flex justify-center mx-auto mt-4"}>
                                                                 Show more
                                                             </div>
@@ -782,14 +827,43 @@ const Summary = ({ summary }) => {
                             </section>
                             {/* 30% of the container width. i.e., 35% of 1280 == 448 */}
                             <section className={"border:0px_solid_lightgray w-[560px] h-[400] px-8 pt-32"}>
+                                {
+                                    hasCopiedGeneratedText
+                                    && <div role="alert" className="alert alert-success">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                             className="stroke-current shrink-0 h-6 w-6" fill="none"
+                                             viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                        <span>Text Copied</span>
+                                    </div>
+                                }
                                 <div
-                                    className={"bg-gray-100 w-full min-h-80 rounded-md my-2 py-4 dark:bg-27CE8E1A dark:bg-base-100"}>
+                                    className={"relative bg-gray-100 w-full rounded-md my-2 py-4 dark:bg-27CE8E1A dark:bg-base-100"}>
+                                    {
+                                        aiGeneratedData?.length < 1 &&
+                                        <div className={"flex flex-row items-center gap-x-8 p-8"}>
+                                            <span className="loading loading-dots loading-md"></span>
+                                            Generating AI response ...
+                                        </div>
+                                    }
                                     {
                                         aiGeneratedData.length > 0 && aiGeneratedData[0].finish_reason &&
                                         <div
                                             className={"bg-clip-text bg-gradient-to-l from-[#27CE8E] to-[#FFDE52] text-transparent px-8 py-4 font-bold text-sm"}>AI
                                             Generated
                                         </div>
+                                    }
+                                    {
+                                        aiGeneratedData?.length > 0
+                                            ? hasCopiedGeneratedText
+                                                ? <button className="fa fa-check absolute top-6 right-5"></button>
+                                                : <button
+                                                    className="far fa-copy absolute top-6 right-5"
+                                                    onClick={() => handleCopyGeneratedText(baseData?.aiGeneratedData[0]?.text)}>
+                                                </button>
+                                            : null
                                     }
                                     <div className={"summary-list px-8 py-2 leading-normal list-disc"}>
                                         {
