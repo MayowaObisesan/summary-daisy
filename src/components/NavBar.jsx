@@ -1,6 +1,6 @@
 import {DesktopSummaryFormComponent, MobileSummaryFormComponent} from "./Form";
 import {NewsImage} from "../assets/images";
-import {SummaryGradientText} from "./SummaryText";
+import {SummaryGradientLink} from "./SummaryText";
 import {useSummaryContext} from "../context";
 import {HelpIconSquircle} from "../assets/icons";
 import {useRef} from "react";
@@ -23,7 +23,7 @@ export const DesktopNavBar = ({setData}) => {
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-5 h-5 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
             </label> */}
             <div className="flex-1 items-center px-24 gap-12">
-                <SummaryGradientText classes="block px-4 h-10 leading-10 normal-case font-semibold text-xl"/>
+                <SummaryGradientLink classes="block px-4 h-10 leading-10 normal-case font-semibold text-xl"/>
                 {/* <input type="text" placeholder="What should I search and summarize?" className="input input-lg input-bordered w-full max-w-2xl text-sm" /> */}
                 <DesktopSummaryFormComponent setData={setData}/>
             </div>
@@ -129,7 +129,7 @@ export const LaptopNavBar = ({setData}) => {
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-5 h-5 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
             </label> */}
             <div className="flex-1 items-center px-8 gap-12">
-                <SummaryGradientText classes="block px-4 h-10 leading-10 normal-case font-semibold text-xl"/>
+                <SummaryGradientLink classes="block px-4 h-10 leading-10 normal-case font-semibold text-xl"/>
                 {/* <input type="text" placeholder="What should I search and summarize?" className="input input-lg input-bordered w-full max-w-2xl text-sm" /> */}
                 <DesktopSummaryFormComponent setData={setData}/>
             </div>
@@ -240,7 +240,7 @@ export const MobileNavBar = ({setData}) => {
                     {/* </button> */}
                 </label>
                 <div className="flex-1 flex-col items-start">
-                    <SummaryGradientText classes="btn btn-ghost normal-case text-xl"/>
+                    <SummaryGradientLink classes="btn btn-ghost normal-case text-xl"/>
                     {/* <Link to={"/"} className="btn btn-ghost normal-case text-xl">Summary</Link> */}
                     {/* <input type="text" placeholder="What should I search and summarize?" className="input input-lg input-bordered w-full max-w-2xl text-sm" /> */}
                 </div>
