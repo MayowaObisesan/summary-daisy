@@ -6,6 +6,7 @@ import Summary, { loader as summaryLoader, action as summaryAction } from './pag
 import About from "./pages/About";
 import Home from "./pages/Home";
 import News from "./pages/News";
+import Search from "./pages/Search";
 
 export const router = createBrowserRouter([
     {
@@ -17,6 +18,12 @@ export const router = createBrowserRouter([
             {
                 index: true,
                 element: <Home />,
+                // loader: summaryLoader,
+                // action: summaryAction,
+            },
+            {
+                path: "/search",
+                element: <Search />,
                 // loader: summaryLoader,
                 // action: summaryAction,
             },
